@@ -6,7 +6,7 @@ const app = new App({
 	props: {
 		name: 'world'
 	},
-    hydrate: false
+    hydrate: true
 });
 
 window.app = app;
