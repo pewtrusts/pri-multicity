@@ -39,6 +39,7 @@ const copyWebpack = !isProd ? // production does not need site-wide assets copie
 		]) : new CopyWebpackPlugin();
 	
 console.log(process.env.NODE_ENV);
+console.log('isProd: ' + isProd);
 module.exports = env => {
 	return {
 		entry: {
@@ -86,7 +87,7 @@ module.exports = env => {
 			new CleanWebpackPlugin(),
 			new HtmlWebpackPlugin({
 			    title: 'title title title',
-			    template: isDev ? './src/index-dev.html' : './src/index.html',
+			    template: isProd ? './src/index.html' : './src/index-dev.html',
 			    inject: !isProd
 			}),
 			copyWebpack,
