@@ -5,8 +5,7 @@ const app = new App({
 	target: document.querySelector('#svelte-container'),
 	props: {
 		name: 'world'
-	},
-    hydrate: true
+	}
 });
 
 window.app = app;

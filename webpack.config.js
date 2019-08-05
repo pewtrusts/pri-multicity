@@ -2,8 +2,6 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const PrerenderSPAPlugin = require('prerender-spa-plugin');
-const pretty = require('pretty');
 
 
 const mode = process.env.NODE_ENV === 'development' ? 'development' : 'production';
@@ -39,25 +37,6 @@ const copyWebpack =
         }
     }]);
 
-const prerenderSPA =
-    new PrerenderSPAPlugin({
-        // Required - The path to the webpack-outputted app to prerender.
-        staticDir: path.join(__dirname, '/' + outputFolder),
-        // Required - Routes to render.
-        routes: ['/'],
-        renderer: new PrerenderSPAPlugin.PuppeteerRenderer({
-            injectProperty: 'IS_PRERENDERING',
-            inject: true,
-            renderAfterTime: 1000,
-            //renderAfterDocumentEvent: 'all-views-ready',
-            headless: false
-        }),
-        postProcess: function(renderedRoute) {
-            renderedRoute.html = pretty(renderedRoute.html);
-            return renderedRoute;
-        }
-    });
-
 const plugins = [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
@@ -73,12 +52,7 @@ const plugins = [
 if (!isProd) {
     plugins.push(copyWebpack);
 }
-if (!isDev) {
-    plugins.push(prerenderSPA);
-}
 
-console.log(process.env.NODE_ENV);
-console.log('isProd: ' + isProd);
 module.exports = env => {
     return {
         entry: {
