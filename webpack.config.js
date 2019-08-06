@@ -17,6 +17,10 @@ const copyWebpack =
         context: 'src',
         to: '-/'
     }, {
+        from: 'data/',
+        context: 'src',
+        to: 'data/'
+    }, {
         from: 'assets/',
         context: 'src',
         to: 'assets/',
@@ -92,6 +96,13 @@ module.exports = env => {
                         !isDev ? MiniCssExtractPlugin.loader : 'style-loader',
                         'css-loader'
                     ]
+                },
+                {
+                    test: /\.csv$/,
+                    loader: 'file-loader',
+                    options: {
+                        name: 'data/[name].[ext]?v=[hash:6]', 
+                    }
                 }
             ]
         },

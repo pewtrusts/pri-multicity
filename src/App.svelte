@@ -3,15 +3,9 @@
     import Button from './button.svelte';
     //import { afterUpdate } from 'svelte';
 
-	export let name;
     let key;
     let value;
-    let data = new Promise((resolve) => {
-        setTimeout(() => {
-            resolve({key: 'US', value: 'Unites States'});
-            status = 'resolved'; // reassigning `status` is what triggers an update. `{#await}` changes in markup do not
-        }, 3000);
-    });
+    let data = dataPromise;
 
 </script>
 
@@ -26,7 +20,7 @@
     <p>Please wait. Data is loading</p>
 {:then value}
     <h1>Hello {name}! This is a Svelte app</h1>
-    <p>{value.key}: {value.value}</p>
+    <p>{JSON.stringy(value)}</p>
     <Button />
 {:catch error}
     <p>Oops. Something went wrong:</p>
