@@ -1,5 +1,5 @@
 <script>
-    import text from './text.md';    
+    import text from './overview_text.md';    
 </script>
 
 <style>

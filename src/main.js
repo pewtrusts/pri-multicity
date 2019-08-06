@@ -7,6 +7,8 @@ import data from './data/dashboard-data.csv';
 
 const initialOrganizeBy = 'indicator';
 const initialIndicator = 'poverty';
+// array of cities to render while the dataPromise is being resolved
+const initialCities = ["Baltimore", "Boston", "Chicago", "Cleveland", "Detroit", "Houston", "Philadelphia", "Phoenix", "Pittsburgh", "Washington D.C."]
 
 var publicPath = '';
 if ( process.env.NODE_ENV === 'production' ) { // production build needs to know the public path of assets
@@ -22,7 +24,7 @@ function getData(resolve, reject){
             setTimeout(() => {
                 resolve(nested);
                 console.log(nested);
-            },3000);
+            },2000);
         },
         download: true,
         dynamicTyping: true,
@@ -42,7 +44,9 @@ console.log(dataPromise);
 const app = new App({
 	target: document.querySelector('#svelte-container'),
 	props: {
-        dataPromise
+        dataPromise,
+        initialCities,
+        initialIndicator
 	}
 });
 

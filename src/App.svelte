@@ -1,19 +1,20 @@
 <script>
     import Overview from './components/overview.svelte';
     import Selections from  './components/selections.svelte';
-   // import Dataviz from  './components/dataviz.svelte';
+    import Dataviz from  './components/dataviz.svelte';
     //import { afterUpdate } from 'svelte';
     export let dataPromise;
+    export let initialCities;
+    export let initialIndicator;
     
 </script>
 
-<style lang="scss">
-    @import 'variables.scss';
-	:global(.isWaiting) {
-        background-color: $light_gray;
-    }
+<style>
+    :global(.wire), :global(.wire) * {
+        outline: 1px solid magenta;
+    }   
 </style>
 
 <Overview />
 <Selections {dataPromise} />
-<!--  Dataviz / -->
+<Dataviz {dataPromise} {initialCities} {initialIndicator} />
