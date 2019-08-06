@@ -19,8 +19,10 @@ function getData(resolve, reject){
     Papa.parse(publicPath + data, {
         complete: function(results){
             var nested = d3.nest().key(d => d.indicator).key(d => d.city).entries(results.data);
-            console.log(nested);
-            resolve(nested);
+            setTimeout(() => {
+                resolve(nested);
+                console.log(nested);
+            },3000);
         },
         download: true,
         dynamicTyping: true,
@@ -36,7 +38,7 @@ function getData(resolve, reject){
 const dataPromise = new Promise((resolve, reject) => {
     getData(resolve, reject);
 });
-
+console.log(dataPromise);
 const app = new App({
 	target: document.querySelector('#svelte-container'),
 	props: {

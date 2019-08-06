@@ -2,7 +2,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
+const {sass} = require('svelte-preprocess-sass');
 
 const mode = process.env.NODE_ENV === 'development' ? 'development' : 'production';
 const path = require('path');
@@ -10,6 +10,8 @@ const outputFolder = process.env.NODE_ENV === 'preview' ? 'docs/' : process.env.
 const isDev = mode === 'development';
 const isProd = process.env.NODE_ENV === 'production';
 const repoName = 'svelte-webpack-template';
+
+console.log(sass);
 
 const copyWebpack =
     new CopyWebpackPlugin([{
@@ -82,7 +84,10 @@ module.exports = env => {
                         options: {
                             emitCss: true,
                             hotReload: true,
-                            hydratable: true
+                            preprocess: {
+                                style: sass({}, {name: 'scss'})
+                            }
+
                         }
                     }
                 },

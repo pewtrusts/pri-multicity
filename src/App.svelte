@@ -3,8 +3,8 @@
     import Selections from  './components/selections.svelte';
    // import Dataviz from  './components/dataviz.svelte';
     //import { afterUpdate } from 'svelte';
-
-    //export let dataPromise;
+    export let dataPromise;
+    
 </script>
 
 <style>
@@ -12,5 +12,5 @@
 </style>
 
 <Overview />
-<Selections />
+<Selections {dataPromise} />
 <!--  Dataviz / -->
