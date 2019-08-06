@@ -7,8 +7,11 @@
     
 </script>
 
-<style>
-	
+<style lang="scss">
+    @import 'variables.scss';
+	:global(.isWaiting) {
+        background-color: $light_gray;
+    }
 </style>
 
 <Overview />

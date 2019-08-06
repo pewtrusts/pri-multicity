@@ -26,13 +26,13 @@
 </style>
 
 {#await dataPromise}
-    <div class="selections selections--waiting">
+    <div class="waiting selections selections--waiting">
         <div></div>        
         <div></div>        
         <div></div>        
     </div>
 {:then value}
-    <div class="selections selections--resolved">
+    <div class="resolved selections selections--resolved">
         <div></div>        
         <div></div>        
         <div></div>        
