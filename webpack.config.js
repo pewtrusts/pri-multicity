@@ -103,6 +103,20 @@ module.exports = env => {
                     options: {
                         name: 'data/[name].[ext]?v=[hash:6]', 
                     }
+                },
+                {
+                    test: /\.md$/,
+                    use: [
+                        {
+                            loader: 'html-loader'
+                        },
+                        {
+                            loader: 'markdown-loader',
+                            options: {
+                                smartypants: true
+                            }
+                        }
+                    ]
                 }
             ]
         },
