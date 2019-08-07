@@ -6,6 +6,7 @@
     "copy-webpack-plugin": "^5.0.3",
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.1",
+    "d3": "^5.9.7",
     "d3-collection": "^1.0.7",
     "file-loader": "^4.1.0",
     "html-loader": "^0.5.5",

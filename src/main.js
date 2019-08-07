@@ -1,9 +1,10 @@
 /* global PUBLICPATH process */
 import Papa from 'papaparse';
-import * as d3 from 'd3-collection';
+import d3 from './d3-importer';
 import { readable } from 'svelte/store';
 import App from './App.svelte';
-import data from './data/dashboard-data.csv';
+import data from './data/dashboard-data-1.csv';
+import MakeQueriablePromise from './MakeQueriablePromise.js';
 
 const initialOrganizeBy = 'indicator';
 const initialIndicator = 'poverty';
@@ -20,6 +21,7 @@ if ( process.env.NODE_ENV === 'production' ) { // production build needs to know
 function getData(resolve, reject){
     Papa.parse(publicPath + data, {
         complete: function(results){
+            console.log(results);
             var nested = d3.nest().key(d => d.indicator).key(d => d.city).entries(results.data);
             setTimeout(() => {
                 resolve(nested);
@@ -37,9 +39,9 @@ function getData(resolve, reject){
     });
 }
 
-const dataPromise = new Promise((resolve, reject) => {
+const dataPromise = MakeQueriablePromise(new Promise((resolve, reject) => {
     getData(resolve, reject);
-});
+}));
 console.log(dataPromise);
 const app = new App({
 	target: document.querySelector('#svelte-container'),

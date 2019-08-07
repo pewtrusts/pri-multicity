@@ -1,6 +1,7 @@
 <script>
     import dictionary from './../data/dictionary.json';
-    import DatavizLoading from './dataviz_loading.svelte';
+    import DatavizWaiting from './dataviz_waiting.svelte';
+    import DatavizResolved from './dataviz_resolved.svelte';
     export let initialCities;
     export let initialIndicator;
     export let dataPromise;
@@ -17,7 +18,9 @@
 <h2>{dictionary[initialIndicator]}</h2>
 <div class="dataviz-container wire">
 {#await dataPromise}
-    <DatavizLoading {initialCities} />
+    <DatavizWaiting {initialCities} />
+{:then data}
+    <DatavizResolved {initialIndicator}  {data} />
 {/await}    
 </div>
 
