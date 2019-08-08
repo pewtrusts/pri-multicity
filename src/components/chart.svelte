@@ -6,16 +6,16 @@
     export let metadata;
     var svg;
     
-    const viewBoxHeight = 150;
+    const viewBoxHeight = 116;
 
     onMount(() => {
         
         // parameters / presettings
         const margin = {
             top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0
+            right: 2,
+            bottom: 10,
+            left: 20
         };
         const width = 100 - margin.left - margin.right;
         const height = viewBoxHeight - margin.top - margin.bottom;
@@ -35,24 +35,50 @@
         });
         // data-dependent settings
         console.log(data);
+        
         xScale.domain(d3.extent(data, d => d.year));
-        yScale.domain([metadata[datum.values[0].indicator].minYear, metadata[datum.values[0].indicator].maxYear]);
+
+        const min = metadata[datum.values[0].indicator].minYear;
+        const max = metadata[datum.values[0].indicator].maxYear;
+        const diff = max - min;
+        yScale.domain([min - 0.1 * diff, max]);
         const $svg = d3.select(svg);
+        
         //render valueline
         const chart = $svg
             .append('g')
             .attr('transform', `translate(${margin.left},${margin.top})`);
         chart.append('path')
             .datum(data)
-            .attr('class', 'valueline')
+            .attr('class', 'line valueline')
             .attr('d', valueline);
 
         //render x-axis
         const xAxis = $svg.append('g')
-          .attr('transform', `translate(0, ${height - 10})`)
+          .attr('transform', `translate(${margin.left}, ${height})`)
           .attr('class', 'axis x-axis')
-          .call(d3.axisBottom(xScale).tickSizeInner(0).tickSizeOuter(0).tickPadding(0).tickValues(d3.extent(data, d => d.year)));//.tickFormat(d3.timeFormat('%Y')));
+          .call(d3.axisBottom(xScale).tickSizeInner(0).tickSizeOuter(0).tickPadding(4).tickValues(d3.extent(data, d => d.year)));
 
+        //render y-axis
+        const yAxis = $svg.append('g')
+            .attr('class', 'axis y-axis')
+            .attr('transform', `translate(${margin.left}, 0)`)
+            .call(d3.axisLeft(yScale).tickSizeInner(0).tickSizeOuter(0).tickPadding(4).ticks(6).tickFormat(d3.format('.0%')));
+
+        //render trendline
+        chart.append('path')
+            .datum([data[0], data[data.length - 1]])
+            .attr('class', 'line trendline')
+            .attr('d', valueline);
+
+        //render markers
+        chart.selectAll('.trend-point')
+            .data([data[0], data[data.length - 1]])
+            .enter().append('circle')
+            .attr('class', 'trend-point')
+            .attr('r', 2)
+            .attr('cx', d => xScale(d.year))
+            .attr('cy', d => yScale(d.value));
 
     
 
@@ -62,24 +88,48 @@
 </script>
 
 <style lang="scss">
+    @import './../variables.scss';
     .svg-container {
         position: relative;
         width: 100%;
         height: 0;
-        padding-bottom: 150%;
+        padding-bottom: 116%;
         svg {
             position: absolute;
         }
     }
-    :global(.valueline) {
+    :global(.line) {
         fill: none;
-        stroke: #000;
         vector-effect: non-scaling-stroke;
 
+    }
+    :global(.valueline){
+        stroke: $medium_gray;
+    }
+    :global(.trendline){
+        stroke: $blue;
+        stroke-width: 2px;
     }
     :global(.axis) path {
         vector-effect: non-scaling-stroke;
 
+    }
+    :global(g.tick) text {
+        font-size: 7.5px;
+    }
+    
+    :global(.x-axis g.tick) text {
+        transform: translate(-8px, 0);
+        font-weight: bold;
+    }
+    :global(.x-axis g.tick:first-of-type) text {
+        transform: translate(8px, 0);
+    }
+    :global(.y-axis path) {
+       display: none;
+    }
+    :global(.trend-point) {
+        fill: $blue;
     }
 </style>
 <div class="svg-container">

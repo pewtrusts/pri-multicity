@@ -14,9 +14,13 @@
         display: flex;
         flex-wrap: wrap;
     }
+    .dataviz-heading {
+        font-size: 1.5em;
+        margin-bottom: 1em;
+    }
 </style>
 
-<h2>{dictionary[initialIndicator]}</h2>
+<h2 class="dataviz-heading">{dictionary[initialIndicator]}</h2>
 <div class="dataviz-container">
 {#await dataPromise}
     <DatavizWaiting {initialCities} />

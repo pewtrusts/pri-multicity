@@ -55,7 +55,7 @@ function getData(resolve, reject){
             setTimeout(() => {
                 resolve(nested);
                 console.log(nested);
-            },2000);
+            });
         },
         download: true,
         dynamicTyping: true,
