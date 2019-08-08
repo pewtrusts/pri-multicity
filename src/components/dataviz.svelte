@@ -5,6 +5,7 @@
     export let initialCities;
     export let initialIndicator;
     export let dataPromise;
+    export let metadata
 
 </script>
 
@@ -16,11 +17,11 @@
 </style>
 
 <h2>{dictionary[initialIndicator]}</h2>
-<div class="dataviz-container wire">
+<div class="dataviz-container">
 {#await dataPromise}
     <DatavizWaiting {initialCities} />
 {:then data}
-    <DatavizResolved {initialIndicator}  {data} />
+    <DatavizResolved {initialIndicator} {data} {metadata} />
 {/await}    
 </div>
 

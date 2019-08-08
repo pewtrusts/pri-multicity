@@ -9,8 +9,11 @@ import MakeQueriablePromise from './MakeQueriablePromise.js';
 const initialOrganizeBy = 'indicator';
 const initialIndicator = 'poverty';
 // array of cities to render while the dataPromise is being resolved
-const initialCities = ["Baltimore", "Boston", "Chicago", "Cleveland", "Detroit", "Houston", "Philadelphia", "Phoenix", "Pittsburgh", "Washington D.C."]
-const metadata = {};
+const initialCities = ["Baltimore", "Boston", "Chicago", "Cleveland", "Detroit", "Houston", "Philadelphia", "Phoenix", "Pittsburgh", "Washington"]
+const metadata = {
+    startYear: 2007,
+    stopYear: 2017
+};
 
 var publicPath = '';
 if ( process.env.NODE_ENV === 'production' ) { // production build needs to know the public path of assets
@@ -23,7 +26,7 @@ function summarizeData(data){
         metadata[d.indicator] = metadata[d.indicator] || {};
 
         //put values from all years into one array
-        var years = Object.keys(d).filter(key => !isNaN(+key));
+        var years = d3.range(metadata.startYear, metadata.stopYear).concat(metadata.stopYear);
         metadata[d.indicator].yearValues = metadata[d.indicator].yearValues ? metadata[d.indicator].yearValues.concat(years.map(x => d[x])) : years.map(x => d[x]);
         // same for race
         var races = Object.keys(d).filter(key => key.match(/race\d$/));
@@ -33,12 +36,14 @@ function summarizeData(data){
         metadata[d.indicator].ageValues = metadata[d.indicator].ageValues ? metadata[d.indicator].ageValues.concat(ages.map(x => d[x])) : ages.map(x => d[x]);
     });
     for ( let key in metadata ) {
-        metadata[key].maxYear = d3.max(metadata[key].yearValues);
-        metadata[key].minYear = d3.min(metadata[key].yearValues);
-        metadata[key].maxRace = d3.max(metadata[key].raceValues);
-        metadata[key].minRace = d3.min(metadata[key].raceValues);
-        metadata[key].maxAge = d3.max(metadata[key].ageValues);
-        metadata[key].minAge = d3.min(metadata[key].ageValues);
+        if ( !key.match(/start|stop/)) {
+            metadata[key].maxYear = d3.max(metadata[key].yearValues);
+            metadata[key].minYear = d3.min(metadata[key].yearValues);
+            metadata[key].maxRace = d3.max(metadata[key].raceValues);
+            metadata[key].minRace = d3.min(metadata[key].raceValues);
+            metadata[key].maxAge = d3.max(metadata[key].ageValues);
+            metadata[key].minAge = d3.min(metadata[key].ageValues);
+        }
     }
 }
 function getData(resolve, reject){
@@ -72,7 +77,8 @@ const app = new App({
 	props: {
         dataPromise,
         initialCities,
-        initialIndicator
+        initialIndicator,
+        metadata
 	}
 });
 

@@ -6,6 +6,7 @@
     export let dataPromise;
     export let initialCities;
     export let initialIndicator;
+    export let metadata;
     
 </script>
 
@@ -17,4 +18,4 @@
 
 <Overview />
 <Selections {dataPromise} />
-<Dataviz {dataPromise} {initialCities} {initialIndicator} />
+<Dataviz {dataPromise} {initialCities} {initialIndicator} {metadata} />

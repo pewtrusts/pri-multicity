@@ -2,6 +2,7 @@
     import Chart from './chart.svelte';
     export let initialIndicator;
     export let data;
+    export let metadata
     let match = data.find(d => d.key === initialIndicator);
 </script>
 
@@ -25,7 +26,7 @@
 <div class="graph-container--outer">
     <div class="graph-container">
         <h3>{d.key}</h3>
-        <Chart datum={d} />
+        <Chart datum={d} {metadata} />
     </div>
 </div>
 {/each}    
