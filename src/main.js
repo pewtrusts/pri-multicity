@@ -10,6 +10,7 @@ const initialOrganizeBy = 'indicator';
 const initialIndicator = 'poverty';
 // array of cities to render while the dataPromise is being resolved
 const initialCities = ["Baltimore", "Boston", "Chicago", "Cleveland", "Detroit", "Houston", "Philadelphia", "Phoenix", "Pittsburgh", "Washington D.C."]
+const metadata = {};
 
 var publicPath = '';
 if ( process.env.NODE_ENV === 'production' ) { // production build needs to know the public path of assets
@@ -17,11 +18,34 @@ if ( process.env.NODE_ENV === 'production' ) { // production build needs to know
                                                // are in some distant path on sitecore
     publicPath = PUBLICPATH; 
 }
+function summarizeData(data){
+    data.forEach((d,i,array) => {
+        metadata[d.indicator] = metadata[d.indicator] || {};
 
+        //put values from all years into one array
+        var years = Object.keys(d).filter(key => !isNaN(+key));
+        metadata[d.indicator].yearValues = metadata[d.indicator].yearValues ? metadata[d.indicator].yearValues.concat(years.map(x => d[x])) : years.map(x => d[x]);
+        // same for race
+        var races = Object.keys(d).filter(key => key.match(/race\d$/));
+        metadata[d.indicator].raceValues = metadata[d.indicator].raceValues ? metadata[d.indicator].raceValues.concat(races.map(x => d[x])) : races.map(x => d[x]);
+        // same for age
+        var ages = Object.keys(d).filter(key => key.match(/age\d$/));
+        metadata[d.indicator].ageValues = metadata[d.indicator].ageValues ? metadata[d.indicator].ageValues.concat(ages.map(x => d[x])) : ages.map(x => d[x]);
+    });
+    for ( let key in metadata ) {
+        metadata[key].maxYear = d3.max(metadata[key].yearValues);
+        metadata[key].minYear = d3.min(metadata[key].yearValues);
+        metadata[key].maxRace = d3.max(metadata[key].raceValues);
+        metadata[key].minRace = d3.min(metadata[key].raceValues);
+        metadata[key].maxAge = d3.max(metadata[key].ageValues);
+        metadata[key].minAge = d3.min(metadata[key].ageValues);
+    }
+}
 function getData(resolve, reject){
     Papa.parse(publicPath + data, {
         complete: function(results){
-            console.log(results);
+            summarizeData(results.data);
+            console.log(metadata);
             var nested = d3.nest().key(d => d.indicator).key(d => d.city).entries(results.data);
             setTimeout(() => {
                 resolve(nested);
