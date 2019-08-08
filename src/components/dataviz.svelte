@@ -25,7 +25,9 @@
 {#await dataPromise}
     <DatavizWaiting {initialCities} />
 {:then data}
-    <DatavizResolved {initialIndicator} {data} {metadata} />
+    {#each data as indicator}
+    <DatavizResolved {indicator} {data} {metadata} />
+    {/each}
 {/await}    
 </div>
 

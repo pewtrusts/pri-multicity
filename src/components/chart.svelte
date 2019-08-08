@@ -24,7 +24,8 @@
             // define the line
         const valueline =  d3.line()
             .x((d) => { return xScale(d.year); })
-            .y((d) => { return yScale(d.value); });
+            .y((d) => { return yScale(d.value); })
+            .defined(d => d.value !== null);
         const yearRange = d3.range(metadata.startYear, metadata.stopYear).concat(metadata.stopYear);
         const parseTime = d3.timeParse('%Y');
         const data = yearRange.map(year => {

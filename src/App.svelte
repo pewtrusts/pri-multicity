@@ -18,4 +18,4 @@
 
 <Overview />
 <Selections {dataPromise} />
-<Dataviz {dataPromise} {initialCities} {initialIndicator} {metadata} />
+<Dataviz {dataPromise} {initialCities} {metadata} />

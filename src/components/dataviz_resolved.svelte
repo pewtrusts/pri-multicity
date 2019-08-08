@@ -1,9 +1,10 @@
 <script>
     import Chart from './chart.svelte';
-    export let initialIndicator;
+    export let indicator;
     export let data;
-    export let metadata
-    let match = data.find(d => d.key === initialIndicator);
+    export let metadata;
+    console.log(indicator);
+    let match = data.find(d => d.key === indicator.key);
 </script>
 
 <style lang="scss">
