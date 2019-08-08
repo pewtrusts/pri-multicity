@@ -16,7 +16,7 @@
         
         // parameters / presettings
         const margin = {
-            top: 0,
+            top: 2,
             right: 2,
             bottom: 10,
             left: 20
@@ -43,10 +43,12 @@
         
         xScale.domain(d3.extent(data, d => d.year));
 
-        const min = metadata[datum.values[0].indicator].minYear;
-        const max = metadata[datum.values[0].indicator].maxYear;
-        const diff = max - min;
-        yScale.domain([min - 0.1 * diff, max]);
+        const minValue = metadata[datum.values[0].indicator].minYear;
+        const maxValue = metadata[datum.values[0].indicator].maxYear;
+        const diff = maxValue - minValue;
+        yScale.domain([minValue - 0.1 * diff, maxValue]);
+        
+
         const $svg = d3.select(svg);
         
         //render valueline
@@ -67,7 +69,7 @@
         //render y-axis
         const yAxis = $svg.append('g')
             .attr('class', 'axis y-axis')
-            .attr('transform', `translate(${margin.left}, 0)`)
+            .attr('transform', `translate(${margin.left}, ${margin.top})`)
             .call(d3.axisLeft(yScale).tickSizeInner(0).tickSizeOuter(0).tickPadding(4).ticks(6).tickFormat(d3.format('.0%')));
 
         //render trendline
