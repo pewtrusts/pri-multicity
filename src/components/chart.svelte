@@ -8,6 +8,10 @@
     
     const viewBoxHeight = 116;
 
+    function firstNonNullIndex(data){
+        return data.findIndex(d => d.value !== null);
+    };
+
     onMount(() => {
         
         // parameters / presettings
@@ -58,7 +62,7 @@
         const xAxis = $svg.append('g')
           .attr('transform', `translate(${margin.left}, ${height})`)
           .attr('class', 'axis x-axis')
-          .call(d3.axisBottom(xScale).tickSizeInner(0).tickSizeOuter(0).tickPadding(4).tickValues(d3.extent(data, d => d.year)));
+          .call(d3.axisBottom(xScale).tickSizeInner(0).tickSizeOuter(0).tickPadding(4).tickValues([data[firstNonNullIndex(data)].year, data[data.length - 1].year]));
 
         //render y-axis
         const yAxis = $svg.append('g')
@@ -68,13 +72,13 @@
 
         //render trendline
         chart.append('path')
-            .datum([data[0], data[data.length - 1]])
+            .datum([data[firstNonNullIndex(data)], data[data.length - 1]])
             .attr('class', 'line trendline')
             .attr('d', valueline);
 
         //render markers
         chart.selectAll('.trend-point')
-            .data([data[0], data[data.length - 1]])
+            .data([data[firstNonNullIndex(data)], data[data.length - 1]])
             .enter().append('circle')
             .attr('class', 'trend-point')
             .attr('r', 2)
