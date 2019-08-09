@@ -81,14 +81,22 @@
 
         const $svg = d3.select(svg);
         
+        const tip = d3.tip()
+            .attr('class', 'd3-tip')
+            .html(d => d.value);
+
         //render valueline
         const chart = $svg
             .append('g')
-            .attr('transform', `translate(${margin.left},${margin.top})`);
+            .attr('transform', `translate(${margin.left},${margin.top})`)
+            .call(tip);
+
         chart.append('path')
             .datum(data)
             .attr('class', 'line valueline')
-            .attr('d', valueline);
+            .attr('d', valueline)
+            .on('mouseover', tip.show)
+            .on('mouseout', tip.hide);
 
         //render x-axis
         const xAxis = $svg.append('g')
