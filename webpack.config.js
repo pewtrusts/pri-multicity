@@ -99,7 +99,19 @@ module.exports = env => {
                          * For developing, use 'style-loader' instead.
                          * */
                         !isDev ? MiniCssExtractPlugin.loader : 'style-loader',
-                        'css-loader'
+                        'css-loader',
+                    ]
+                },
+                {
+                    test: /\.scss$/,
+                    use: [
+                        /**
+                         * MiniCssExtractPlugin doesn't support HMR.
+                         * For developing, use 'style-loader' instead.
+                         * */
+                        !isDev ? MiniCssExtractPlugin.loader : 'style-loader',
+                        'css-loader',
+                        'sass-loader'
                     ]
                 },
                 {

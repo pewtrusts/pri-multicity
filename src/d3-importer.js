@@ -1,7 +1,7 @@
 import { extent, max, min, range }     from 'd3-array';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { entries, nest}         from 'd3-collection';
-import { format }               from 'd3-format';
+import { format, formatLocale }               from 'd3-format';
 import { path }                 from 'd3-path';
 import { scaleTime,scaleLinear} from 'd3-scale';
 import { select }               from 'd3-selection';
@@ -16,6 +16,7 @@ export default {
     entries,
     extent,
     format,
+    formatLocale,
     line,
     max,
     min,

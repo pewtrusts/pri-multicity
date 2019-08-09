@@ -3,84 +3,98 @@
         "label": "College",
         "units": "percentage",
         "desc" : "[TO COME]",
-        "source":"[TO COME]"
+        "source":"[TO COME]",
+        "tooltipFormat": ".1%"
     },
     "commute": {
         "label": "Commute to work",
         "units": "percentage",
         "desc" : "Percentage of workers who commute to work",
-        "source":"[TO COME]"
+        "source":"[TO COME]",
+        "tooltipFormat": ".1%"
     },
     "cost_burden": {
         "label": "Housing cost burdened",
         "units": "percentage",
         "desc" : "Percentage of households spending more than 30 percent of their income on housing",
-        "source":"[TO COME]"
+        "source":"[TO COME]",
+        "tooltipFormat": ".1%"
     },
     "deep_poverty": {
         "label": "Deep poverty rate",
         "units": "percentage",
         "desc" : "Percentage of people in households with income at or below 50 percent of the poverty level",
-        "source":"[TO COME]"
+        "source":"[TO COME]",
+        "tooltipFormat": ".1%"
     },
     "disability": {
         "label": "Disability",
         "units": "percentage",
         "desc" : "Percentage of people with a disability (civilian noninstitutionalized population)",
-        "source":"[TO COME]"
+        "source":"[TO COME]",
+        "tooltipFormat": ".1%"
     },
     "foreign_born": {
         "label": "Foreign born",
         "units": "percentage",
         "desc" : "Percentage of residents who were not U.S. citizens at birth",
-        "source":"[TO COME]"
+        "source":"[TO COME]",
+        "tooltipFormat": ".1%"
     },
     "hh_income": {
         "label": "Household income",
         "units": "currency",
         "desc" : "Combined income from all members of a household 15 years old or older",
-        "source":"[TO COME]"
+        "source":"[TO COME]",
+        "tooltipFormat": "$,.0f"
     },
     "homeownership": {
         "label": "Homeownership",
         "units": "percentage",
         "desc" : "Percentage of households owned by the head of household",
-        "source":"[TO COME]"
+        "source":"[TO COME]",
+        "tooltipFormat": ".1%"
     },
     "homicide_capita": {
         "label": "Homicide rate",
         "units": "decimal",
         "desc" : "The number of homicides per 100,000 inhabitants",
-        "source":"[TO COME]"
+        "source":"[TO COME]",
+        "tooltipFormat": ".1f"
     },
     "labor_force": {
         "label": "Labor force participation rate",
         "units": "percentage",
         "desc" : "Percentage of people in the military or classified in the civilian labor force",
-        "source":"[TO COME]"
+        "source":"[TO COME]",
+        "tooltipFormat": ".1%"
     },
     "poverty": {
         "label": "Poverty rate",
         "units": "percentage",
         "desc" : "Percentage of people in households with income below the poverty level",
-        "source":"[TO COME]"
+        "source":"[TO COME]",
+        "tooltipFormat": ".1%"
     }, 
     "population":  {
         "label": "Population",
         "units": "si",
         "desc" : "",
-        "source":"[TO COME]"
+        "source":"[TO COME]",
+        "tooltipFormat": ",.0f"
     },
     "pre_K": {
         "label": "Preschool enrollment rate",
         "units": "percentage",
         "desc" : "Percentage of preschool-aged children enrolled in preschool",
-        "source":"[TO COME]"
+        "source":"[TO COME]",
+        "tooltipFormat": ".1%"
     },
     "unemployment": {
         "label": "Unemployment rate",
         "units": "percentage",
         "desc" : "Percentage of the civilian work force that is unemployed",
-        "source":"[TO COME]"
+        "source":"[TO COME]",
+        "tooltipFormat": ".1%"
     }
 }

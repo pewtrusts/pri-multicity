@@ -5,6 +5,7 @@
     import dictionary from './../data/dictionary.json';
     export var datum;
     export let metadata;
+    import './../d3-tip.scss';
     var svg;
     
     const viewBoxHeight = 116;
@@ -62,6 +63,13 @@
                 value: datum.values[0][year] 
             };
         });
+         const locale = d3.formatLocale({
+            decimal: '.',
+            thousands: ',',
+            grouping: [3],
+            currency: ['$', '']
+            
+        });
         // data-dependent settings
         console.log(datum);
         
@@ -83,20 +91,19 @@
         
         const tip = d3.tip()
             .attr('class', 'd3-tip')
-            .html(d => d.value);
+            .offset([viewBoxHeight * 2 - 10,0.5])
+            .html(d => `<span class="year">${d.year.getFullYear()}</span>${locale.format(dictionary[datum.values[0].indicator].tooltipFormat)(d.value)}`);
 
         //render valueline
         const chart = $svg
             .append('g')
-            .attr('transform', `translate(${margin.left},${margin.top})`)
-            .call(tip);
+            .attr('transform', `translate(${margin.left},${margin.top})`);
+            
 
         chart.append('path')
             .datum(data)
             .attr('class', 'line valueline')
-            .attr('d', valueline)
-            .on('mouseover', tip.show)
-            .on('mouseout', tip.hide);
+            .attr('d', valueline);
 
         //render x-axis
         const xAxis = $svg.append('g')
@@ -126,6 +133,18 @@
             .attr('y1', yScale(leastSquaresCoeff[0] + leastSquaresCoeff[1]))
             .attr('x2', xScale(data[data.length - 1].year))
             .attr('y2', yScale(leastSquaresCoeff[0] * xSeries.length + leastSquaresCoeff[1]));
+
+        chart.selectAll('.value-point')
+            .data(data.slice(firstNonNullIndex(data)))
+            .enter().append('rect')
+            .attr('class', 'value-point')
+            .attr('width', 8)
+            .attr('height', 2 * viewBoxHeight)
+            .attr('x', d => xScale(d.year) - 4)
+            .attr('y', d => yScale(d.value) - viewBoxHeight)
+            .call(tip)
+            .on('mouseover', tip.show)
+            .on('mouseout', tip.hide);
 
         //render OLD point to poiunt trendline
        /* chart.append('path')
@@ -164,6 +183,7 @@
     }
     :global(.line) {
         fill: none;
+        transition: stroke-width 0.2s ease-in-out;
         vector-effect: non-scaling-stroke;
 
     }
@@ -203,6 +223,15 @@
     }
     :global(.trend-point) {
         fill: $blue;
+    }
+    :global(.value-point) {
+        fill: rgba(255,255,255,0);
+        
+    }
+    :global(.d3-tip span.year) {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
     }
 </style>
 <div class="svg-container">
