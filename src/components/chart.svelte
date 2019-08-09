@@ -12,6 +12,29 @@
     function firstNonNullIndex(data){
         return data.findIndex(d => d.value !== null);
     };
+    
+    // HT: http://bl.ocks.org/benvandyke/8459843. returns slope, intercept and r-square of the line
+    function leastSquares(xSeries, ySeries) {
+        var reduceSumFunc = function(prev, cur) { return prev + cur; };
+        
+        var xBar = xSeries.reduce(reduceSumFunc) * 1.0 / xSeries.length;
+        var yBar = ySeries.reduce(reduceSumFunc) * 1.0 / ySeries.length;
+
+        var ssXX = xSeries.map(function(d) { return Math.pow(d - xBar, 2); })
+            .reduce(reduceSumFunc);
+        
+        var ssYY = ySeries.map(function(d) { return Math.pow(d - yBar, 2); })
+            .reduce(reduceSumFunc);
+            
+        var ssXY = xSeries.map(function(d, i) { return (d - xBar) * (ySeries[i] - yBar); })
+            .reduce(reduceSumFunc);
+            
+        var slope = ssXY / ssXX;
+        var intercept = yBar - (xBar * slope);
+        var rSquare = Math.pow(ssXY, 2) / (ssXX * ssYY);
+        
+        return [slope, intercept, rSquare];
+    }
 
     onMount(() => {
         
@@ -79,8 +102,25 @@
             .attr('transform', `translate(${margin.left}, ${margin.top})`)
             .call(d3.axisLeft(yScale).tickSizeInner(0).tickSizeOuter(0).tickPadding(4).ticks(6, numberFormat));//.tickFormat(d3.format(numberFormat)));
 
+
+        //render least squared  trendline
+        var xSeries = d3.range(1, data.length + 1 - firstNonNullIndex(data));
+        var ySeries = data.slice(firstNonNullIndex(data)).map(d => d.value);
+
+        var leastSquaresCoeff = leastSquares(xSeries, ySeries);
+
+        console.log(leastSquaresCoeff);
+
+
+        chart.append('line')
+            .attr('class', 'line trendline')
+            .attr('x1', xScale(data[firstNonNullIndex(data)].year))
+            .attr('y1', yScale(leastSquaresCoeff[0] + leastSquaresCoeff[1]))
+            .attr('x2', xScale(data[data.length - 1].year))
+            .attr('y2', yScale(leastSquaresCoeff[0] * xSeries.length + leastSquaresCoeff[1]));
+
         //render OLD point to poiunt trendline
-        chart.append('path')
+       /* chart.append('path')
             .datum([data[firstNonNullIndex(data)], data[data.length - 1]])
             .attr('class', 'line trendline')
             .attr('d', valueline);
@@ -95,7 +135,7 @@
             .attr('r', 2)
             .attr('cx', d => xScale(d.year))
             .attr('cy', d => yScale(d.value));
-
+*/
     
 
     }); // end onMount
