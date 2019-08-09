@@ -8,6 +8,7 @@
 </script>
 
 <style lang="scss">
+    
     :global(.graph-container--outer) {
         width: 198px;
         flex-grow: 1;

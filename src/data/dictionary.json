@@ -1,3 +1,86 @@
 {
-    "poverty": "Poverty"
+    "college": {
+        "label": "College",
+        "units": "percentage",
+        "desc" : "[TO COME]",
+        "source":"[TO COME]"
+    },
+    "commute": {
+        "label": "Commute to work",
+        "units": "percentage",
+        "desc" : "Percentage of workers who commute to work",
+        "source":"[TO COME]"
+    },
+    "cost_burden": {
+        "label": "Housing cost burdened",
+        "units": "percentage",
+        "desc" : "Percentage of households spending more than 30 percent of their income on housing",
+        "source":"[TO COME]"
+    },
+    "deep_poverty": {
+        "label": "Deep poverty rate",
+        "units": "percentage",
+        "desc" : "Percentage of people in households with income at or below 50 percent of the poverty level",
+        "source":"[TO COME]"
+    },
+    "disability": {
+        "label": "Disability",
+        "units": "percentage",
+        "desc" : "Percentage of people with a disability (civilian noninstitutionalized population)",
+        "source":"[TO COME]"
+    },
+    "foreign_born": {
+        "label": "Foreign born",
+        "units": "percentage",
+        "desc" : "Percentage of residents who were not U.S. citizens at birth",
+        "source":"[TO COME]"
+    },
+    "hh_income": {
+        "label": "Household income",
+        "units": "currency",
+        "desc" : "Combined income from all members of a household 15 years old or older",
+        "source":"[TO COME]"
+    },
+    "homeownership": {
+        "label": "Homeownership",
+        "units": "percentage",
+        "desc" : "Percentage of households owned by the head of household",
+        "source":"[TO COME]"
+    },
+    "homicide_capita": {
+        "label": "Homicide rate",
+        "units": "decimal",
+        "desc" : "The number of homicides per 100,000 inhabitants",
+        "source":"[TO COME]"
+    },
+    "labor_force": {
+        "label": "Labor force participation rate",
+        "units": "percentage",
+        "desc" : "Percentage of people in the military or classified in the civilian labor force",
+        "source":"[TO COME]"
+    },
+    "poverty": {
+        "label": "Poverty rate",
+        "units": "percentage",
+        "desc" : "Percentage of people in households with income below the poverty level",
+        "source":"[TO COME]"
+    }, 
+    "population":  {
+        "label": "Population",
+        "units": "si",
+        "desc" : "",
+        "source":"[TO COME]"
+    },
+    "pre_K": {
+        "label": "Preschool enrollment rate",
+        "units": "percentage",
+        "desc" : "Percentage of preschool-aged children enrolled in preschool",
+        "source":"[TO COME]"
+    },
+    "unemployment": {
+        "label": "Unemployment rate",
+        "units": "percentage",
+        "desc" : "Percentage of the civilian work force that is unemployed",
+        "source":"[TO COME]"
+    }
 }

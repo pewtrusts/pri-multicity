@@ -2,6 +2,7 @@
     
     import { onMount } from 'svelte';
     import d3 from './../d3-importer.js';
+    import dictionary from './../data/dictionary.json';
     export var datum;
     export let metadata;
     var svg;
@@ -39,8 +40,14 @@
             };
         });
         // data-dependent settings
-        console.log(data);
+        console.log(datum);
         
+        const numberFormat = dictionary[datum.values[0].indicator].units === 'currency' ? '.0s' :
+                             dictionary[datum.values[0].indicator].units === 'si' ? '.1s' :
+                             dictionary[datum.values[0].indicator].units === 'number' ? '.0f' :
+                             dictionary[datum.values[0].indicator].units === 'decimal' ? '.0f' :
+                             '.0%';
+
         xScale.domain(d3.extent(data, d => d.year));
 
         const minValue = metadata[datum.values[0].indicator].minYear;
@@ -70,13 +77,15 @@
         const yAxis = $svg.append('g')
             .attr('class', 'axis y-axis')
             .attr('transform', `translate(${margin.left}, ${margin.top})`)
-            .call(d3.axisLeft(yScale).tickSizeInner(0).tickSizeOuter(0).tickPadding(4).ticks(6).tickFormat(d3.format('.0%')));
+            .call(d3.axisLeft(yScale).tickSizeInner(0).tickSizeOuter(0).tickPadding(4).ticks(6, numberFormat));//.tickFormat(d3.format(numberFormat)));
 
-        //render trendline
+        //render OLD point to poiunt trendline
         chart.append('path')
             .datum([data[firstNonNullIndex(data)], data[data.length - 1]])
             .attr('class', 'line trendline')
             .attr('d', valueline);
+
+        
 
         //render markers
         chart.selectAll('.trend-point')
@@ -115,7 +124,7 @@
     }
     :global(.trendline){
         stroke: $blue;
-        stroke-width: 2px;
+        stroke-width: 3px;
     }
     :global(.axis) path {
         vector-effect: non-scaling-stroke;
@@ -123,8 +132,10 @@
     }
     :global(g.tick) text {
         font-size: 7.5px;
+        color: $gray;
     }
-    
+    :global(.y-axis g.tick) text {
+    }
     :global(.x-axis g.tick) text {
         transform: translate(-8px, 0);
         font-weight: bold;
