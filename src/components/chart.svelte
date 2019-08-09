@@ -161,10 +161,17 @@
     }
     :global(.valueline){
         stroke: $medium_gray;
+        .svg-container:hover & {
+            stroke-width: 3px;
+            color: $gray;
+        }
     }
     :global(.trendline){
         stroke: $blue;
         stroke-width: 3px;
+        .svg-container:hover & {
+            stroke-width: 1px;
+        }
     }
     :global(.axis) path {
         vector-effect: non-scaling-stroke;
