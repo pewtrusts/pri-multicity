@@ -1,8 +1,10 @@
 <script>
-    import Chart from './chart.svelte';
+    import TimeChart from './chart_time.svelte';
+    import BubbleChart from './chart_bubble.svelte';
     export let indicator;
     export let data;
     export let metadata;
+    export let initialViewType;
     console.log(indicator);
     let match = data.find(d => d.key === indicator.key);
 </script>
@@ -40,7 +42,11 @@
 <div class="graph-container--outer">
     <div class="graph-container">
         <h3>{d.key}</h3>
-        <Chart datum={d} {metadata} />
+        {#if initialViewType === 'time'}
+        <TimeChart datum={d} {metadata} />
+        {:else}
+        <BubbleChart datum={d} {metadata} />
+        {/if}
     </div>
 </div>
 {/each}    

@@ -5,6 +5,7 @@
     import dictionary from './../data/dictionary.json';
     export var datum;
     export let metadata;
+    export let initialViewType;
     import './../d3-tip.scss';
     var svg;
     

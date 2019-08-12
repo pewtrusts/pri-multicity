@@ -79,6 +79,7 @@
     "population":  {
         "label": "Population",
         "units": "si",
+        "units_alt": "percentage",
         "desc" : "",
         "source":"[TO COME]",
         "tooltipFormat": ",.0f"
@@ -96,5 +97,13 @@
         "desc" : "Percentage of the civilian work force that is unemployed",
         "source":"[TO COME]",
         "tooltipFormat": ".1%"
-    }
+    },
+    "race1": "White",
+    "race2": "Black",
+    "race3": "Hispanic",
+    "race4": "Asian",
+    "age1": "< 35",
+    "age2": "35–64",
+    "age3": "65+"
+
 }

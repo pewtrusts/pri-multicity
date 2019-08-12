@@ -4,6 +4,7 @@
     import DatavizResolved from './dataviz_resolved.svelte';
     export let initialCities;
     export let initialIndicator;
+    export let initialViewType;
     export let dataPromise;
     export let metadata
 console.log(dictionary);
@@ -36,7 +37,7 @@ console.log(dictionary);
     <h2 class="dataviz-heading">{dictionary[indicator.key].label}</h2>
     <p class="description">{dictionary[indicator.key].desc}</p>
     <div class="dataviz-container">
-        <DatavizResolved {indicator} {data} {metadata} />
+        <DatavizResolved {indicator} {data} {metadata} {initialViewType} />
     </div>
 {/each}
 {/await}
