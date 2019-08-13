@@ -1,12 +1,28 @@
-<script>
+<script lang>
     import { onMount } from 'svelte';
     import viewTypeStore from './../store.js';
     import Loading from './loading.svelte';
+    import Dropdown from './dropdown.svelte';
+    import dictionary from './../data/dictionary.json';
     export let dataPromise;
-    let typeSelectors
+
+    export let typeSelectors;
+    
+     function createOptions(values){
+        return values.map((value, i) => {
+            return {
+                value: value.key,
+                display: dictionary[value.key].label,
+                isInitialSelected: i === 0
+            };
+        });
+    }
+
+
     function changeHandler(e){
         viewTypeStore.set(e.target.value)
     }
+
     onMount(() => {
         typeSelectors.querySelectorAll('input').forEach(input => {
             input.addEventListener('change', changeHandler);
@@ -17,12 +33,11 @@
 <style lang="scss">
     .selections {
         width: 100%;
-        height: 40px;
         display: flex;
     }
     .selections > div {
         width: 33%;
-        height: 40px;
+        
     }
      .view-type-selectors {
         display: flex;
@@ -47,8 +62,10 @@
     <div>
         <Loading />
     </div>        
-{:then value}
-    <div></div>  <!-- different selection types go here -->      
+{:then values}
+    <div>
+        <Dropdown label="Indicator:" options="{createOptions(values)}" />
+    </div>  <!-- different selection types go here -->      
     <div></div>        
     <div bind:this="{typeSelectors}" class="view-type-selectors">
         <div><input type="radio" name="view-type" value="time" id="radio1" checked="true" /><label for="radio1">Over time</label></div>
