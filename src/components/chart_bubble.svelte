@@ -303,11 +303,6 @@ onMount(() => {
 
 }
 
-:global(.d3-tip span.year) {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
-}
 
 :global(.tooltip-p) {
     margin-bottom: 0.5em;

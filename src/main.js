@@ -6,7 +6,7 @@ import App from './App.svelte';
 import data from './data/dashboard-data-1.csv';
 import MakeQueriablePromise from './MakeQueriablePromise.js';
 
-const initialViewType = 'disaggregated';
+const initialViewType = 'time';
 const initialOrganizeBy = 'indicator';
 const initialIndicator = 'poverty';
 // array of cities to render while the dataPromise is being resolved

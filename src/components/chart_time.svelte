@@ -93,7 +93,7 @@
         const tip = d3.tip()
             .attr('class', 'd3-tip')
             .offset([viewBoxHeight * 2 - 10,0.5])
-            .html(d => `<span class="year">${d.year.getFullYear()}</span>${locale.format(dictionary[datum.values[0].indicator].tooltipFormat)(d.value)}`);
+            .html(d => `<span class="year">${d.year.getFullYear()}</span> | ${locale.format(dictionary[datum.values[0].indicator].tooltipFormat)(d.value)}`);
 
         //render valueline
         const chart = $svg
@@ -231,8 +231,8 @@
     }
     :global(.d3-tip span.year) {
         font-weight: bold;
-        display: block;
-        margin-bottom: 5px;
+        
+        
     }
 </style>
 <div class="svg-container">
