@@ -8,12 +8,13 @@
   pointer-events: none !important;
   transition: opacity 0.3s ease-in-out 0.15s, top 0.15s ease-in-out, left 0.15s ease-in-out;
   &.disaggregated {
-    background: rgba(255,255,255,0.9);
+    background: #fff;
     color: #333;
-    border: 1px solid #333;
-    &:after {
-      display: none;
+    border: 1px solid $blue;
+    &::after {
+      color: $blue;
     }
+    
   }
 }
 
@@ -27,6 +28,7 @@
   color: $gray;
   position: absolute;
   pointer-events: none !important;
+ 
 }
 
 /* Northward tooltips */

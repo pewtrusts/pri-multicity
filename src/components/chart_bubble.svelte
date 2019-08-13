@@ -60,8 +60,7 @@ onMount(() => {
 
     const tip = d3.tip()
         .attr('class', 'd3-tip disaggregated')
-        .direction(d => data.indexOf(d) === 0 ? 'w' : 'e')
-        .offset(d => data.indexOf(d) === 0 ? [0, 15] : [0, -15])
+        
         .html((d, i) => {
             return d.sort((a, b) => d3.descending(a.percent, b.percent)).reduce((acc, cur, j) => {
                 return acc + `<p class="${ i === j ? 'isHighlighted' : ''} ${'tooltip-p tooltip-color-' + j}""><span>${dictionary[cur.key]}</span><br />${d3.format(numberFormat)(cur.percent)} 
@@ -111,7 +110,7 @@ onMount(() => {
                 .selectAll('.data-group')
                 .data(d => {
                     console.log(d);
-                    return d.sort((a, b) => d3.descending(a.percent, b.percent));
+                    return d.sort((a, b) => d3.descending(a.absolute, b.absolute));
                 })
                 .enter().append('g')
                 .attr('class', 'data-group')
