@@ -205,6 +205,10 @@ onMount(() => {
     fill-opacity: 0.5;
     stroke-width: 1px;
     mix-blend-mode: multiply;
+    transition: fill-opacity 0.2s ease-in-out;
+    &:hover {
+        fill-opacity: 1;
+    }
 
 }
 
