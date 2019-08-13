@@ -65,7 +65,7 @@ onMount(() => {
         .html((d, i) => {
             return d.sort((a, b) => d3.descending(a.percent, b.percent)).reduce((acc, cur, j) => {
                 return acc + `<p class="${ i === j ? 'isHighlighted' : ''} ${'tooltip-p tooltip-color-' + j}""><span>${dictionary[cur.key]}</span><br />${d3.format(numberFormat)(cur.percent)} 
-                                 (${d3.format(',.0f')(cur.absolute)} ppl)</p>`;
+                                 (${ cur.absolute ? d3.format(',.0f')(cur.absolute) + ' ppl' : 'size n/a'})</p>`;
             }, '')
         });
 
