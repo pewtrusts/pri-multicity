@@ -129,7 +129,7 @@ onMount(() => {
                 .classed('absolute-undefined', d => d.absolute === null)
                 .call(tip)
                 .on('mouseover', function(d,i){
-                    tip.show.call(this,p,i); // pass parent data in to the tooltip
+                    tip.show.call(this,p.filter(x => !isNaN(x.percent)),i); // pass parent data in to the tooltip
                 })
                 .on('mouseout', tip.hide);
         } else {
