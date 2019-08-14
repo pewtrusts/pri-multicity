@@ -5,6 +5,8 @@
   export let currentValue; // can be passed in as a prop or not. if not, the value will be undefined and markup below will use first option instead
   export let itemOnClick;
 
+  //to do: pass in an onsubscribe 
+
   currentValue = currentValue || options[0].value;
   $: activeDescendantID = 'dropdown-item-' + currentValue;
   $: activeDescendant = document.querySelector('#' + activeDescendantID);

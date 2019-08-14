@@ -34,6 +34,11 @@
     .selections {
         width: 100%;
         display: flex;
+        position: sticky;
+        top: 100px;
+        padding: 10px 0;
+        background-color: #fff;
+        z-index: 2;
     }
     .selections > div {
         width: 33%;
