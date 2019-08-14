@@ -16,12 +16,15 @@
   let toBeSelected;
   function closeDropdown(){
     isOpen = false;
+    toBeSelected = activeDescendant;
   }
   function clickHandler(e){
-    isOpen = !isOpen;
-    if ( isOpen ){
+    
+    if ( !isOpen ){
+        isOpen = true;
         document.body.addEventListener('click', closeDropdown);
     } else {
+        closeDropdown();
         document.body.removeEventListener('click', closeDropdown);
     }
   }
@@ -43,17 +46,21 @@
         } else if ( e.keyCode === 38 ){ // up
             let previousSibling = toBeSelected.previousElementSibling;
             if ( previousSibling ){
-                currentValue = previousSibling.dataset.value;
+                toBeSelected = previousSibling;
             }
         } else {                        // down
             let nextSibling = toBeSelected.nextElementSibling;
+            console.log(nextSibling);
             if ( nextSibling ){
-                currentValue = nextSibling.dataset.value;
+                toBeSelected = nextSibling;
             }
         }
     }
     if ( e.keyCode === 27 && isOpen ){ // escape key
-        isOpen = false;
+        closeDropdown();
+    }
+    if ( e.keyCode === 13 && isOpen ){ //enter
+        dispatchClick();
     }
   }
   function itemClickHandler(){
@@ -118,7 +125,7 @@
                 list-style-type: none;
                 margin: 0;
                 padding: 12px;
-                &:hover {
+                &:hover, &.hover {
                     background-color: #eef6ff;
                     text-decoration: underline;
                     
