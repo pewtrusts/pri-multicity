@@ -1,7 +1,7 @@
 <script>
     import TimeChart from './chart_time.svelte';
     import BubbleChart from './chart_bubble.svelte';
-    import viewTypeStore from './../store.js';
+    import { viewTypeStore, inViewSectionStore } from './../store.js';
     export let indicator;
     export let data;
     export let metadata;
@@ -11,6 +11,18 @@
     viewTypeStore.subscribe(view => {
         viewType = view;
     });
+    
+</script>
+
+<script context="module">
+    /* evaluated once, not for each instance */
+    inViewSectionStore.subscribe(section => {
+        console.log(section);
+        var anchor = document.getElementById('anchor-' + section);
+        if ( anchor ) {
+            anchor.scrollIntoView();
+        }
+    });    
 </script>
 
 <style lang="scss">

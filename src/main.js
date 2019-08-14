@@ -1,7 +1,6 @@
 /* global PUBLICPATH process */
 import Papa from 'papaparse';
 import d3 from './d3-importer';
-import { writable } from 'svelte/store';
 import App from './App.svelte';
 import data from './data/dashboard-data-1.csv';
 import MakeQueriablePromise from './MakeQueriablePromise.js';

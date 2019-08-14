@@ -10,6 +10,8 @@ console.log(dictionary);
 </script>
 <style lang="scss">
 @import './../variables.scss';
+
+
 .dataviz-container {
     display: flex;
     flex-wrap: wrap;
@@ -25,6 +27,16 @@ console.log(dictionary);
     color: $gray;
     font-weight: 600;
 }
+section {
+    position: relative;
+    a {
+        position: absolute;
+        top: -185px;
+        display: inline-block;
+        width: 1px;
+        height: 100%;
+    }
+}
 </style>
 
 {#await dataPromise}
@@ -33,10 +45,13 @@ console.log(dictionary);
     </div>
 {:then data}
 {#each data as indicator}
-    <h2 class="dataviz-heading">{dictionary[indicator.key].label}</h2>
-    <p class="description">{dictionary[indicator.key].desc}</p>
-    <div class="dataviz-container">
-        <DatavizResolved {indicator} {data} {metadata} />
-    </div>
+    <section>
+        <a id="anchor-{indicator.key}"></a>
+        <h2 class="dataviz-heading">{dictionary[indicator.key].label}</h2>
+        <p class="description">{dictionary[indicator.key].desc}</p>
+        <div class="dataviz-container">
+            <DatavizResolved {indicator} {data} {metadata} />
+        </div>
+    </section>
 {/each}
 {/await}

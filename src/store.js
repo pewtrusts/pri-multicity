@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
 
-const viewType = writable('time');
+const viewTypeStore = writable('time');
+const inViewSection = writable('');
 
-export default viewType;
+export { viewTypeStore, inViewSection as inViewSectionStore  };

@@ -1,6 +1,6 @@
 <script lang>
     import { onMount } from 'svelte';
-    import viewTypeStore from './../store.js';
+    import { viewTypeStore, inViewSectionStore } from './../store.js';
     import Loading from './loading.svelte';
     import Dropdown from './dropdown.svelte';
     import dictionary from './../data/dictionary.json';
@@ -18,6 +18,10 @@
         });
     }
 
+    function dropdownItemOnClick(e){
+        console.log(e);
+        inViewSectionStore.set(this.dataset.value);
+    }
 
     function changeHandler(e){
         viewTypeStore.set(e.target.value)
@@ -69,7 +73,7 @@
     </div>        
 {:then values}
     <div>
-        <Dropdown label="Indicator:" options="{createOptions(values)}" />
+        <Dropdown label="Indicator:" options="{createOptions(values)}" itemOnClick="{dropdownItemOnClick}" />
     </div>  <!-- different selection types go here -->      
     <div></div>        
     <div bind:this="{typeSelectors}" class="view-type-selectors">

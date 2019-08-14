@@ -65,10 +65,10 @@
         dispatchClick();
     }
   }
-  function itemClickHandler(){
+  function itemClickHandler(e){
     console.log(this, this.dataset.value);
     currentValue = this.dataset.value;
-    itemOnClick.call(this);
+    itemOnClick.call(this, e);
     isOpen = false;
   }
   onMount(() => {
