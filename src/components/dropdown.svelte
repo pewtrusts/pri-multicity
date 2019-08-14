@@ -4,6 +4,7 @@
   export let options;
   export let currentValue; // can be passed in as a prop or not. if not, the value will be undefined and markup below will use first option instead
   export let itemOnClick;
+  export let subscribeTo;
 
   //to do: pass in an onsubscribe 
 
@@ -14,6 +15,12 @@
     console.log('no itemOnClick prop');
     return;
   };
+  
+  if ( subscribeTo ){
+    subscribeTo.subscribe(value => {
+        currentValue = value || currentValue;
+    });
+  }
   let isOpen = false;
   let toBeSelected;
   function closeDropdown(){

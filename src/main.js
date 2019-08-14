@@ -80,16 +80,14 @@ const dataPromise = MakeQueriablePromise(new Promise((resolve, reject) => {
     getData(resolve, reject);
 }));
 console.log(dataPromise);
-const app = new App({
-	target: document.querySelector('#svelte-container'),
-	props: {
-        dataPromise,
-        initialCities,
-        initialIndicator,
-        metadata
-	}
+dataPromise.then(data => {
+    new App({
+    	target: document.querySelector('#svelte-container'),
+    	props: {
+            data,
+            initialCities,
+            initialIndicator,
+            metadata
+    	}
+    });
 });
-
-window.app = app;
-
-export default app;

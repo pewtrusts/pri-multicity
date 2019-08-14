@@ -1,10 +1,10 @@
 <script lang>
     import { onMount } from 'svelte';
-    import { viewTypeStore, inViewSectionStore } from './../store.js';
+    import { viewTypeStore, inViewSectionStore, scrolledToStore } from './../store.js';
     import Loading from './loading.svelte';
     import Dropdown from './dropdown.svelte';
     import dictionary from './../data/dictionary.json';
-    export let dataPromise;
+    export let data;
 
     export let typeSelectors;
     
@@ -61,27 +61,12 @@
 </style>
 
 <div class="selections">
-{#await dataPromise}
     <div>
-        <Loading />
-    </div>        
-    <div>
-        <Loading />
-    </div>        
-    <div>
-        <Loading />
-    </div>        
-{:then values}
-    <div>
-        <Dropdown label="Indicator:" options="{createOptions(values)}" itemOnClick="{dropdownItemOnClick}" />
+        <Dropdown label="Indicator:" options="{createOptions(data)}" itemOnClick="{dropdownItemOnClick}" subscribeTo="{scrolledToStore}" />
     </div>  <!-- different selection types go here -->      
     <div></div>        
     <div bind:this="{typeSelectors}" class="view-type-selectors">
         <div><input type="radio" name="view-type" value="time" id="radio1" checked="true" /><label for="radio1">Over time</label></div>
         <div><input type="radio" name="view-type" value="disaggregated" id="radio2" /><label for="radio2">By age and race</label></div>
     </div>        
-{:catch error}
-    <p>Oops. Something went wrong</p>
-    <code>{error.message}</code>
-{/await}
 </div>
