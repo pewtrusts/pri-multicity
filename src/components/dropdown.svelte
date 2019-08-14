@@ -1,7 +1,71 @@
 <script>
+  import { onMount } from 'svelte';
   export let label;
   export let options;
+  export let currentValue; // can be passed in as a prop or not. if not, the value will be undefined and markup below will use first option instead
+  export let itemOnClick;
 
+  currentValue = currentValue || options[0].value;
+  $: activeDescendantID = 'dropdown-item-' + currentValue;
+  $: activeDescendant = document.querySelector('#' + activeDescendantID);
+  itemOnClick = itemOnClick || function(){
+    console.log('no itemOnClick prop');
+    return;
+  };
+  let isOpen = false;
+  let toBeSelected;
+  function closeDropdown(){
+    isOpen = false;
+  }
+  function clickHandler(e){
+    isOpen = !isOpen;
+    if ( isOpen ){
+        document.body.addEventListener('click', closeDropdown);
+    } else {
+        document.body.removeEventListener('click', closeDropdown);
+    }
+  }
+
+  function keyHandler(e){
+    console.log(e.keyCode);
+    function dispatchClick(){
+        toBeSelected.dispatchEvent(new MouseEvent('click'), {
+            view: window,
+            bubbles: true,
+            cancelable: true
+        });
+    }
+    if ( [32,38,40].indexOf(e.keyCode) !== -1 ) { // space, up arrow, down arrow
+        if ( !isOpen ){
+            isOpen = true;
+        } else if ( e.keyCode === 32 ){ // space
+            dispatchClick();
+        } else if ( e.keyCode === 38 ){ // up
+            let previousSibling = toBeSelected.previousElementSibling;
+            if ( previousSibling ){
+                currentValue = previousSibling.dataset.value;
+            }
+        } else {                        // down
+            let nextSibling = toBeSelected.nextElementSibling;
+            if ( nextSibling ){
+                currentValue = nextSibling.dataset.value;
+            }
+        }
+    }
+    if ( e.keyCode === 27 && isOpen ){ // escape key
+        isOpen = false;
+    }
+  }
+  function itemClickHandler(){
+    console.log(this, this.dataset.value);
+    currentValue = this.dataset.value;
+    itemOnClick.call(this);
+    isOpen = false;
+  }
+  onMount(() => {
+    activeDescendant = document.querySelector('#' + activeDescendantID);
+    toBeSelected = activeDescendant;
+  });
 </script>
 
 <style lang="scss">
@@ -41,13 +105,11 @@
         }
         & > ul {
             position: absolute;
-           // display:none;
-            top: 100%;
+            display:none;
+            top: 0;
             left: 0;
             width: 100%;
             background-color: #fff;
-            max-height: 350px;
-            overflow-y: auto;
             z-index: 1;
             padding: 0;
             margin-left: 0;
@@ -61,14 +123,18 @@
                     text-decoration: underline;
                     
                 }
+                &[aria-selected="true"]{
+                    background-color: $blue;
+                    color: #fff;
+                }
 
             }
         }
-        &.isOpen {
+        &.is-open {
             background-color: #296ec3;
             color: #fff;
         }
-        &.isOpen > ul {
+        &.is-open > ul {
             display: block;
             color: #296ec3;
         }
@@ -78,11 +144,11 @@
 <div class="dropdown-outer">
     <label>{label}</label>
     <div class="dropdown-inner">
-        <div class="dropdown" aria-haspopup="listbox" aria-expanded="false" role="button" tabindex="0">
-            <div>currentValue</div>
-            <ul aria-role="listbox" aria-activedescendant=activeItemID>
+        <div on:keydown|preventDefault="{keyHandler}" on:click|stopPropagation="{clickHandler}" class:is-open="{isOpen}" class="dropdown" aria-haspopup="listbox" aria-expanded={isOpen} role="button" tabindex="0">
+            <div>{options.find(d => d.value === currentValue).display}</div>
+            <ul aria-role="listbox" aria-activedescendant="{activeDescendantID}">
             {#each options as option}
-                <li data-value="{option.value}" aria-selected="TODO" aria-role="option" id="dropdown-item-{option.value}">{option.display}</li>
+                <li class:hover="{toBeSelected ? option.value === toBeSelected.dataset.value : false}" on:click|stopPropagation="{itemClickHandler}" data-value="{option.value}" aria-selected="{currentValue === option.value}" aria-role="option" id="dropdown-item-{option.value}">{option.display}</li>
             {/each}
             </ul>
         </div>
