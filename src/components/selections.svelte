@@ -41,7 +41,7 @@
         position: sticky;
         top: 100px;
         padding: 10px 0;
-        background-color: #fff;
+        background-image: linear-gradient(#fff, #fff 90%, rgba(255,255,255,0));
         z-index: 2;
     }
     .selections > div {
