@@ -16,21 +16,36 @@
             anchor.scrollIntoView();
         }
     });
-
+    let scrollY = 0;
     onMount(() => {
-        console.log('hello', document.querySelectorAll('.section-anchor'));
-        function callback(entries, observer){
+        
+        function downwardCallback(entries, observer){
             entries.forEach(entry => {
-                if ( entry.isIntersecting ){
+                var newScrollY = window.pageYOffset;
+                if ( entry.isIntersecting && newScrollY < scrollY ){
                     scrolledToStore.set(entry.target.dataset.key);
                 }
-                console.log(entry.target.id, entry.isIntersecting, observer);
+                scrollY = newScrollY;
             });
         }
-        var observer = new IntersectionObserver(callback);
+        var downwardObserver = new IntersectionObserver(downwardCallback);
         document.querySelectorAll('.section-anchor').forEach(anchor => {
-            console.log(anchor);
-            observer.observe(anchor);
+            downwardObserver.observe(anchor);
+        });
+
+        function upwardCallback(entries, observer){
+            entries.forEach(entry => {
+                console.log(entry, scrollY, window.pageYOffset);
+                var newScrollY = window.pageYOffset;
+                if ( entry.isIntersecting && newScrollY >= scrollY ){ // greater than or equal to trigger on page load to nonzero scroll
+                    scrolledToStore.set(entry.target.dataset.key);
+                }
+                scrollY = newScrollY;
+            });
+        }
+        var upwardObserver = new IntersectionObserver(upwardCallback);
+        document.querySelectorAll('.upward-observer-anchor').forEach(anchor => {
+            upwardObserver.observe(anchor);
         });
     });
 
@@ -60,15 +75,12 @@ section {
     
     a {
         position: absolute;
-        top: calc(100vh - 185px);
-        left: -10px;
-        display: inline-block;
-        width: 10px;
-        //height: calc(100vh - 20px);
-       // outline: 1px solid magenta;
-        border-top: 2px solid magenta;
-        border-bottom: 2px solid cyan;
-        z-index: 10
+        &.section-anchor {
+            top: -185px;
+        }
+        &.upward-observer-anchor {
+            top: calc(100vh - 225px);
+        }
     }
 }
 </style>
@@ -81,6 +93,7 @@ section {
         <div class="dataviz-container">
             <DatavizResolved {indicator} {data} {metadata} />
         </div>
+        <a class="upward-observer-anchor" data-key="{indicator.key}"></a>
     </section>
 {/each}
 
