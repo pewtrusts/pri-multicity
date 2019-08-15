@@ -19,7 +19,6 @@
     
     :global(.graph-container--outer) {
         width: 198px;
-        flex-grow: 1;
         margin-bottom: 50px;    
     }
     :global(.graph-container) {

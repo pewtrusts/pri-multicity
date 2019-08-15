@@ -6,6 +6,7 @@
     import dictionary from './../data/dictionary.json';
     export let groupedData;
     let indicatorFirstValue;
+    let groupSelectorLabel;
 
     let organizeByOptions = [
         {
@@ -43,11 +44,12 @@
         groupByStore.set(this.dataset.value);
         indicatorFirstValue = this.dataset.value;
     }
-    groupByStore.subscribe(() => {
+    groupByStore.subscribe(value => {
         var firstSectionAnchor = document.querySelector('.dataviz-section a.section-anchor');
         if ( firstSectionAnchor ){
             firstSectionAnchor.scrollIntoView();
         }
+        groupSelectorLabel = organizeByOptions.find(d => d.value === value).display;
     });
     onMount(() => {
         typeSelectors.querySelectorAll('input').forEach(input => {
@@ -91,7 +93,7 @@
         <Dropdown label="Organize by:" options="{organizeByOptions}" itemOnClick="{organizeItemOnClick}" />
     </div> 
     <div>
-        <Dropdown label="Indicator:" options="{createOptions(groupedData)}" itemOnClick="{dropdownItemOnClick}" subscribeTo="{scrolledToStore}"  />
+        <Dropdown label="{groupSelectorLabel}:" options="{createOptions(groupedData)}" itemOnClick="{dropdownItemOnClick}" subscribeTo="{scrolledToStore}"  />
     </div>        
     <div bind:this="{typeSelectors}" class="view-type-selectors">
         <div><input type="radio" name="view-type" value="time" id="radio1" checked="true" /><label for="radio1">Over time</label></div>
