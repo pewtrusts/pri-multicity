@@ -48,6 +48,9 @@
         document.querySelectorAll('.upward-observer-anchor').forEach(anchor => {
             upwardObserver.observe(anchor);
         });
+
+
+       
     });
 
 </script>

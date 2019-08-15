@@ -11,7 +11,10 @@ import './../d3-tip.scss';
 console.log(this);
 var svg;
 
+let zScaleDomain = [metadata.minPop, metadata.maxPop];
 const viewBoxHeight = 116;
+const maxRadius = 15;
+const minRadius = 5;
 
 beforeUpdate(() => {
 
@@ -27,8 +30,7 @@ beforeUpdate(() => {
             bottom: 10,
             left: 20
         };
-    const maxRadius = 15;
-    const minRadius = 5;
+    
     const width = 100 - margin.left - margin.right;
     const height = viewBoxHeight - margin.top - margin.bottom;
     const xScale = d3.scaleOrdinal().range([0, width]);
@@ -61,7 +63,7 @@ beforeUpdate(() => {
     const diff = maxValue - minValue;
     yScale.domain([minValue, maxValue]);
     //zScale.domain([metadata[datum.values[0][cityOrIndicator]].minPop, metadata[datum.values[0][cityOrIndicator]].maxPop]); 
-    zScale.domain([metadata.minPop, metadata.maxPop]); // here population sizes are comparable across groups
+    zScale.domain(zScaleDomain); // here population sizes are comparable across groups
     xScale.domain(['Age', 'Race']);
 
     const tip = d3.tip()

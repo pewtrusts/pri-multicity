@@ -14,6 +14,8 @@
         viewType = view;
     });
     
+
+
 </script>
 
 <style lang="scss">

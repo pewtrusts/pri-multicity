@@ -3,7 +3,6 @@
     import Selections from  './components/selections.svelte';
     import Dataviz from  './components/dataviz.svelte';
     import { groupByStore } from './store.js';
-
     export let data; // {nestedByIndicator, nestedByCity}
     export let initialCities;
     export let initialIndicator;
@@ -16,6 +15,8 @@
         groupedData = data[value];
         groupBy = value;
     });
+
+    
     
 </script>
 
@@ -26,7 +27,7 @@
 </style>
 
 <Overview />
-<Selections {groupedData} />
+<Selections {groupedData} {metadata} />
 <div class:by-city="{groupBy === 'nestedByCity'}">
     <Dataviz {groupedData} {initialCities} {metadata} {groupBy} />
 </div>
