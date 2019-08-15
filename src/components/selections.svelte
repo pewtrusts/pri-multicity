@@ -6,6 +6,18 @@
     import dictionary from './../data/dictionary.json';
     export let data;
 
+    let organizeByOptions = [
+        {
+            value: 'indicator',
+            display: 'Indicator',
+            isInitialSelected: true
+        },{
+            value: 'city',
+            display: 'City',
+            isInitialSelected: false
+        }
+    ];
+
     export let typeSelectors;
     
      function createOptions(values){
@@ -62,9 +74,11 @@
 
 <div class="selections">
     <div>
+        <Dropdown label="Organize by:" options="{organizeByOptions}" />
+    </div> 
+    <div>
         <Dropdown label="Indicator:" options="{createOptions(data)}" itemOnClick="{dropdownItemOnClick}" subscribeTo="{scrolledToStore}" />
-    </div>  <!-- different selection types go here -->      
-    <div></div>        
+    </div>        
     <div bind:this="{typeSelectors}" class="view-type-selectors">
         <div><input type="radio" name="view-type" value="time" id="radio1" checked="true" /><label for="radio1">Over time</label></div>
         <div><input type="radio" name="view-type" value="disaggregated" id="radio2" /><label for="radio2">By age and race</label></div>
