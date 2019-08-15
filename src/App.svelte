@@ -10,9 +10,11 @@
     export let metadata;
 
     let groupedData;
+    let groupBy;
 
     groupByStore.subscribe(value => {
         groupedData = data[value];
+        groupBy = value;
     });
     
 </script>
@@ -25,4 +27,6 @@
 
 <Overview />
 <Selections {groupedData} />
-<Dataviz {groupedData} {initialCities} {metadata} />
+<div class:by-city="{groupBy === 'nestedByCity'}">
+    <Dataviz {groupedData} {initialCities} {metadata} />
+</div>
