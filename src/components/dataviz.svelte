@@ -62,6 +62,7 @@
 .dataviz-heading {
     font-size: 1.5em;
     margin-bottom: 0;
+    margin-top: 1em;
     
 }
 .description {
@@ -86,7 +87,7 @@ section {
 </style>
 
 {#each groupedData as group}
-    <section>
+    <section class="dataviz-section">
         <a class="section-anchor" id="anchor-{group.key}" data-key="{group.key}"></a>
         <h2 class="dataviz-heading">{dictionary[group.key] ? dictionary[group.key].label : group.key}</h2>
         <p class="description">{dictionary[group.key] ? dictionary[group.key].desc : ''}</p>

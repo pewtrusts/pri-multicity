@@ -45,7 +45,7 @@
         // parameters / presettings
         const margin = {
             top: 2,
-            right: 2,
+            right: 5,
             bottom: 10,
             left: 20
         };
@@ -87,7 +87,7 @@
         const minValue = metadata[datum.values[0].indicator].minYear;
         const maxValue = metadata[datum.values[0].indicator].maxYear;
         const diff = maxValue - minValue;
-        yScale.domain([minValue - 0.1 * diff, maxValue]);
+        yScale.domain([minValue - 0 * diff, maxValue]);
         
 
         const $svg = d3.select(svg);
@@ -110,14 +110,14 @@
 
         //render x-axis
         const xAxis = $svg.append('g')
-          .attr('transform', `translate(${margin.left}, ${height})`)
+          .attr('transform', `translate(${margin.left}, ${height + 1})`)
           .attr('class', 'axis x-axis')
           .call(d3.axisBottom(xScale).tickSizeInner(0).tickSizeOuter(0).tickPadding(4).tickValues([data[firstNonNullIndex(data)].year, data[data.length - 1].year]));
 
         //render y-axis
         const yAxis = $svg.append('g')
             .attr('class', 'axis y-axis')
-            .attr('transform', `translate(${margin.left}, ${margin.top})`)
+            .attr('transform', `translate(${margin.left + 3}, ${margin.top})`)
             .call(d3.axisLeft(yScale).tickSizeInner(0).tickSizeOuter(0).tickPadding(4).ticks(6, numberFormat));//.tickFormat(d3.format(numberFormat)));
 
 
@@ -175,11 +175,12 @@
 
 <style lang="scss">
     @import './../variables.scss';
-    .svg-container {
+    :global(.svg-container) {
         position: relative;
         width: 100%;
         height: 0;
         padding-bottom: 116%;
+        top: 40px;
         svg {
             position: absolute;
         }

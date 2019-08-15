@@ -43,7 +43,12 @@
         groupByStore.set(this.dataset.value);
         indicatorFirstValue = this.dataset.value;
     }
-
+    groupByStore.subscribe(() => {
+        var firstSectionAnchor = document.querySelector('.dataviz-section a.section-anchor');
+        if ( firstSectionAnchor ){
+            firstSectionAnchor.scrollIntoView();
+        }
+    });
     onMount(() => {
         typeSelectors.querySelectorAll('input').forEach(input => {
             input.addEventListener('change', changeHandler);
@@ -74,6 +79,10 @@
             position: relative;
             top: .125em;
         }
+    }
+    .selections-anchor {
+        position: absolute;
+        top: -185px;
     } 
 </style>
 

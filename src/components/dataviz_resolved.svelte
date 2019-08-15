@@ -25,13 +25,15 @@
     :global(.graph-container) {
         width: 100%;
         height: 0;
-        padding-bottom: 131%;
+        padding-bottom: calc(131% + 20px);
+        position: relative;
         :global(h3) {
             font-size: 16px;
             width: 100%;
             text-align: center;      
             font-weight: 900;
             padding-left: 20%;
+            position: absolute;
         }
     }
     :global(.graph-container--outer .y-axis) {
@@ -48,6 +50,7 @@
     :global(.by-city .graph-container--outer .y-axis){
         display: inline;
     }
+
 </style>
 
 {#each match.values as d}

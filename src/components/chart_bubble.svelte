@@ -16,12 +16,12 @@ onMount(() => {
 
 
     // parameters / presettings
-    const margin = {
-        top: 2,
-        right: 2,
-        bottom: 10,
-        left: 20
-    };
+        const margin = {
+            top: 2,
+            right: 5,
+            bottom: 10,
+            left: 20
+        };
     const maxRadius = 15;
     const minRadius = 5;
     const width = 100 - margin.left - margin.right;
@@ -73,7 +73,7 @@ onMount(() => {
 
     //render x-axis
     const xAxis = $svg.append('g')
-        .attr('transform', `translate(${margin.left}, ${height})`)
+        .attr('transform', `translate(${margin.left}, ${height + 2})`)
         .attr('class', 'axis x-axis categorical')
         .call(d3.axisBottom(xScale).tickSizeInner(0).tickSizeOuter(0).tickPadding(4));
 
@@ -81,7 +81,7 @@ onMount(() => {
     //render y-axis
     const yAxis = $svg.append('g')
         .attr('class', 'axis y-axis')
-        .attr('transform', `translate(${margin.left}, ${margin.top})`)
+        .attr('transform', `translate(${margin.left + 3}, ${margin.top})`)
         .call(d3.axisLeft(yScale).tickSizeInner(0).tickSizeOuter(0).tickPadding(4).ticks(6, numberFormat)); //.tickFormat(d3.format(numberFormat)));
 
     /*const tip = d3.tip()
