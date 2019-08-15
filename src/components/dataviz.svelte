@@ -8,6 +8,7 @@
     export let initialIndicator;
     export let groupedData;
     export let metadata
+    export let groupBy;
 
 
     inViewSectionStore.subscribe(section => {
@@ -92,7 +93,7 @@ section {
         <h2 class="dataviz-heading">{dictionary[group.key] ? dictionary[group.key].label : group.key}</h2>
         <p class="description">{dictionary[group.key] ? dictionary[group.key].desc : ''}</p>
         <div class="dataviz-container">
-            <DatavizResolved {group} {groupedData} {metadata} />
+            <DatavizResolved {group} {groupedData} {metadata} {groupBy} />
         </div>
         <a class="upward-observer-anchor" data-key="{group.key}"></a>
     </section>

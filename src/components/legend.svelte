@@ -1,42 +1,33 @@
 <script>
-import { beforeUpdate } from 'svelte';
 import d3 from './../d3-importer.js';
-import dictionary from './../data/dictionary.json';
-export var datum;
 export let metadata;
-export let groupBy;
-console.log(groupBy);
-$: cityOrIndicator = groupBy === 'nestedByCity' ? 'city' : 'indicator';
-import './../d3-tip.scss';
-console.log(this);
+export let maxRadius;
+export let minRadius;
+export let chartViewport;
+
+let viewBoxHeight = 75;
+
 var svg;
 
-const viewBoxHeight = 116;
+onMount(() => {
 
-beforeUpdate(() => {
 
-    if ( svg ){
-        svg.innerHTML = '';
-    }
 
 
     // parameters / presettings
-        const margin = {
-            top: 2,
-            right: 5,
-            bottom: 10,
-            left: 20
-        };
-    const maxRadius = 15;
-    const minRadius = 5;
+    const margin = {
+        top: 2,
+        right: 5,
+        bottom: 10,
+        left: 5
+    };
+    
     const width = 100 - margin.left - margin.right;
     const height = viewBoxHeight - margin.top - margin.bottom;
-    const xScale = d3.scaleOrdinal().range([0, width]);
-    const yScale = d3.scaleLinear().range([height - maxRadius, maxRadius]);
     const zScale = d3.scaleSqrt().range([minRadius, maxRadius]);
     const data = [
-        [{ colorIndex: 0, percent: datum.values[0].age1, absolute: datum.values[0].age1_a, key: 'age1' }, { colorIndex: 1, percent: datum.values[0].age2, absolute: datum.values[0].age2_a, key: 'age2' }, { colorIndex: 2, percent: datum.values[0].age3, absolute: datum.values[0].age3_a, key: 'age3' }],
-        [{ colorIndex: 0, percent: datum.values[0].race1, absolute: datum.values[0].race1_a, key: 'race1' }, { colorIndex: 1, percent: datum.values[0].race2, absolute: datum.values[0].race2_a, key: 'race2' }, { colorIndex: 2, percent: datum.values[0].race3, absolute: datum.values[0].race3_a, key: 'race3' }, { colorIndex: 3, percent: datum.values[0].race4, absolute: datum.values[0].race4_a, key: 'race4' }]
+        [{ percent: datum.values[0].age1, absolute: datum.values[0].age1_a, key: 'age1' }, { percent: datum.values[0].age2, absolute: datum.values[0].age2_a, key: 'age2' }, { percent: datum.values[0].age3, absolute: datum.values[0].age3_a, key: 'age3' }],
+        [{ percent: datum.values[0].race1, absolute: datum.values[0].race1_a, key: 'race1' }, { percent: datum.values[0].race2, absolute: datum.values[0].race2_a, key: 'race2' }, { percent: datum.values[0].race3, absolute: datum.values[0].race3_a, key: 'race3' }, { percent: datum.values[0].race4, absolute: datum.values[0].race4_a, key: 'race4' }]
     ];
     console.log(data);
     const locale = d3.formatLocale({
@@ -60,8 +51,7 @@ beforeUpdate(() => {
     const maxValue = d3.max([metadata[datum.values[0].indicator].maxAge, metadata[datum.values[0].indicator].maxRace]);
     const diff = maxValue - minValue;
     yScale.domain([minValue, maxValue]);
-    //zScale.domain([metadata[datum.values[0][cityOrIndicator]].minPop, metadata[datum.values[0][cityOrIndicator]].maxPop]); 
-    zScale.domain([metadata.minPop, metadata.maxPop]); // here population sizes are comparable across groups
+    zScale.domain([metadata[datum.values[0].indicator].minPop, metadata[datum.values[0].indicator].maxPop]);
     xScale.domain(['Age', 'Race']);
 
     const tip = d3.tip()
@@ -69,7 +59,7 @@ beforeUpdate(() => {
         
         .html((d, i) => {
             return d.sort((a, b) => d3.descending(a.percent, b.percent)).reduce((acc, cur, j) => {
-                return acc + `<p class="${ i === j ? 'isHighlighted' : ''} ${'tooltip-p tooltip-color-' + cur.colorIndex}""><span>${dictionary[cur.key]}</span><br />${d3.format(numberFormat)(cur.percent)} 
+                return acc + `<p class="${ i === j ? 'isHighlighted' : ''} ${'tooltip-p tooltip-color-' + j}""><span>${dictionary[cur.key]}</span><br />${d3.format(numberFormat)(cur.percent)} 
                                  (${ cur.absolute ? d3.format(',.0f')(cur.absolute) + ' ppl' : 'size n/a'})</p>`;
             }, '')
         });
@@ -116,7 +106,7 @@ beforeUpdate(() => {
                 .selectAll('.data-group')
                 .data(d => {
                     console.log(d);
-                    return d.sort((a, b) => d3.descending(a.percent, b.percent));
+                    return d.sort((a, b) => d3.descending(a.absolute, b.absolute));
                 })
                 .enter().append('g')
                 .attr('class', 'data-group')
@@ -131,7 +121,7 @@ beforeUpdate(() => {
                     }
                     return minRadius / 2;
                 })
-                .attr('class', d => 'bubble color' + d.colorIndex)
+                .attr('class', (d, j) => 'bubble color' + j)
                 .classed('absolute-undefined', d => d.absolute === null)
                 .call(tip)
                 .on('mouseover', function(d,i){
@@ -363,6 +353,6 @@ beforeUpdate(() => {
 }
 </style>
 <div class="svg-container">
-    <svg bind:this={svg} width="100%" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 100 {viewBoxHeight}">
+    <svg bind:this={svg} width="100%" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 308 {viewBoxHeight}">
     </svg>
 </div>

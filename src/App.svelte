@@ -28,5 +28,5 @@
 <Overview />
 <Selections {groupedData} />
 <div class:by-city="{groupBy === 'nestedByCity'}">
-    <Dataviz {groupedData} {initialCities} {metadata} />
+    <Dataviz {groupedData} {initialCities} {metadata} {groupBy} />
 </div>

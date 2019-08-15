@@ -6,6 +6,7 @@
     export let group;
     export let groupedData;
     export let metadata;
+    export let groupBy;
     let viewType;
     console.log(group);
     $: match = groupedData.find(d => d.key === group.key);
@@ -59,7 +60,7 @@
         {#if viewType === 'time'}
         <TimeChart datum={d} {metadata} />
         {:else}
-        <BubbleChart datum={d} {metadata} />
+        <BubbleChart datum={d} {metadata} {groupBy} />
         {/if}
     </div>
 </div>

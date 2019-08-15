@@ -23,22 +23,28 @@ if ( process.env.NODE_ENV === 'production' ) { // production build needs to know
 function summarizeData(data){
     data.forEach((d,i,array) => {
         metadata[d.indicator] = metadata[d.indicator] || {};
+        metadata[d.city] = metadata[d.city] || {};
 
         //put values from all years into one array
         var years = d3.range(metadata.startYear, metadata.stopYear).concat(metadata.stopYear);
         metadata[d.indicator].yearValues = metadata[d.indicator].yearValues ? metadata[d.indicator].yearValues.concat(years.map(x => d[x])) : years.map(x => d[x]);
+        metadata[d.city].yearValues = metadata[d.city].yearValues ? metadata[d.city].yearValues.concat(years.map(x => d[x])) : years.map(x => d[x]);
         // same for race
         var races = Object.keys(d).filter(key => key.match(/race\d$/));
         metadata[d.indicator].raceValues = metadata[d.indicator].raceValues ? metadata[d.indicator].raceValues.concat(races.map(x => d[x])) : races.map(x => d[x]);
+        metadata[d.city].raceValues = metadata[d.city].raceValues ? metadata[d.city].raceValues.concat(races.map(x => d[x])) : races.map(x => d[x]);
         // same for age
         var ages = Object.keys(d).filter(key => key.match(/age\d$/));
         metadata[d.indicator].ageValues = metadata[d.indicator].ageValues ? metadata[d.indicator].ageValues.concat(ages.map(x => d[x])) : ages.map(x => d[x]);
+        metadata[d.city].ageValues = metadata[d.city].ageValues ? metadata[d.city].ageValues.concat(ages.map(x => d[x])) : ages.map(x => d[x]);
         // same for raceA
         var racesA = Object.keys(d).filter(key => key.match(/race\d_a/));
         metadata[d.indicator].raceValuesA = metadata[d.indicator].raceValuesA ? metadata[d.indicator].raceValuesA.concat(racesA.map(x => d[x])) : racesA.map(x => d[x]);
+        metadata[d.city].raceValuesA = metadata[d.city].raceValuesA ? metadata[d.city].raceValuesA.concat(racesA.map(x => d[x])) : racesA.map(x => d[x]);
         // same for ageA
         var agesA = Object.keys(d).filter(key => key.match(/age\d_a/));
         metadata[d.indicator].ageValuesA = metadata[d.indicator].ageValuesA ? metadata[d.indicator].ageValuesA.concat(agesA.map(x => d[x])) : agesA.map(x => d[x]);
+        metadata[d.city].ageValuesA = metadata[d.city].ageValuesA ? metadata[d.city].ageValuesA.concat(agesA.map(x => d[x])) : agesA.map(x => d[x]);
     });
     for ( let key in metadata ) {
         if ( !key.match(/start|stop/)) {
@@ -53,6 +59,15 @@ function summarizeData(data){
 
         }
     }
+    var minPops = [], maxPops = [];
+    for ( let key in metadata ){
+        if ( !key.match(/start|stop/)) {
+           minPops.push(metadata[key].minPop); 
+           maxPops.push(metadata[key].maxPop); 
+        }   
+    }
+    metadata.minPop = d3.min(minPops);
+    metadata.maxPop = d3.max(maxPops);
 }
 function getData(resolve, reject){
     Papa.parse(publicPath + data, {
