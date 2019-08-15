@@ -6,7 +6,7 @@
     import { onMount } from 'svelte';
     export let initialCities;
     export let initialIndicator;
-    export let data;
+    export let groupedData;
     export let metadata
 
 
@@ -85,15 +85,15 @@ section {
 }
 </style>
 
-{#each data as indicator}
+{#each groupedData as group}
     <section>
-        <a class="section-anchor" id="anchor-{indicator.key}" data-key="{indicator.key}"></a>
-        <h2 class="dataviz-heading">{dictionary[indicator.key].label}</h2>
-        <p class="description">{dictionary[indicator.key].desc}</p>
+        <a class="section-anchor" id="anchor-{group.key}" data-key="{group.key}"></a>
+        <h2 class="dataviz-heading">{dictionary[group.key] ? dictionary[group.key].label : group.key}</h2>
+        <p class="description">{dictionary[group.key] ? dictionary[group.key].desc : ''}</p>
         <div class="dataviz-container">
-            <DatavizResolved {indicator} {data} {metadata} />
+            <DatavizResolved {group} {groupedData} {metadata} />
         </div>
-        <a class="upward-observer-anchor" data-key="{indicator.key}"></a>
+        <a class="upward-observer-anchor" data-key="{group.key}"></a>
     </section>
 {/each}
 

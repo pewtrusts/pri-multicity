@@ -2,11 +2,18 @@
     import Overview from './components/overview.svelte';
     import Selections from  './components/selections.svelte';
     import Dataviz from  './components/dataviz.svelte';
-    //import { afterUpdate } from 'svelte';
-    export let data;
+    import { groupByStore } from './store.js';
+
+    export let data; // {nestedByIndicator, nestedByCity}
     export let initialCities;
     export let initialIndicator;
     export let metadata;
+
+    let groupedData;
+
+    groupByStore.subscribe(value => {
+        groupedData = data[value];
+    });
     
 </script>
 
@@ -17,5 +24,5 @@
 </style>
 
 <Overview />
-<Selections {data} />
-<Dataviz {data} {initialCities} {metadata} />
+<Selections {groupedData} />
+<Dataviz {groupedData} {initialCities} {metadata} />

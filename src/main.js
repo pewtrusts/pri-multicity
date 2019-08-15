@@ -59,11 +59,9 @@ function getData(resolve, reject){
         complete: function(results){
             summarizeData(results.data);
             console.log(metadata);
-            var nested = d3.nest().key(d => d.indicator).key(d => d.city).entries(results.data);
-            setTimeout(() => {
-                resolve(nested);
-                console.log(nested);
-            });
+            var nestedByIndicator = d3.nest().key(d => d.indicator).key(d => d.city).entries(results.data);
+            var nestedByCity = d3.nest().key(d => d.city).key(d => d.indicator).entries(results.data);
+            resolve({nestedByIndicator,nestedByCity});
         },
         download: true,
         dynamicTyping: true,

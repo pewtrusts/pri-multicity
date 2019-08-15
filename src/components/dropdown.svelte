@@ -1,5 +1,5 @@
 <script>
-  import { onMount } from 'svelte';
+  import { onMount, beforeUpdate } from 'svelte';
   export let label;
   export let options;
   export let currentValue; // can be passed in as a prop or not. if not, the value will be undefined and markup below will use first option instead
@@ -8,9 +8,10 @@
 
   //to do: pass in an onsubscribe 
 
-  currentValue = currentValue || options[0].value;
+  $: currentValue = currentValue || options[0].value;
   $: activeDescendantID = 'dropdown-item-' + currentValue;
   $: activeDescendant = document.querySelector('#' + activeDescendantID);
+  $: currentDisplay = options.find(d => d.value === currentValue) ? options.find(d => d.value === currentValue).display : options[0].display;
   itemOnClick = itemOnClick || function(){
     console.log('no itemOnClick prop');
     return;
@@ -161,7 +162,7 @@
     <label>{label}</label>
     <div class="dropdown-inner">
         <div on:keydown|preventDefault="{keyHandler}" on:click|stopPropagation="{clickHandler}" class:is-open="{isOpen}" class="dropdown" aria-haspopup="listbox" aria-expanded={isOpen} role="button" tabindex="0">
-            <div>{options.find(d => d.value === currentValue).display}</div>
+            <div>{currentDisplay}</div>
             <ul aria-role="listbox" aria-activedescendant="{activeDescendantID}">
             {#each options as option}
                 <li class:hover="{toBeSelected ? option.value === toBeSelected.dataset.value : false}" on:click|stopPropagation="{itemClickHandler}" data-value="{option.value}" aria-selected="{currentValue === option.value}" aria-role="option" id="dropdown-item-{option.value}">{option.display}</li>

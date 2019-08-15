@@ -1,18 +1,19 @@
-<script lang>
+<script>
     import { onMount } from 'svelte';
-    import { viewTypeStore, inViewSectionStore, scrolledToStore } from './../store.js';
+    import { viewTypeStore, inViewSectionStore, scrolledToStore, groupByStore } from './../store.js';
     import Loading from './loading.svelte';
     import Dropdown from './dropdown.svelte';
     import dictionary from './../data/dictionary.json';
-    export let data;
+    export let groupedData;
+    let indicatorFirstValue;
 
     let organizeByOptions = [
         {
-            value: 'indicator',
+            value: 'nestedByIndicator',
             display: 'Indicator',
             isInitialSelected: true
         },{
-            value: 'city',
+            value: 'nestedByCity',
             display: 'City',
             isInitialSelected: false
         }
@@ -20,23 +21,27 @@
 
     export let typeSelectors;
     
-     function createOptions(values){
+    function createOptions(values){
         return values.map((value, i) => {
             return {
                 value: value.key,
-                display: dictionary[value.key].label,
+                display: dictionary[value.key] ? dictionary[value.key].label : value.key,
                 isInitialSelected: i === 0
             };
         });
     }
 
-    function dropdownItemOnClick(e){
-        console.log(e);
+    function dropdownItemOnClick(){
         inViewSectionStore.set(this.dataset.value);
     }
 
     function changeHandler(e){
         viewTypeStore.set(e.target.value)
+    }
+
+    function organizeItemOnClick(){
+        groupByStore.set(this.dataset.value);
+        indicatorFirstValue = this.dataset.value;
     }
 
     onMount(() => {
@@ -74,10 +79,10 @@
 
 <div class="selections">
     <div>
-        <Dropdown label="Organize by:" options="{organizeByOptions}" />
+        <Dropdown label="Organize by:" options="{organizeByOptions}" itemOnClick="{organizeItemOnClick}" />
     </div> 
     <div>
-        <Dropdown label="Indicator:" options="{createOptions(data)}" itemOnClick="{dropdownItemOnClick}" subscribeTo="{scrolledToStore}" />
+        <Dropdown label="Indicator:" options="{createOptions(groupedData)}" itemOnClick="{dropdownItemOnClick}" subscribeTo="{scrolledToStore}"  />
     </div>        
     <div bind:this="{typeSelectors}" class="view-type-selectors">
         <div><input type="radio" name="view-type" value="time" id="radio1" checked="true" /><label for="radio1">Over time</label></div>

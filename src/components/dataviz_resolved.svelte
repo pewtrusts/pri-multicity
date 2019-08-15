@@ -2,12 +2,12 @@
     import TimeChart from './chart_time.svelte';
     import BubbleChart from './chart_bubble.svelte';
     import { viewTypeStore } from './../store.js';
-    export let indicator;
-    export let data;
+    export let group;
+    export let groupedData;
     export let metadata;
     let viewType;
-    console.log(indicator);
-    let match = data.find(d => d.key === indicator.key);
+    console.log(group);
+    let match = groupedData.find(d => d.key === group.key);
     viewTypeStore.subscribe(view => {
         viewType = view;
     });
