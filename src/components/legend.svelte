@@ -1,11 +1,12 @@
 <script>
 import d3 from './../d3-importer.js';
 import { onMount } from 'svelte';
+import { viewTypeStore } from './../store.js';
 export let metadata;
 export let maxRadius;
 export let minRadius;
 
-
+let viewType;
 
 function convertToMagnitude(n) {
     var order = Math.round(Math.log(n) / Math.LN10
@@ -23,6 +24,10 @@ let margin = {
     left: 2
 };
 let svg;
+
+viewTypeStore.subscribe(value => {
+    viewType = value;
+});
 
 onMount(() => {
     
@@ -52,18 +57,44 @@ onMount(() => {
 
 <style lang="scss">
     @import './../variables.scss';
-    .legend{
+    .hide {
+        display: none;
+    }
+    .legend-container {
         position: fixed;
-        background-color: #fff;
-        padding:5px;
-        bottom: 0;
-        right: 0;
+        bottom:10px;
+        left: 0;
+        width: 100%;
+    }
+    .legend-container-inner {
+        position: relative;
+        width: 100%        ;
+        max-width: 990px;
+        margin: 0 auto;
         display: flex;
-        border: 1px solid $blue;
+        justify-content: flex-end;
+    }
+    .legend-container-wrapper {
+        display: inline-block;
+        border: 2px solid $blue;
+        background-color: #fff;
+        h2 {
+            font-size: 1.5em;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 0;
+        }
+    }
+    .legend {
+
+        padding:5px;
+        display: flex;
         .color-codes {
             display: flex;
             flex-direction: column;
         }
+
+
     }
     .population-legend {
         width: 62px;
@@ -121,7 +152,12 @@ onMount(() => {
     }
 
 </style>
-<div class="legend">
+
+<div class:hide="{ viewType === 'time' }" class="legend-container">
+<div class="legend-container-inner">
+<div class="legend-container-wrapper">
+    <h2>Legend</h2>
+    <div class="legend">
     <div class="color-codes">
         <div>
             <h3>Age:</h3>
@@ -143,5 +179,6 @@ onMount(() => {
     </div>
     <svg class="population-legend" bind:this={svg} width="100%" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 {100/3.19} {viewBoxHeight}"></svg>
 </div>
-    
-
+</div>
+</div>
+</div>
