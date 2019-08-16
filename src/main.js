@@ -13,13 +13,13 @@ const metadata = {
     startYear: 2007,
     stopYear: 2017
 };
-
+/*
 var publicPath = '';
 if ( process.env.NODE_ENV === 'production' ) { // production build needs to know the public path of assets
                                                // for dev and preview, assets are a child of root; for build they
                                                // are in some distant path on sitecore
     publicPath = PUBLICPATH; 
-}
+}*/
 function summarizeData(data){
     data.forEach((d,i,array) => {
         metadata[d.indicator] = metadata[d.indicator] || {};
@@ -70,7 +70,7 @@ function summarizeData(data){
     metadata.maxPop = d3.max(maxPops);
 }
 function getData(resolve, reject){
-    Papa.parse(publicPath + data, {
+    Papa.parse(PUBLICPATH + data, {
         complete: function(results){
             summarizeData(results.data);
             console.log(metadata);

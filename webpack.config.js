@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -9,7 +10,9 @@ const path = require('path');
 const outputFolder = process.env.NODE_ENV === 'preview' ? 'docs/' : process.env.NODE_ENV === 'localpreview' ? 'preview/' : 'dist/';
 const isDev = mode === 'development';
 const isProd = process.env.NODE_ENV === 'production';
+
 const repoName = 'svelte-webpack-template';
+const publicPath = isProd ? '/~/media/data-visualizations/interactives/2019/multicity/' : '';
 
 console.log(sass);
 
@@ -52,7 +55,10 @@ const plugins = [
     }),
     new MiniCssExtractPlugin({
         filename: '[name].css'
-    })
+    }),
+    new webpack.DefinePlugin({
+        'PUBLICPATH': '"' + publicPath + '"', // from https://webpack.js.org/plugins/define-plugin/: Note that because the plugin does a direct text replacement, the value given to it must include actual quotes inside of the string itself. Typically, this is done either with alternate quotes, such as '"production"', or by using JSON.stringify('production').
+    }),
 ];
 
 if (!isProd) {
