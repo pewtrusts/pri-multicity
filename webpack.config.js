@@ -72,7 +72,8 @@ module.exports = env => {
         },
         resolve: {
             alias: {
-                svelte: path.resolve('node_modules', 'svelte')
+                svelte: path.resolve('node_modules', 'svelte'),
+                "@Submodule": path.resolve('submodules')
             },
             extensions: ['.mjs', '.js', '.svelte'],
             mainFields: ['svelte', 'browser', 'module', 'main']

@@ -3,7 +3,7 @@
     import { viewTypeStore, inViewSectionStore, scrolledToStore, groupByStore } from './../store.js';
     import Loading from './loading.svelte';
     import Legend from './legend.svelte';
-    import Dropdown from './dropdown.svelte';
+    import UISvelte from '@Submodule/UI-svelte/';
     import dictionary from './../data/dictionary.json';
     export let groupedData;
     export let metadata;
@@ -94,10 +94,10 @@
 
 <div class="selections">
     <div>
-        <Dropdown label="Organize by:" options="{organizeByOptions}" itemOnClick="{organizeItemOnClick}" />
+        <UISvelte.dropdown label="Organize by:" options="{organizeByOptions}" itemOnClick="{organizeItemOnClick}" />
     </div> 
     <div>
-        <Dropdown label="{groupSelectorLabel}:" options="{createOptions(groupedData)}" itemOnClick="{dropdownItemOnClick}" subscribeTo="{scrolledToStore}"  />
+        <UISvelte.dropdown label="{groupSelectorLabel}:" options="{createOptions(groupedData)}" itemOnClick="{dropdownItemOnClick}" subscribeTo="{scrolledToStore}"  />
     </div>        
     <div bind:this="{typeSelectors}" class="view-type-selectors">
         <div><input type="radio" name="view-type" value="time" id="radio1" checked="true" /><label for="radio1">Over time</label></div>

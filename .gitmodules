@@ -1,0 +1,3 @@
+[submodule "submodules/UI-svelte"]
+	path = submodules/UI-svelte
+	url = git@github.com:jostermanAtPEW/UI-svelte.git
