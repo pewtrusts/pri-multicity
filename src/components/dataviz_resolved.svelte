@@ -60,7 +60,7 @@
     <div class="graph-container">
         <h3>{dictionary[d.key] ? dictionary[d.key].label : d.key}</h3>
         {#if viewType === 'time'}
-        <TimeChart datum={d} {metadata} />
+        <TimeChart datum={d} {metadata} group="{group.key}" />
         {:else}
         <BubbleChart datum={d} {metadata} {groupBy} />
         {/if}

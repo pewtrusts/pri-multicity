@@ -6,6 +6,7 @@
     export var datum;
     export let metadata;
     export let initialViewType;
+    export let group;
     import './../d3-tip.scss';
     var svg;
     
@@ -139,8 +140,24 @@
 
         chart.selectAll('.value-point')
             .data(data.slice(firstNonNullIndex(data)))
-            .enter().append('rect')
+            .enter().append('circle')
             .attr('class', 'value-point')
+            .attr('tabindex', 0)
+            .attr('data-id', (d,i) => `${group}-${datum.key}-${i}`)
+            .attr('r', 2)
+            .attr('cx', d => xScale(d.year))
+            .attr('cy', d => yScale(d.value))
+            .on('focus', function(){
+                var node = d3.select('#rect-' + this.dataset.id).node();
+                console.log(node);
+                node.dispatchEvent(new MouseEvent('mouseover'));
+            });
+
+        chart.selectAll('.value-proxy-rect')
+            .data(data.slice(firstNonNullIndex(data)))
+            .enter().append('rect')
+            .attr('id', (d,i) => `rect-${group}-${datum.key}-${i}`)
+            .attr('class', 'value-proxy-rect')
             .attr('width', 8)
             .attr('height', 2 * viewBoxHeight)
             .attr('x', d => xScale(d.year) - 4)
@@ -149,24 +166,6 @@
             .on('mouseover', tip.show)
             .on('mouseout', tip.hide);
 
-        //render OLD point to poiunt trendline
-       /* chart.append('path')
-            .datum([data[firstNonNullIndex(data)], data[data.length - 1]])
-            .attr('class', 'line trendline')
-            .attr('d', valueline);
-
-        
-
-        //render markers
-        chart.selectAll('.trend-point')
-            .data([data[firstNonNullIndex(data)], data[data.length - 1]])
-            .enter().append('circle')
-            .attr('class', 'trend-point')
-            .attr('r', 2)
-            .attr('cx', d => xScale(d.year))
-            .attr('cy', d => yScale(d.value));
-*/
-    
 
     }); // end onMount
 
@@ -225,10 +224,10 @@
     :global(.y-axis path) {
        display: none;
     }
-    :global(.trend-point) {
-        fill: $blue;
+    :global(.value-point){
+        stroke: magenta;
     }
-    :global(.value-point) {
+    :global(.value-proxy-rect) {
         fill: rgba(255,255,255,0);
         
     }
