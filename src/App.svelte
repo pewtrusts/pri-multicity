@@ -23,11 +23,14 @@
 <style>
     :global(.wire), :global(.wire) * {
         outline: 1px solid magenta;
-    }   
+    }  
+    .dataviz-wrapper {
+        position: relative;
+    }
 </style>
 
 <Overview />
 <Selections {groupedData} {metadata} />
-<div class:by-city="{groupBy === 'nestedByCity'}">
+<div class="dataviz-wrapper" class:by-city="{groupBy === 'nestedByCity'}">
     <Dataviz {groupedData} {initialCities} {metadata} {groupBy} />
 </div>

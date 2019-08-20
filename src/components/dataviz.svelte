@@ -2,14 +2,20 @@
     import dictionary from './../data/dictionary.json';
     import DatavizWaiting from './dataviz_waiting.svelte';
     import DatavizResolved from './dataviz_resolved.svelte';
-    import { inViewSectionStore, scrolledToStore } from './../store.js';
+    import { inViewSectionStore, scrolledToStore, viewTypeStore } from './../store.js';
     import { onMount } from 'svelte';
+    import trendlineSVG from 'file-loader!./dataviz--trendline.svg';
     export let initialCities;
     export let initialIndicator;
     export let groupedData;
     export let metadata
     export let groupBy;
 
+    let viewType;
+
+    viewTypeStore.subscribe(view => {
+        viewType = view;
+    });
 
     inViewSectionStore.subscribe(section => {
         var anchor = document.getElementById('anchor-' + section);
@@ -88,8 +94,26 @@ section {
         }
     }
 }
+
+.trendline-key {
+    position: absolute;
+    top: 0;
+    right: 0;
+    img {
+        bottom: 3px;
+        position: relative;
+    }
+    @media screen and (max-width: 360px){
+        position: relative;
+    }
+}
 </style>
 
+{#if viewType === 'time'}
+<div class="trendline-key">
+    <p><img src="{trendlineSVG}" alt="blue line equals best fit trend line" /> = best fit trend line</p>
+</div>
+{/if}
 {#each groupedData as group}
     <section class="dataviz-section">
         <a class="section-anchor" id="anchor-{group.key}" data-key="{group.key}"></a>
