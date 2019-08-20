@@ -2,11 +2,13 @@
 import d3 from './../d3-importer.js';
 import { onMount } from 'svelte';
 import { viewTypeStore } from './../store.js';
+import UISvelte from '@Submodule/UI-svelte/';
 export let metadata;
 export let maxRadius;
 export let minRadius;
 
 let viewType;
+let isClosed = false;
 
 function convertToMagnitude(n) {
     var order = Math.round(Math.log(n) / Math.LN10 +
@@ -53,6 +55,11 @@ onMount(() => {
 
 
 }); // end onMount
+
+function clickHandler(e){
+    console.log(e);
+    isClosed = !isClosed;
+}
 </script>
 <style lang="scss">
 @import './../variables.scss';
@@ -63,62 +70,71 @@ onMount(() => {
 
 .legend-container {
     position: fixed;
-    bottom: 10px;
+    bottom: 0;
     left: 0;
     width: 100%;
+    padding-bottom: 10px;
+    transform: translateY(0);
+    transition: transform 0.2s ease-in-out;
+    border-top: 2px solid $blue;
+    background-color: #fff;
+    &.isClosed {
+        transform: translateY(100%);
+    }
 }
 
 .legend-container-inner {
     position: relative;
     width: 100%;
-    max-width: 990px;
+    max-width: 1030px;
     margin: 0 auto;
     display: flex;
     justify-content: flex-end;
 }
 
 .legend-container-wrapper {
+    width: 100%;
     display: flex;
-    //flex-wrap: wrap;
-    border: 2px solid $blue;
-    background-color: #fff;
-    padding: 0.5em;
-    margin: 0 0.5em;
-    > div {
+    justify-content: space-around;
+    padding: 0.5em 20px 0;
+    
+    > div:first-child {
         display: flex;
         flex-direction: column;
+        flex-grow: 1;
         justify-content: space-between;
         h2 {
             font-size: 1.5em;
             text-align: left;
-            margin-bottom: 10px;
+            margin-bottom: 0;
         }
     }
 }
 
 .legend {
 
-    padding: 5px;
     display: flex;
 
     .color-codes {
         display: flex;
         align-items: flex-end;
         flex-wrap: wrap;
+        flex-grow: 1;
+        justify-content: space-between;
 
 
         > div {
             display: flex;
             min-width: 130px;
             flex-grow: 1;
-            margin-bottom: 0.5em;
+            margin-top: 0.75em;
+            
 
 
             h3 {
                 display: inline-block;
                 margin-right: 0.5em;
-                min-width: 40px;
-                text-align: right;
+                
             }
         }
 
@@ -130,11 +146,12 @@ onMount(() => {
 
 
 }
-
+.legend-svg-container {
+    flex-grow: 1;
+}
 .population-legend {
     width: 62px;
-    flex-grow: 0;
-    flex-shrink: 0;
+   
 
     :global(circle) {
         fill: none;
@@ -197,12 +214,32 @@ li {
     }
 
 }
+.x-out-container {
+    display: inline-block;
+    top: 15px;
+    position: relative;
+}
+.show-legend {
+    color: $dark_blue;
+    position: absolute;
+    top: -34px;
+    left: 5px;
+    padding: 0.5em;
+    border: 2px solid $blue;
+    margin: 0;
+    overflow: visible;
+    color: inherit;
+    font: inherit;
+    line-height: normal;
+}
 </style>
-<div class:hide="{ viewType === 'time' }" class="legend-container">
+<div class:isClosed="{isClosed}" class:hide="{ viewType === 'time' }" class="legend-container">
     <div class="legend-container-inner">
         <div class="legend-container-wrapper">
             <div>
-                <h2>Legend</h2>
+                <h2 on:click="{clickHandler}">Legend <div class="x-out-container">
+                <UISvelte.xOut />
+            </div></h2>
                 <div class="legend">
                     <div class="color-codes">
                         <div>
@@ -225,7 +262,12 @@ li {
                     </div>
                 </div>
             </div>
-            <svg class="population-legend" bind:this={svg} width="100%" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 {100/3.19} {viewBoxHeight}"></svg>
+            <div class="legend-svg-container">
+                <svg class="population-legend" bind:this={svg} width="100%" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 {100/3.19} {viewBoxHeight}"></svg>
+            </div>
+            {#if isClosed}
+            <button on:click="{clickHandler}" class="show-legend">Show legend</button>
+            {/if}
         </div>
     </div>
 </div>
