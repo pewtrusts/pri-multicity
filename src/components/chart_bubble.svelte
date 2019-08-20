@@ -206,11 +206,11 @@ beforeUpdate(() => {
     }
 }
 
-:global(circle) {
+:global(.data-group circle) {
 
-    fill: #fff;
+   // fill: #fff;
     fill-opacity: 0.5;
-    stroke-width: 1px;
+    stroke-width: 0;
     mix-blend-mode: multiply;
     transition: fill-opacity 0.2s ease-in-out;
     &:hover {
