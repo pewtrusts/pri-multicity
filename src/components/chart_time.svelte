@@ -195,7 +195,7 @@
         stroke: $medium_gray;
         .svg-container:hover & {
             stroke-width: 3px;
-            color: $gray;
+            stroke: $orange;
         }
     }
     :global(.trendline){
