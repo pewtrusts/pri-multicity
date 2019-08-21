@@ -32,7 +32,7 @@ beforeUpdate(() => {
 
     // parameters / presettings
         const margin = {
-            top: 2,
+            top: 3,
             right: 5,
             bottom: 10,
             left: 20
@@ -41,7 +41,7 @@ beforeUpdate(() => {
     const width = 100 - margin.left - margin.right;
     const height = viewBoxHeight - margin.top - margin.bottom;
     const xScale = d3.scaleOrdinal().range([0, width]);
-    const yScale = d3.scaleLinear().range([height - maxRadius, maxRadius]);
+    const yScale = d3.scaleLinear().range([height, 0]);
     const zScale = d3.scaleSqrt().range([minRadius, maxRadius]);
     const data = [
         [{ colorIndex: 0, percent: datum.values[0].age1, absolute: datum.values[0].age1_a, key: 'age1' }, { colorIndex: 1, percent: datum.values[0].age2, absolute: datum.values[0].age2_a, key: 'age2' }, { colorIndex: 2, percent: datum.values[0].age3, absolute: datum.values[0].age3_a, key: 'age3' }],
@@ -67,8 +67,7 @@ beforeUpdate(() => {
 
     const minValue = d3.min([metadata[datum.values[0].indicator].minAge, metadata[datum.values[0].indicator].minRace]);
     const maxValue = d3.max([metadata[datum.values[0].indicator].maxAge, metadata[datum.values[0].indicator].maxRace]);
-    const diff = maxValue - minValue;
-    yScale.domain([minValue, maxValue]);
+    yScale.domain([minValue, maxValue]).nice(4);
     //zScale.domain([metadata[datum.values[0][cityOrIndicator]].minPop, metadata[datum.values[0][cityOrIndicator]].maxPop]); 
     zScale.domain(zScaleDomain); // here population sizes are comparable across groups
     xScale.domain(['Age', 'Race']);
@@ -89,7 +88,7 @@ beforeUpdate(() => {
 
     //render x-axis
     const xAxis = $svg.append('g')
-        .attr('transform', `translate(${margin.left}, ${height + 1})`)
+        .attr('transform', `translate(${margin.left}, ${height + margin.top})`)
         .attr('class', 'axis x-axis categorical')
         .call(d3.axisBottom(xScale).tickSizeInner(0).tickSizeOuter(0).tickPadding(4));
 
@@ -98,7 +97,7 @@ beforeUpdate(() => {
     const yAxis = $svg.append('g')
         .attr('class', 'axis y-axis')
         .attr('transform', `translate(${margin.left + 3}, ${margin.top})`)
-        .call(d3.axisLeft(yScale).tickSizeInner(0).tickSizeOuter(0).tickPadding(4).ticks(6, numberFormat)); //.tickFormat(d3.format(numberFormat)));
+        .call(d3.axisLeft(yScale).tickSizeInner(0).tickSizeOuter(1).tickPadding(4).ticks(4, numberFormat)); //.tickFormat(d3.format(numberFormat)));
 
     /*const tip = d3.tip()
         .attr('class', 'd3-tip')
@@ -227,9 +226,9 @@ beforeUpdate(() => {
 :global(.data-group circle) {
 
    // fill: #fff;
-    fill-opacity: 0.5;
+    fill-opacity: 0.75;
     stroke-width: 0;
-    mix-blend-mode: multiply;
+    mix-blend-mode: color-burn;
     transition: fill-opacity 0.2s ease-in-out;
     &:hover, &:focus {
         fill-opacity: 1;

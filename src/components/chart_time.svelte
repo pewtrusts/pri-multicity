@@ -49,7 +49,7 @@
         }
         // parameters / presettings
         const margin = {
-            top: 2,
+            top: 3,
             right: 5,
             bottom: 10,
             left: 20
@@ -92,7 +92,7 @@
         const minValue = metadata[datum.values[0].indicator].minYear;
         const maxValue = metadata[datum.values[0].indicator].maxYear;
         const diff = maxValue - minValue;
-        yScale.domain([minValue - 0 * diff, maxValue]);
+        yScale.domain([minValue, maxValue]).nice(4);
         
 
         const $svg = d3.select(svg);
@@ -108,14 +108,11 @@
             .attr('transform', `translate(${margin.left},${margin.top})`);
             
 
-        chart.append('path')
-            .datum(data)
-            .attr('class', 'line valueline')
-            .attr('d', valueline);
+        
 
         //render x-axis
         const xAxis = $svg.append('g')
-          .attr('transform', `translate(${margin.left}, ${height + 1})`)
+          .attr('transform', `translate(${margin.left}, ${height + margin.top})`)
           .attr('class', 'axis x-axis')
           .call(d3.axisBottom(xScale).tickSizeInner(0).tickSizeOuter(0).tickPadding(4).tickValues([data[firstNonNullIndex(data)].year, data[data.length - 1].year]));
 
@@ -123,7 +120,7 @@
         const yAxis = $svg.append('g')
             .attr('class', 'axis y-axis')
             .attr('transform', `translate(${margin.left + 3}, ${margin.top})`)
-            .call(d3.axisLeft(yScale).tickSizeInner(0).tickSizeOuter(0).tickPadding(4).ticks(6, numberFormat));//.tickFormat(d3.format(numberFormat)));
+            .call(d3.axisLeft(yScale).tickSizeInner(0).tickSizeOuter(1).tickPadding(4).ticks(4, numberFormat));//.tickFormat(d3.format(numberFormat)));
 
 
         //render least squared  trendline
@@ -141,6 +138,11 @@
             .attr('y1', yScale(leastSquaresCoeff[0] + leastSquaresCoeff[1]))
             .attr('x2', xScale(data[data.length - 1].year))
             .attr('y2', yScale(leastSquaresCoeff[0] * xSeries.length + leastSquaresCoeff[1]));
+
+        chart.append('path')
+            .datum(data)
+            .attr('class', 'line valueline')
+            .attr('d', valueline);
 
         var valuePoints = chart.selectAll('.value-point')
             .data(data.slice(firstNonNullIndex(data)))
@@ -215,6 +217,7 @@
             stroke-width: 3px;
             stroke: $orange;
         }
+        mix-blend-mode: color;
     }
     :global(.trendline){
         stroke: $blue;
@@ -241,12 +244,11 @@
         transform: translate(8px, 0);
     }
     :global(.y-axis path) {
-       display: none;
+     //  display: none;
     }
     
     :global(.value-proxy-rect) {
         fill: rgba(255,255,255,0);
-        
     }
     :global(.d3-tip){
         white-space: nowrap;
