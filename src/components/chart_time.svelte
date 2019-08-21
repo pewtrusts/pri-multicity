@@ -15,7 +15,11 @@
     function firstNonNullIndex(data){
         return data.findIndex(d => d.value !== null);
     };
-    
+    function goToSectionStart(group, e){
+        if ( e.keyCode === 27 ){
+            document.querySelector('.js-skip-link-' + group).focus();
+        }
+    }
     // HT: http://bl.ocks.org/benvandyke/8459843. returns slope, intercept and r-square of the line
     function leastSquares(xSeries, ySeries) {
         var reduceSumFunc = function(prev, cur) { return prev + cur; };
@@ -138,7 +142,7 @@
             .attr('x2', xScale(data[data.length - 1].year))
             .attr('y2', yScale(leastSquaresCoeff[0] * xSeries.length + leastSquaresCoeff[1]));
 
-        chart.selectAll('.value-point')
+        var valuePoints = chart.selectAll('.value-point')
             .data(data.slice(firstNonNullIndex(data)))
             .enter().append('circle')
             .attr('class', 'value-point')
@@ -163,6 +167,10 @@
                     view: window
                 }));
             });
+
+        valuePoints.nodes().forEach(function(circle){
+            circle.addEventListener('keydown', goToSectionStart.bind(undefined, group));
+        });
 
         chart.selectAll('.value-proxy-rect')
             .data(data.slice(firstNonNullIndex(data)))
@@ -203,7 +211,7 @@
     }
     :global(.valueline){
         stroke: $medium_gray;
-        .svg-container:hover & {
+        .svg-container:hover &, .svg-container:focus-within & {
             stroke-width: 3px;
             stroke: $orange;
         }
@@ -211,7 +219,7 @@
     :global(.trendline){
         stroke: $blue;
         stroke-width: 3px;
-        .svg-container:hover & {
+        .svg-container:hover &, .svg-container:focus-within & {
             stroke-width: 1px;
         }
     }
@@ -235,9 +243,7 @@
     :global(.y-axis path) {
        display: none;
     }
-    :global(.value-point){
-        stroke: magenta;
-    }
+    
     :global(.value-proxy-rect) {
         fill: rgba(255,255,255,0);
         

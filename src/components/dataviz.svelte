@@ -139,9 +139,9 @@ section {
         <a tabindex="-1" class="section-anchor observer-anchor js-section-anchor-{i}" id="anchor-{group.key}" data-key="{group.key}"></a>
         <h2 class="dataviz-heading">{dictionary[group.key] ? dictionary[group.key].label : group.key}</h2>
         {#if i < groupedData.length - 1}
-        <a class="skip-link" id="skip-link-{i}" name="skip-link-{i}" href="#skip-link-{i + 1}" data-link-to="{i + 1}" on:click|preventDefault="{skipClickHandler}">Skip to next section</a>
+        <a class="skip-link js-skip-link-{group.key}" id="skip-link-{i}" name="skip-link-{i}" href="#skip-link-{i + 1}" data-link-to="{i + 1}" on:click|preventDefault="{skipClickHandler}">Skip to next section</a>
         {:else}
-        <a class="skip-link" id="skip-link-{i}" name="skip-link-{i}" href="#skip-link-0" data-link-to="0" on:click|preventDefault="{skipClickHandler}">Back to first section</a>
+        <a class="skip-link js-skip-link-{group.key}" id="skip-link-{i}" name="skip-link-{i}" href="#skip-link-0" data-link-to="0" on:click|preventDefault="{skipClickHandler}">Back to first section</a>
         {/if}
         <p class="description">{dictionary[group.key] ? dictionary[group.key].desc : ''}</p>
         <div class="dataviz-container">
