@@ -78,7 +78,8 @@ beforeUpdate(() => {
         
         .html((d, i) => {
             return d.sort((a, b) => d3.descending(a.percent, b.percent)).reduce((acc, cur, j) => {
-                return acc + `<p class="${ i === j ? 'isHighlighted' : ''} ${'tooltip-p tooltip-color-' + cur.colorIndex}""><span>${dictionary[cur.key]}</span> | ${d3.format(numberFormat)(cur.percent)} 
+                var type = cur.key.match('age') ? 'age' : 'race';
+                return acc + `<p class="${ i === j ? 'isHighlighted' : ''} ${'tooltip-p tooltip-color-' + cur.colorIndex}""><span class="${type}">${dictionary[cur.key]}</span> | ${d3.format(numberFormat)(cur.percent)} 
                                  (${ cur.absolute ? d3.format(',.0f')(cur.absolute) + ' ppl' : 'size n/a'})</p>`;
             }, '')
         });
@@ -370,7 +371,7 @@ beforeUpdate(() => {
     }
 
 }
-:global(.tooltip-p.isHighlighted){  
+:global(.tooltip-p.isHighlighted){ 
     opacity: 1;
     span {
         font-weight: 800;

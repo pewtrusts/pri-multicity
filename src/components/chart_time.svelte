@@ -98,7 +98,7 @@
         const $svg = d3.select(svg);
         
         const tip = d3.tip()
-            .attr('class', 'd3-tip')
+            .attr('class', 'd3-tip bubble')
             .offset([viewBoxHeight * 2 - 10,0.5]) // TODO viewboxheight remains constant even as svgs scale, so tooltips become off place
             .html(d => `<span class="year">${d.year.getFullYear()}</span> | ${locale.format(dictionary[datum.values[0].indicator].tooltipFormat)(d.value)}`);
 
@@ -248,11 +248,28 @@
         fill: rgba(255,255,255,0);
         
     }
+    :global(.d3-tip){
+        white-space: nowrap;
+    }
     :global(.d3-tip span.year) {
         font-weight: bold;
         
-        
     }
+    :global(.d3-tip.disaggregated > p){
+        white-space: nowrap;
+    }
+    :global(.d3-tip.disaggregated > p span){
+        display: inline-block;
+        text-align: right;
+    }
+    :global(.d3-tip.disaggregated > p span.age){
+        width: 50px;
+    }
+    :global(.d3-tip.disaggregated > p span.race){
+        width: 63px;
+    }
+    
+
 </style>
 <div class="svg-container">
     <svg bind:this={svg} width="100%" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 100 {viewBoxHeight}">
