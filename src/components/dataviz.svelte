@@ -59,6 +59,12 @@
        
     });
 
+    function skipClickHandler(e){
+        var index = this.dataset.linkTo;
+        document.querySelector('.js-section-anchor-' + index).scrollIntoView();
+        document.querySelector(this.hash).focus();
+    }
+
 </script>
 <style lang="scss">
 @import './../variables.scss';
@@ -73,6 +79,7 @@
     font-size: 1.5em;
     margin-bottom: 0;
     margin-top: 1em;
+    display: inline-block;
     
 }
 .description {
@@ -84,7 +91,7 @@ section {
     position: relative;
     margin-bottom: 20px;
     
-    a {
+    a.observer-anchor {
         position: absolute;
         &.section-anchor {
             top: -185px;
@@ -92,6 +99,19 @@ section {
         &.upward-observer-anchor {
             top: calc(100vh - 225px);
         }
+    }
+}
+.skip-link {
+    height: 0;
+    overflow: hidden;
+    display: inline-block;
+    position: relative;
+    top: 3px;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    &:focus {
+        height: auto;
+        opacity: 1;
     }
 }
 
@@ -114,15 +134,20 @@ section {
     <p><img src="{trendlineSVG}" alt="blue line equals best fit trend line" /> = best fit trend line</p>
 </div>
 {/if}
-{#each groupedData as group}
+{#each groupedData as group, i}
     <section class="dataviz-section">
-        <a class="section-anchor" id="anchor-{group.key}" data-key="{group.key}"></a>
+        <a tabindex="-1" class="section-anchor observer-anchor js-section-anchor-{i}" id="anchor-{group.key}" data-key="{group.key}"></a>
         <h2 class="dataviz-heading">{dictionary[group.key] ? dictionary[group.key].label : group.key}</h2>
+        {#if i < groupedData.length - 1}
+        <a class="skip-link" id="skip-link-{i}" name="skip-link-{i}" href="#skip-link-{i + 1}" data-link-to="{i + 1}" on:click|preventDefault="{skipClickHandler}">Skip to next section</a>
+        {:else}
+        <a class="skip-link" id="skip-link-{i}" name="skip-link-{i}" href="#skip-link-0" data-link-to="0" on:click|preventDefault="{skipClickHandler}">Back to first section</a>
+        {/if}
         <p class="description">{dictionary[group.key] ? dictionary[group.key].desc : ''}</p>
         <div class="dataviz-container">
             <DatavizResolved {group} {groupedData} {metadata} {groupBy} />
         </div>
-        <a class="upward-observer-anchor" data-key="{group.key}"></a>
+        <a class="upward-observer-anchor observer-anchor" data-key="{group.key}"></a>
     </section>
 {/each}
 

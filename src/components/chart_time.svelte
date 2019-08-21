@@ -149,8 +149,19 @@
             .attr('cy', d => yScale(d.value))
             .on('focus', function(){
                 var node = d3.select('#rect-' + this.dataset.id).node();
-                console.log(node);
-                node.dispatchEvent(new MouseEvent('mouseover'));
+                node.dispatchEvent(new MouseEvent('mouseover', {
+                    bubbles: true,
+                    cancelable: true,
+                    view: window
+                }));
+            })
+            .on('blur', function(){
+                var node = d3.select('#rect-' + this.dataset.id).node();
+                node.dispatchEvent(new MouseEvent('mouseout', {
+                    bubbles: true,
+                    cancelable: true,
+                    view: window
+                }));
             });
 
         chart.selectAll('.value-proxy-rect')
