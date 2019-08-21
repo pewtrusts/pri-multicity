@@ -167,7 +167,7 @@
                     view: window
                 }));
             });
-
+        // going Vanilla because of d3.event weirdness
         valuePoints.nodes().forEach(function(circle){
             circle.addEventListener('keydown', goToSectionStart.bind(undefined, group));
         });

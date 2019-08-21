@@ -2,7 +2,8 @@
 import { beforeUpdate } from 'svelte';
 import d3 from './../d3-importer.js';
 import dictionary from './../data/dictionary.json';
-export var datum;
+export let datum;
+export let group;
 export let metadata;
 export let groupBy;
 console.log(groupBy);
@@ -15,6 +16,12 @@ let zScaleDomain = [metadata.minPop, metadata.maxPop];
 const viewBoxHeight = 116;
 const maxRadius = 15;
 const minRadius = 5;
+
+function goToSectionStart(group, e){
+    if ( e.keyCode === 27 ){
+        document.querySelector('.js-skip-link-' + group).focus();
+    }
+}
 
 beforeUpdate(() => {
 
@@ -123,6 +130,7 @@ beforeUpdate(() => {
                 .enter().append('g')
                 .attr('class', 'data-group')
                 .append('circle')
+                .attr('tabindex', 0)
                 .attr('cx', 0)
                 .attr('cy', d => {
                     return yScale(d.percent);
@@ -139,7 +147,16 @@ beforeUpdate(() => {
                 .on('mouseover', function(d,i){
                     tip.show.call(this,p.filter(x => !isNaN(x.percent)),i); // pass parent data in to the tooltip
                 })
-                .on('mouseout', tip.hide);
+                .on('mouseout', tip.hide)
+                .on('focus', function(d,i){
+                    tip.show.call(this,p.filter(x => !isNaN(x.percent)),i); // pass parent data in to the tooltip
+                })
+                .on('blur', tip.hide);
+
+                // going Vanilla because of d3.event weirdness
+                dataGroup.nodes().forEach(function(g){
+                    g.addEventListener('keydown', goToSectionStart.bind(undefined, group));
+                });
         } else {
             d3.select(this)
                 .append('text')
@@ -213,9 +230,11 @@ beforeUpdate(() => {
     stroke-width: 0;
     mix-blend-mode: multiply;
     transition: fill-opacity 0.2s ease-in-out;
-    &:hover {
+    &:hover, &:focus {
         fill-opacity: 1;
+        outline: none;
     }
+
 
 }
 

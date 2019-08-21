@@ -62,7 +62,7 @@
         {#if viewType === 'time'}
         <TimeChart datum={d} {metadata} group="{group.key}" />
         {:else}
-        <BubbleChart datum={d} {metadata} {groupBy} />
+        <BubbleChart datum={d} {metadata} {groupBy} group="{group.key}" />
         {/if}
     </div>
 </div>
