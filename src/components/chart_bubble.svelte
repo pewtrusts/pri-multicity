@@ -132,7 +132,7 @@ beforeUpdate(() => {
                 .selectAll('.data-group')
                 .data(d => {
                     console.log(d);
-                    return d.sort((a, b) => d3.descending(a.absolute, b.absolute));
+                    return d.sort((a, b) => d3.descending(a.percent, b.percent));
                 })
                 .enter().append('g')
                 .attr('class', 'data-group')
@@ -235,7 +235,7 @@ beforeUpdate(() => {
    // fill: #fff;
     fill-opacity: 0.75;
     stroke-width: 0;
-    mix-blend-mode: darken;
+    mix-blend-mode: color-burn;
     transition: fill-opacity 0.2s ease-in-out;
     &:hover, &:focus {
         fill-opacity: 1;
