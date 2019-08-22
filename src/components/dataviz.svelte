@@ -131,7 +131,7 @@ section {
 
 :global(body){
     scroll-snap-type: y proximity;
-    scroll-padding: 175px;
+    scroll-padding: 185px;
 }
 
 </style>
