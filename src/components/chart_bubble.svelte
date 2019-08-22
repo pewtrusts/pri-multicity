@@ -37,7 +37,13 @@ beforeUpdate(() => {
             bottom: 10,
             left: 20
         };
-    
+    const locale = d3.formatLocale({
+            decimal: '.',
+            thousands: ',',
+            grouping: [3],
+            currency: ['$', '']
+            
+        });
     const width = 100 - margin.left - margin.right;
     const height = viewBoxHeight - margin.top - margin.bottom;
     const xScale = d3.scaleOrdinal().range([0, width]);
@@ -48,12 +54,7 @@ beforeUpdate(() => {
         [{ colorIndex: 0, percent: datum.values[0].race1, absolute: datum.values[0].race1_a, key: 'race1' }, { colorIndex: 1, percent: datum.values[0].race2, absolute: datum.values[0].race2_a, key: 'race2' }, { colorIndex: 2, percent: datum.values[0].race3, absolute: datum.values[0].race3_a, key: 'race3' }, { colorIndex: 3, percent: datum.values[0].race4, absolute: datum.values[0].race4_a, key: 'race4' }]
     ];
     console.log(data);
-    const locale = d3.formatLocale({
-        decimal: '.',
-        thousands: ',',
-        grouping: [3],
-        currency: ['$', '']
-    });
+    
     // data-dependent settings
     console.log(datum);
     const units = dictionary[datum.values[0].indicator].units_alt || dictionary[datum.values[0].indicator].units;
@@ -62,6 +63,8 @@ beforeUpdate(() => {
         units === 'number' ? '.0f' :
         units === 'decimal' ? '.0f' :
         '.0%';
+
+    
 
     xScale.domain([0, data.length]);
 
@@ -78,7 +81,7 @@ beforeUpdate(() => {
         .html((d, i) => {
             return d.sort((a, b) => d3.descending(a.percent, b.percent)).reduce((acc, cur, j) => {
                 var type = cur.key.match('age') ? 'age' : 'race';
-                return acc + `<p class="${ i === j ? 'isHighlighted' : ''} ${'tooltip-p tooltip-color-' + cur.colorIndex}""><span class="${type}">${dictionary[cur.key]}</span> | ${d3.format(numberFormat)(cur.percent)} 
+                return acc + `<p class="${ i === j ? 'isHighlighted' : ''} ${'tooltip-p tooltip-color-' + cur.colorIndex}""><span class="${type}">${dictionary[cur.key]}</span> | ${dictionary[group].disagTooltipFormat ? locale.format(dictionary[group].disagTooltipFormat)(cur.percent) : locale.format(dictionary[group].tooltipFormat)(cur.percent)} 
                                  (${ cur.absolute ? d3.format(',.0f')(cur.absolute) + ' ppl' : 'size n/a'})</p>`;
             }, '')
         });

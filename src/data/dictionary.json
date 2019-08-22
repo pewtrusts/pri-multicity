@@ -82,7 +82,8 @@
         "units_alt": "percentage",
         "desc" : "",
         "source":"[TO COME]",
-        "tooltipFormat": ",.0f"
+        "tooltipFormat": ",.0f",
+        "disagTooltipFormat": ".1%"
     },
     "pre_K": {
         "label": "Preschool enrollment rate",
