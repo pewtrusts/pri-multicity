@@ -2,7 +2,6 @@
     import { onMount } from 'svelte';
     import { viewTypeStore, inViewSectionStore, scrolledToStore, groupByStore } from './../store.js';
     import Loading from './loading.svelte';
-    import Legend from './legend.svelte';
     import UISvelte from '@Submodule/UI-svelte/';
     import dictionary from './../data/dictionary.json';
     export let groupedData;
@@ -103,5 +102,4 @@
         <div><input type="radio" name="view-type" value="time" id="radio1" checked="true" /><label for="radio1">Over time</label></div>
         <div><input type="radio" name="view-type" value="disaggregated" id="radio2" /><label for="radio2">By age and race</label></div>
     </div>
-    <Legend {metadata} maxRadius=15 minRadius=5 />        
 </div>

@@ -69,17 +69,18 @@ function clickHandler(e){
 }
 
 .legend-container {
-    position: fixed;
+    position: sticky;
     bottom: 0;
     left: 0;
     width: 100%;
-    padding-bottom: 10px;
     transform: translateY(0);
     transition: transform 0.2s ease-in-out;
-    border-top: 2px solid $blue;
     background-color: #fff;
+    z-index: 1;
+    opacity: 1;
     &.isClosed {
         transform: translateY(100%);
+        //opacity: 0;
     }
 }
 
@@ -90,6 +91,13 @@ function clickHandler(e){
     margin: 0 auto;
     display: flex;
     justify-content: flex-end;
+    padding-bottom: 10px;
+    border: 2px solid $blue;
+    transition:  opacity 0.2s ease-in-out;
+    opacity: 1;
+    .isClosed & {
+        opacity: 0;
+    }
 }
 
 .legend-container-wrapper {
@@ -265,9 +273,9 @@ li {
             <div class="legend-svg-container">
                 <svg class="population-legend" bind:this={svg} width="100%" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 {100/3.19} {viewBoxHeight}"></svg>
             </div>
-            {#if isClosed}
-            <button on:click="{clickHandler}" class="show-legend">Show legend</button>
-            {/if}
         </div>
     </div>
+    {#if isClosed}
+    <button on:click="{clickHandler}" class="show-legend">Show legend</button>
+    {/if}
 </div>

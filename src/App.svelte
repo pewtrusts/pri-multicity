@@ -2,6 +2,7 @@
     import Overview from './components/overview.svelte';
     import Selections from  './components/selections.svelte';
     import Dataviz from  './components/dataviz.svelte';
+    import Legend from './components/legend.svelte';
     import { groupByStore } from './store.js';
     export let data; // {nestedByIndicator, nestedByCity}
     export let initialCities;
@@ -34,3 +35,4 @@
 <div class="dataviz-wrapper" class:by-city="{groupBy === 'nestedByCity'}">
     <Dataviz {groupedData} {initialCities} {metadata} {groupBy} />
 </div>
+<Legend {metadata} maxRadius=15 minRadius=5 />   
