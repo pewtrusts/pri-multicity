@@ -235,7 +235,7 @@ beforeUpdate(() => {
    // fill: #fff;
     fill-opacity: 0.75;
     stroke-width: 0;
-    mix-blend-mode: color-burn;
+    mix-blend-mode: darken;
     transition: fill-opacity 0.2s ease-in-out;
     &:hover, &:focus {
         fill-opacity: 1;
