@@ -150,7 +150,7 @@ section {
         {:else}
         <a class="skip-link js-skip-link-{group.key}" id="skip-link-{i}" name="skip-link-{i}" href="#skip-link-0" data-link-to="0" on:click|preventDefault="{skipClickHandler}">Back to first section</a>
         {/if}
-        <p class="description">{dictionary[group.key] ? dictionary[group.key].desc : ''}</p>
+        <p class="description">{dictionary[group.key] && dictionary[group.key].desc ? dictionary[group.key].desc + '.' : ''} {dictionary[group.key] && dictionary[group.key].source ? 'Source: ' + dictionary[group.key].source : ''}</p>
         <div class="dataviz-container">
             <DatavizResolved {group} {groupedData} {metadata} {groupBy} />
         </div>
