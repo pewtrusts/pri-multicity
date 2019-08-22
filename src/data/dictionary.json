@@ -1,22 +1,24 @@
 {
-    "college": {
-        "label": "College",
+    "population":  {
+        "label": "Population",
+        "units": "si",
+        "units_alt": "percentage",
+        "desc" : "",
+        "source":"[TO COME]",
+        "tooltipFormat": ",.0f",
+        "disagTooltipFormat": ".1%"
+    },
+    "foreign_born": {
+        "label": "Foreign born",
         "units": "percentage",
-        "desc" : "[TO COME]",
+        "desc" : "Percentage of residents who were not U.S. citizens at birth",
         "source":"[TO COME]",
         "tooltipFormat": ".1%"
     },
-    "commute": {
-        "label": "Commute to work",
+    "poverty": {
+        "label": "Poverty rate",
         "units": "percentage",
-        "desc" : "Percentage of workers who commute to work",
-        "source":"[TO COME]",
-        "tooltipFormat": ".1%"
-    },
-    "cost_burden": {
-        "label": "Housing cost burdened",
-        "units": "percentage",
-        "desc" : "Percentage of households spending more than 30 percent of their income on housing",
+        "desc" : "Percentage of people in households with income below the poverty level",
         "source":"[TO COME]",
         "tooltipFormat": ".1%"
     },
@@ -27,17 +29,10 @@
         "source":"[TO COME]",
         "tooltipFormat": ".1%"
     },
-    "disability": {
-        "label": "Disability",
+    "cost_burden": {
+        "label": "Housing cost burdened",
         "units": "percentage",
-        "desc" : "Percentage of people with a disability (civilian noninstitutionalized population)",
-        "source":"[TO COME]",
-        "tooltipFormat": ".1%"
-    },
-    "foreign_born": {
-        "label": "Foreign born",
-        "units": "percentage",
-        "desc" : "Percentage of residents who were not U.S. citizens at birth",
+        "desc" : "Percentage of households spending more than 30 percent of their income on housing",
         "source":"[TO COME]",
         "tooltipFormat": ".1%"
     },
@@ -55,40 +50,10 @@
         "source":"[TO COME]",
         "tooltipFormat": ".1%"
     },
-    "homicide_capita": {
-        "label": "Homicide rate",
-        "units": "decimal",
-        "desc" : "The number of homicides per 100,000 inhabitants",
-        "source":"[TO COME]",
-        "tooltipFormat": ".1f"
-    },
     "labor_force": {
         "label": "Labor force participation rate",
         "units": "percentage",
         "desc" : "Percentage of people in the military or classified in the civilian labor force",
-        "source":"[TO COME]",
-        "tooltipFormat": ".1%"
-    },
-    "poverty": {
-        "label": "Poverty rate",
-        "units": "percentage",
-        "desc" : "Percentage of people in households with income below the poverty level",
-        "source":"[TO COME]",
-        "tooltipFormat": ".1%"
-    }, 
-    "population":  {
-        "label": "Population",
-        "units": "si",
-        "units_alt": "percentage",
-        "desc" : "",
-        "source":"[TO COME]",
-        "tooltipFormat": ",.0f",
-        "disagTooltipFormat": ".1%"
-    },
-    "pre_K": {
-        "label": "Preschool enrollment rate",
-        "units": "percentage",
-        "desc" : "Percentage of preschool-aged children enrolled in preschool",
         "source":"[TO COME]",
         "tooltipFormat": ".1%"
     },
@@ -98,6 +63,41 @@
         "desc" : "Percentage of the civilian work force that is unemployed",
         "source":"[TO COME]",
         "tooltipFormat": ".1%"
+    },
+    "disability": {
+        "label": "Disability",
+        "units": "percentage",
+        "desc" : "Percentage of people with a disability (civilian noninstitutionalized population)",
+        "source":"[TO COME]",
+        "tooltipFormat": ".1%"
+    },
+    "commute": {
+        "label": "Commute to work",
+        "units": "percentage",
+        "desc" : "Percentage of workers who commute to work",
+        "source":"[TO COME]",
+        "tooltipFormat": ".1%"
+    },
+    "college": {
+        "label": "College",
+        "units": "percentage",
+        "desc" : "[TO COME]",
+        "source":"[TO COME]",
+        "tooltipFormat": ".1%"
+    },
+    "pre_K": {
+        "label": "Preschool enrollment rate",
+        "units": "percentage",
+        "desc" : "Percentage of preschool-aged children enrolled in preschool",
+        "source":"[TO COME]",
+        "tooltipFormat": ".1%"
+    },
+        "homicide_capita": {
+        "label": "Homicide rate",
+        "units": "decimal",
+        "desc" : "The number of homicides per 100,000 inhabitants",
+        "source":"[TO COME]",
+        "tooltipFormat": ".1f"
     },
     "race1": "White",
     "race2": "Black",
