@@ -86,6 +86,7 @@
     margin-bottom: 1.5em;
     color: $gray;
     font-weight: 600;
+    min-height: 20px;
 }
 section {
     position: relative;
