@@ -86,12 +86,12 @@
     margin-bottom: 1.5em;
     color: $gray;
     font-weight: 600;
-    min-height: 20px;
+    min-height: 20p
 }
 section {
     position: relative;
     margin-bottom: 20px;
-    
+    scroll-snap-align: start;
     a.observer-anchor {
         position: absolute;
         &.section-anchor {
@@ -128,6 +128,12 @@ section {
         position: relative;
     }
 }
+
+:global(body){
+    scroll-snap-type: y proximity;
+    scroll-padding: 175px;
+}
+
 </style>
 
 {#if viewType === 'time'}
