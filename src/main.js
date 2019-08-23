@@ -5,7 +5,7 @@ import App from './App.svelte';
 import data from './data/dashboard-data-1.csv';
 import MakeQueriablePromise from './MakeQueriablePromise.js';
 
-const initialOrganizeBy = 'indicator';
+const initialOrganizeBy = 'city';
 const initialIndicator = 'poverty';
 // array of cities to render while the dataPromise is being resolved
 const initialCities = ["Baltimore", "Boston", "Chicago", "Cleveland", "Detroit", "Houston", "Philadelphia", "Phoenix", "Pittsburgh", "Washington"]
