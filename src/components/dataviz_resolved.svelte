@@ -48,7 +48,6 @@
             tip.parentNode.removeChild(tip);
         });
     }
-    
 
 </script>
 

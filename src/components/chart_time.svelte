@@ -1,35 +1,16 @@
 <script>
     
     import { beforeUpdate } from 'svelte';
-    import { viewTypeStore, groupByStore } from './../store.js';
     import d3 from './../d3-importer.js';
     import dictionary from './../data/dictionary.json';
     export var datum;
     export let metadata;
     export let group;
-    let tip;
     
     import './../d3-tip.scss';
-    
-
     var svg;
     
     const viewBoxHeight = 116;
-
-    const goToSectionStartBind = goToSectionStart.bind(undefined, group);
-    function removeEventListeners(){
-        document.querySelectorAll('circle.value-point').forEach(circle => {
-            circle.removeEventListener('keydown', goToSectionStartBind);
-            circle.removeEventListener('focus', onFocusHandler);
-            circle.removeEventListener('blur', onBlurHandler);
-        });
-        if ( tip ){
-            document.querySelectorAll('rect.value-proxy-rect').forEach(rect => {
-                rect.removeEventListener('mouseover', tip.show);
-                rect.removeEventListener('mouseout', tip.hide);
-            });
-        }
-    }
 
     function firstNonNullIndex(data){
         return data.findIndex(d => d.value !== null);
@@ -39,40 +20,6 @@
             document.querySelector('.js-skip-link-' + group).focus();
         }
     }
-    function onFocusHandler(){
-        var node = d3.select('#rect-' + this.dataset.id).node();
-        node.dispatchEvent(new MouseEvent('mouseover', {
-            bubbles: true,
-            cancelable: true,
-            view: window
-        }));
-    }
-    function onBlurHandler(){
-        var node = d3.select('#rect-' + this.dataset.id).node();
-        node.dispatchEvent(new MouseEvent('mouseout', {
-            bubbles: true,
-            cancelable: true,
-            view: window
-        }));
-    }
-    viewTypeStore.subscribe(() => {
-        if (window.requestIdleCallback){
-            requestIdleCallback(removeEventListeners);
-        } else {
-            setTimeout(() => {
-                removeEventListeners();
-            });
-        }
-    });
-    groupByStore.subscribe(() => {
-        if (window.requestIdleCallback){
-            requestIdleCallback(removeEventListeners);
-        } else {
-            setTimeout(() => {
-                removeEventListeners();
-            });
-        }
-    });
     // HT: http://bl.ocks.org/benvandyke/8459843. returns slope, intercept and r-square of the line
     function leastSquares(xSeries, ySeries) {
         var reduceSumFunc = function(prev, cur) { return prev + cur; };
@@ -150,7 +97,7 @@
 
         const $svg = d3.select(svg);
         
-        tip = d3.tip()
+        const tip = d3.tip()
             .attr('class', 'd3-tip')
             .offset([viewBoxHeight * 2 - 10,0.5]) // TODO viewboxheight remains constant even as svgs scale, so tooltips become off place
             .html(d => `<span class="year">${d.year.getFullYear()}</span> | ${locale.format(dictionary[datum.values[0].indicator].tooltipFormat)(d.value)}`);
@@ -207,11 +154,25 @@
             .attr('r', 2)
             .attr('cx', d => xScale(d.year))
             .attr('cy', d => yScale(d.value))
-            .on('focus', onFocusHandler)
-            .on('blur', onBlurHandler);
+            .on('focus', function(){
+                var node = d3.select('#rect-' + this.dataset.id).node();
+                node.dispatchEvent(new MouseEvent('mouseover', {
+                    bubbles: true,
+                    cancelable: true,
+                    view: window
+                }));
+            })
+            .on('blur', function(){
+                var node = d3.select('#rect-' + this.dataset.id).node();
+                node.dispatchEvent(new MouseEvent('mouseout', {
+                    bubbles: true,
+                    cancelable: true,
+                    view: window
+                }));
+            });
         // going Vanilla because of d3.event weirdness
         valuePoints.nodes().forEach(function(circle){
-            circle.addEventListener('keydown', goToSectionStartBind);
+            circle.addEventListener('keydown', goToSectionStart.bind(undefined, group));
         });
 
         chart.selectAll('.value-proxy-rect')
