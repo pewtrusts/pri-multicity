@@ -1,26 +1,29 @@
 <script>
     import TimeChart from './chart_time.svelte';
     import BubbleChart from './chart_bubble.svelte';
-    import { viewTypeStore, groupByStore } from './../store.js';
     import { beforeUpdate, afterUpdate } from 'svelte';
+    import { viewTypeStore, groupByStore } from './../store.js';
     import dictionary from './../data/dictionary.json';
     import tippy from 'tippy.js';
+
     export let group;
     export let groupedData;
     export let metadata;
     export let groupBy;
+
     let viewType;
     let headings = [];
-    console.log(group);
+
     $: match = groupedData.find(d => d.key === group.key);
+
     viewTypeStore.subscribe(view => {
         viewType = view;
+        destroyD3Tips();
     });
     groupByStore.subscribe(() => {
-        document.querySelectorAll('.d3-tip').forEach(tip => {
-            tip.parentNode.removeChild(tip);
-        });
+        destroyD3Tips();
     });
+
     // THIS WOULD PROBABLY BE HANDLED BETTER BY MAKING A COMPONENT OUT OF THE HEADING SO THAT EACH ONE
     // WOULD HAVE ITS OWN LIFECYCLE
     beforeUpdate(() => {
@@ -39,6 +42,12 @@
             });
         } 
     });
+
+    function destroyD3Tips(){
+        document.querySelectorAll('.d3-tip').forEach(tip => {
+            tip.parentNode.removeChild(tip);
+        });
+    }
 
 </script>
 

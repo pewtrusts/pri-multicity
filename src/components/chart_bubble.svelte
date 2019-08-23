@@ -1,12 +1,11 @@
 <script>
-import { onDestroy, beforeUpdate } from 'svelte';
+import { beforeUpdate } from 'svelte';
 import d3 from './../d3-importer.js';
 import dictionary from './../data/dictionary.json';
 export let datum;
 export let group;
 export let metadata;
 export let groupBy;
-export let instanceIndex;
 console.log(groupBy);
 $: cityOrIndicator = groupBy === 'nestedByCity' ? 'city' : 'indicator';
 import './../d3-tip.scss';
@@ -23,9 +22,7 @@ function goToSectionStart(group, e){
         document.querySelector('.js-skip-link-' + group).focus();
     }
 }
-onDestroy(() => {
-    d3.select('.d3-tip.index' + instanceIndex + group).remove();
-});
+
 beforeUpdate(() => {
 
     if ( svg ){
@@ -83,7 +80,7 @@ beforeUpdate(() => {
     xScale.domain(['Age', 'Race']);
 
     const tip = d3.tip()
-        .attr('class', 'd3-tip disaggregated index' + instanceIndex + group)
+        .attr('class', 'd3-tip disaggregated')
         
         .html((d, i) => {
             return d.sort((a, b) => d3.descending(a.percent, b.percent)).reduce((acc, cur, j) => {

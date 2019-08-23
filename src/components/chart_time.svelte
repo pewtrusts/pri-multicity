@@ -1,12 +1,11 @@
 <script>
     
-    import { beforeUpdate, afterUpdate, onDestroy } from 'svelte';
+    import { beforeUpdate } from 'svelte';
     import d3 from './../d3-importer.js';
     import dictionary from './../data/dictionary.json';
     export var datum;
     export let metadata;
     export let group;
-    export let instanceIndex;
     
     import './../d3-tip.scss';
     var svg;
@@ -43,15 +42,8 @@
         
         return [slope, intercept, rSquare];
     }
-    onDestroy(() => {
-        console.log('destroy');
-        d3.select('.d3-tip.index' + instanceIndex + group).remove();
-    });
-    afterUpdate(() => {
-        console.log('timeChart afterUpdate');
-    });
     beforeUpdate(() => {
-        console.log('timeChart beforeUpdate');
+        
         if ( svg ){
             svg.innerHTML = '';
         }
@@ -106,7 +98,7 @@
         const $svg = d3.select(svg);
         
         const tip = d3.tip()
-            .attr('class', 'd3-tip index' + instanceIndex + group)
+            .attr('class', 'd3-tip')
             .offset([viewBoxHeight * 2 - 10,0.5]) // TODO viewboxheight remains constant even as svgs scale, so tooltips become off place
             .html(d => `<span class="year">${d.year.getFullYear()}</span> | ${locale.format(dictionary[datum.values[0].indicator].tooltipFormat)(d.value)}`);
 
