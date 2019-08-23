@@ -5,8 +5,6 @@
     import { inViewSectionStore, scrolledToStore, viewTypeStore } from './../store.js';
     import { onMount } from 'svelte';
     import trendlineSVG from 'file-loader!./dataviz--trendline.svg';
-    export let initialCities;
-    export let initialIndicator;
     export let groupedData;
     export let metadata
     export let groupBy;

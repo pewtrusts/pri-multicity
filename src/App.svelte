@@ -5,8 +5,6 @@
     import Legend from './components/legend.svelte';
     import { groupByStore } from './store.js';
     export let data; // {nestedByIndicator, nestedByCity}
-    export let initialCities;
-    export let initialIndicator;
     export let metadata;
 
     let groupedData;
@@ -33,6 +31,6 @@
 <Overview />
 <Selections {groupedData} {metadata} />
 <div class="dataviz-wrapper" class:by-city="{groupBy === 'nestedByCity'}">
-    <Dataviz {groupedData} {initialCities} {metadata} {groupBy} />
+    <Dataviz {groupedData} {metadata} {groupBy} />
 </div>
 <Legend {metadata} maxRadius=15 minRadius=5 />   
