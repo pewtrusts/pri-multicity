@@ -2,7 +2,7 @@
     import TimeChart from './chart_time.svelte';
     import BubbleChart from './chart_bubble.svelte';
     import { viewTypeStore } from './../store.js';
-    import { afterUpdate } from 'svelte';
+    import { beforeUpdate, afterUpdate } from 'svelte';
     import dictionary from './../data/dictionary.json';
     import tippy from 'tippy.js';
     export let group;
@@ -10,16 +10,26 @@
     export let metadata;
     export let groupBy;
     let viewType;
-    let heading
+    let headings = [];
     console.log(group);
     $: match = groupedData.find(d => d.key === group.key);
     viewTypeStore.subscribe(view => {
         viewType = view;
     });
-    
+    // THIS WOULD PROBABLY BE HANDLED BETTER BY MAKING A COMPONENT OUT OF THE HEADING SO THAT EACH ONE
+    // WOULD HAVE ITS OWN LIFECYCLE
+    beforeUpdate(() => {
+        console.log('beforeUpdate:',headings);
+        if ( groupBy === 'nestedByIndicator' ){
+            headings.forEach(h => {
+                if (h && h._tippy) h._tippy.destroy();
+            });
+        }
+    });
     afterUpdate(() => {
-        if ( groupBy !== 'nestedByIndicator' ){
-            document.querySelectorAll('.with-tooltip').forEach(h => {
+        console.log('afterUpdate:',headings);
+       if ( groupBy !== 'nestedByIndicator' ){
+            headings.forEach(h => {
                 tippy(h,{arrow:true, offset: '35, 0'});
             });
         } 
@@ -109,10 +119,10 @@
 }
 </style>
 
-{#each match.values as d}
+{#each match.values as d, i}
 <div class="graph-container--outer">
     <div class="graph-container">
-        <h3 bind:this="{heading}" data-tippy-content="{dictionary[d.key] ? dictionary[d.key].desc : ''}" tabindex="{groupBy !== 'nestedByIndicator' ? 0 : -1}" class:with-tooltip="{groupBy !== 'nestedByIndicator'}">{dictionary[d.key] ? dictionary[d.key].label : d.key}</h3>
+        <h3 bind:this="{headings[i]}" data-tippy-content="{dictionary[d.key] ? dictionary[d.key].desc : ''}" tabindex="{groupBy !== 'nestedByIndicator' ? 0 : -1}" class:with-tooltip="{groupBy !== 'nestedByIndicator'}">{dictionary[d.key] ? dictionary[d.key].label : d.key}</h3>
         {#if viewType === 'time'}
         <TimeChart datum={d} {metadata} group="{group.key}" />
         {:else}
