@@ -2,10 +2,12 @@
 import { beforeUpdate } from 'svelte';
 import d3 from './../d3-importer.js';
 import dictionary from './../data/dictionary.json';
+import { viewTypeStore, groupByStore } from './../store.js';
 export let datum;
 export let group;
 export let metadata;
 export let groupBy;
+let removeDataGroupListeners = function(){console.log('fake');return;};
 console.log(groupBy);
 $: cityOrIndicator = groupBy === 'nestedByCity' ? 'city' : 'indicator';
 import './../d3-tip.scss';
@@ -22,6 +24,24 @@ function goToSectionStart(group, e){
         document.querySelector('.js-skip-link-' + group).focus();
     }
 }
+
+const goToSectionStartBind = goToSectionStart.bind(undefined, group);
+
+function removeVanillaEventListeners(){
+    document.querySelectorAll('.data-group circle').forEach(circle => {
+        circle.removeEventListener('keydown', goToSectionStartBind);
+    });
+}
+function removeEventListeners(){
+    removeDataGroupListeners();
+    removeVanillaEventListeners();
+}
+viewTypeStore.subscribe(() => {
+    removeEventListeners();   
+});
+groupByStore.subscribe(() => {
+    removeEventListeners();    
+});
 
 beforeUpdate(() => {
 
@@ -128,8 +148,22 @@ beforeUpdate(() => {
         });
 
     typeGroup.each(function(p) {
+        let dataGroup;
+        function mouseoverHandler(d,i){
+            tip.show.call(this,p.filter(x => !isNaN(x.percent)),i); // pass parent data in to the tooltip
+        }
+        function focusHandler(d,i){
+            tip.show.call(this,p.filter(x => !isNaN(x.percent)),i); // pass parent data in to the tooltip
+        }
+        removeDataGroupListeners = function(){
+            if (dataGroup){
+                console.log('removing listeners')
+                dataGroup.on('mouseover mouseout focus blur', null);
+            }
+        }
+        
         if ( p.filter(x => !isNaN(x.percent)).length > 0 ){ // append circles only if the array contains valid data
-            let dataGroup = d3.select(this)
+            dataGroup = d3.select(this)
                 .selectAll('.data-group')
                 .data(d => {
                     console.log(d);
@@ -151,20 +185,21 @@ beforeUpdate(() => {
                 })
                 .attr('class', d => 'bubble color' + d.colorIndex)
                 .classed('absolute-undefined', d => d.absolute === null)
-                .call(tip)
-                .on('mouseover', function(d,i){
-                    tip.show.call(this,p.filter(x => !isNaN(x.percent)),i); // pass parent data in to the tooltip
-                })
-                .on('mouseout', tip.hide)
-                .on('focus', function(d,i){
-                    tip.show.call(this,p.filter(x => !isNaN(x.percent)),i); // pass parent data in to the tooltip
-                })
-                .on('blur', tip.hide);
+                .call(tip);
 
-                // going Vanilla because of d3.event weirdness
-                dataGroup.nodes().forEach(function(g){
-                    g.addEventListener('keydown', goToSectionStart.bind(undefined, group));
-                });
+            dataGroup.each(function(d,i){
+                
+                var circle = d3.select(this)
+                    .on('mouseover', mouseoverHandler)
+                    .on('mouseout', tip.hide)
+                    .on('focus', focusHandler)
+                    .on('blur', tip.hide);
+                    
+                    // going Vanilla because of d3.event weirdness
+                    
+                    this.addEventListener('keydown', goToSectionStartBind);
+            });
+
         } else {
             d3.select(this)
                 .append('text')
