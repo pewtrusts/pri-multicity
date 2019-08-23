@@ -83,9 +83,10 @@ beforeUpdate(() => {
         .attr('class', 'd3-tip disaggregated')
         
         .html((d, i) => {
+            var indicator = cityOrIndicator === 'indicator' ? group : datum.key;
             return d.sort((a, b) => d3.descending(a.percent, b.percent)).reduce((acc, cur, j) => {
                 var type = cur.key.match('age') ? 'age' : 'race';
-                return acc + `<p class="${ i === j ? 'isHighlighted' : ''} ${'tooltip-p tooltip-color-' + cur.colorIndex}""><span class="${type}">${dictionary[cur.key]}</span> | ${dictionary[group].disagTooltipFormat ? locale.format(dictionary[group].disagTooltipFormat)(cur.percent) : locale.format(dictionary[group].tooltipFormat)(cur.percent)} 
+                return acc + `<p class="${ i === j ? 'isHighlighted' : ''} ${'tooltip-p tooltip-color-' + cur.colorIndex}""><span class="${type}">${dictionary[cur.key]}</span> | ${dictionary[indicator] && dictionary[indicator].disagTooltipFormat ? locale.format(dictionary[indicator].disagTooltipFormat)(cur.percent) : locale.format(dictionary[indicator].tooltipFormat)(cur.percent)} 
                                  (${ cur.absolute ? d3.format(',.0f')(cur.absolute) + ' ppl' : 'size n/a'})</p>`;
             }, '')
         });
