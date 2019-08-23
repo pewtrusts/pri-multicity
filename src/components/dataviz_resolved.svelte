@@ -1,7 +1,7 @@
 <script>
     import TimeChart from './chart_time.svelte';
     import BubbleChart from './chart_bubble.svelte';
-    import { viewTypeStore } from './../store.js';
+    import { viewTypeStore, groupByStore } from './../store.js';
     import { beforeUpdate, afterUpdate } from 'svelte';
     import dictionary from './../data/dictionary.json';
     import tippy from 'tippy.js';
@@ -15,6 +15,11 @@
     $: match = groupedData.find(d => d.key === group.key);
     viewTypeStore.subscribe(view => {
         viewType = view;
+    });
+    groupByStore.subscribe(() => {
+        document.querySelectorAll('.d3-tip').forEach(tip => {
+            tip.parentNode.removeChild(tip);
+        });
     });
     // THIS WOULD PROBABLY BE HANDLED BETTER BY MAKING A COMPONENT OUT OF THE HEADING SO THAT EACH ONE
     // WOULD HAVE ITS OWN LIFECYCLE
