@@ -1,4 +1,4 @@
-import { extent, max, min, range, descending } from 'd3-array';
+import { ascending, extent, max, min, range, descending } from 'd3-array';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { entries, nest}         from 'd3-collection';
 import { format, formatLocale } from 'd3-format';
@@ -12,6 +12,7 @@ import { timeParse, timeFormat }from 'd3-time-format';
 import tip                      from 'd3-tip';
 
 export default {
+    ascending,
     axisBottom,
     axisLeft,
     descending,

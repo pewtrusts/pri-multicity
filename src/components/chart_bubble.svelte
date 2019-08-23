@@ -49,6 +49,8 @@ beforeUpdate(() => {
     const xScale = d3.scaleOrdinal().range([0, width]);
     const yScale = d3.scaleLinear().range([height, 0]);
     const zScale = d3.scaleSqrt().range([minRadius, maxRadius]);
+    const ageValues = [datum.values[0].age1_a, datum.values[0].age2_a,datum.values[0].age3_a].sort((a,b) => d3.descending(a,b));
+    const raceValues = [datum.values[0].race1_a,datum.values[0].race2_a,datum.values[0].race3_a,datum.values[0].race4_a].sort((a,b) => d3.descending(a,b));
     const data = [
         [{ colorIndex: 0, percent: datum.values[0].age1, absolute: datum.values[0].age1_a, key: 'age1' }, { colorIndex: 1, percent: datum.values[0].age2, absolute: datum.values[0].age2_a, key: 'age2' }, { colorIndex: 2, percent: datum.values[0].age3, absolute: datum.values[0].age3_a, key: 'age3' }],
         [{ colorIndex: 0, percent: datum.values[0].race1, absolute: datum.values[0].race1_a, key: 'race1' }, { colorIndex: 1, percent: datum.values[0].race2, absolute: datum.values[0].race2_a, key: 'race2' }, { colorIndex: 2, percent: datum.values[0].race3, absolute: datum.values[0].race3_a, key: 'race3' }, { colorIndex: 3, percent: datum.values[0].race4, absolute: datum.values[0].race4_a, key: 'race4' }]
@@ -82,11 +84,13 @@ beforeUpdate(() => {
     const tip = d3.tip()
         .attr('class', 'd3-tip disaggregated')
         
-        .html((d, i) => {
+        .html((d, i) => { // i = 0
             var indicator = cityOrIndicator === 'indicator' ? group : datum.key;
+
             return d.sort((a, b) => d3.descending(a.percent, b.percent)).reduce((acc, cur, j) => {
                 var type = cur.key.match('age') ? 'age' : 'race';
-                return acc + `<p class="${ i === j ? 'isHighlighted' : ''} ${'tooltip-p tooltip-color-' + cur.colorIndex}""><span class="${type}">${dictionary[cur.key]}</span> | ${dictionary[indicator] && dictionary[indicator].disagTooltipFormat ? locale.format(dictionary[indicator].disagTooltipFormat)(cur.percent) : locale.format(dictionary[indicator].tooltipFormat)(cur.percent)} 
+                var values = type === 'age' ? ageValues : raceValues;
+                return acc + `<p class="${  values.indexOf(cur.absolute) === i ? 'isHighlighted' : ''} ${'tooltip-p tooltip-color-' + cur.colorIndex}""><span class="${type}">${dictionary[cur.key]}</span> | ${dictionary[indicator] && dictionary[indicator].disagTooltipFormat ? locale.format(dictionary[indicator].disagTooltipFormat)(cur.percent) : locale.format(dictionary[indicator].tooltipFormat)(cur.percent)} 
                                  (${ cur.absolute ? d3.format(',.0f')(cur.absolute) + ' ppl' : 'size n/a'})</p>`;
             }, '')
         });
@@ -133,7 +137,7 @@ beforeUpdate(() => {
                 .selectAll('.data-group')
                 .data(d => {
                     console.log(d);
-                    return d.sort((a, b) => d3.descending(a.percent, b.percent));
+                    return d.sort((a, b) => d3.descending(a.absolute, b.absolute));
                 })
                 .enter().append('g')
                 .attr('class', 'data-group')
