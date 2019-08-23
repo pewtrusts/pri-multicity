@@ -124,9 +124,9 @@
     <div class="graph-container">
         <h3 bind:this="{headings[i]}" data-tippy-content="{dictionary[d.key] ? dictionary[d.key].desc : ''}" tabindex="{groupBy !== 'nestedByIndicator' ? 0 : -1}" class:with-tooltip="{groupBy !== 'nestedByIndicator'}">{dictionary[d.key] ? dictionary[d.key].label : d.key}</h3>
         {#if viewType === 'time'}
-        <TimeChart datum={d} {metadata} group="{group.key}" />
+        <TimeChart instanceIndex="{i}" datum={d} {metadata} group="{group.key}" />
         {:else}
-        <BubbleChart datum={d} {metadata} {groupBy} group="{group.key}" />
+        <BubbleChart instanceIndex="{i}" datum={d} {metadata} {groupBy} group="{group.key}" />
         {/if}
     </div>
 </div>
