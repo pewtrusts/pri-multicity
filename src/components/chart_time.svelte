@@ -218,7 +218,7 @@
     }
     :global(.valueline){
         stroke: $medium_gray;
-        stroke-width: 0;
+        stroke-width: 1px;
         .svg-container:hover &, .svg-container:focus-within & {
             stroke-width: 3.5px;
             stroke: $orange;
@@ -234,10 +234,12 @@
     }
 
     :global(.value-point){
-        transition: fill 0.2s ease-in-out;
+        transition: fill 0.2s ease-in-out, r 0.2s ease-in-out;
         fill: $blue;
+        r: 1.5px;
         .svg-container:hover &, .svg-container:focus-within & {
             fill: $orange;
+            r: 1px;
         }
 
     }
