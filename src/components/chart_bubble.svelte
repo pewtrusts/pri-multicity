@@ -72,7 +72,7 @@ beforeUpdate(() => {
 
     const minValue = d3.min([metadata[datum.values[0].indicator].minAge, metadata[datum.values[0].indicator].minRace]);
     const maxValue = d3.max([metadata[datum.values[0].indicator].maxAge, metadata[datum.values[0].indicator].maxRace]);
-    yScale.domain([minValue, maxValue]).nice(4);
+    yScale.domain([0, maxValue]).nice(4);
     
     //domain below makes bubbles size comparable in group only
     //zScale.domain([metadata[datum.values[0][cityOrIndicator]].minPop, metadata[datum.values[0][cityOrIndicator]].maxPop]); 
@@ -278,23 +278,6 @@ beforeUpdate(() => {
     ;
 }
 
-:global(.valueline) {
-    stroke: $medium_gray;
-
-    .svg-container:hover & {
-        stroke-width: 3px;
-        color: $gray;
-    }
-}
-
-:global(.trendline) {
-    stroke: $blue;
-    stroke-width: 3px;
-
-    .svg-container:hover & {
-        stroke-width: 1px;
-    }
-}
 
 :global(.axis) path {
     vector-effect: non-scaling-stroke;
@@ -337,10 +320,7 @@ beforeUpdate(() => {
     fill: $blue;
 }
 
-:global(.value-point) {
-    fill: rgba(255, 255, 255, 0);
 
-}
 
 
 :global(.tooltip-p) {

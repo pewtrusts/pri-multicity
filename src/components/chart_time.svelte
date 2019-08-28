@@ -89,10 +89,14 @@
 
         xScale.domain(d3.extent(data, d => d.year));
 
-        const minValue = metadata[datum.values[0].indicator].minYear;
-        const maxValue = metadata[datum.values[0].indicator].maxYear;
+    //    const minValue = metadata[datum.values[0].indicator].minYear;
+    //    const maxValue = metadata[datum.values[0].indicator].maxYear;
+        // using values below puts time graph on same scale as bubble graphs
+        const minValue = metadata[datum.values[0].indicator].minAge !== undefined && datum.values[0].indicator !== 'population' ? d3.min([metadata[datum.values[0].indicator].minAge, metadata[datum.values[0].indicator].minRace]) : metadata[datum.values[0].indicator].minYear;
+        const maxValue = metadata[datum.values[0].indicator].maxAge !== undefined && datum.values[0].indicator !== 'population' ? d3.max([metadata[datum.values[0].indicator].maxAge, metadata[datum.values[0].indicator].maxRace]) : metadata[datum.values[0].indicator].maxYear;
+
         const diff = maxValue - minValue;
-        yScale.domain([minValue, maxValue]).nice(4);
+        yScale.domain([0, maxValue]).nice(4);
         
 
         const $svg = d3.select(svg);
@@ -151,7 +155,7 @@
             .attr('class', 'value-point')
             .attr('tabindex', 0)
             .attr('data-id', (d,i) => `${group}-${datum.key}-${i}`)
-            .attr('r', 2)
+            .attr('r', 1)
             .attr('cx', d => xScale(d.year))
             .attr('cy', d => yScale(d.value))
             .on('focus', function(){
@@ -214,19 +218,31 @@
     }
     :global(.valueline){
         stroke: $medium_gray;
+        stroke-width: 0;
         .svg-container:hover &, .svg-container:focus-within & {
-            stroke-width: 3px;
+            stroke-width: 3.5px;
             stroke: $orange;
         }
         mix-blend-mode: color;
     }
     :global(.trendline){
-        stroke: $blue;
+        stroke: $medium_gray;
         stroke-width: 3px;
         .svg-container:hover &, .svg-container:focus-within & {
             stroke-width: 1px;
         }
     }
+
+    :global(.value-point){
+        transition: fill 0.2s ease-in-out;
+        fill: $blue;
+        .svg-container:hover &, .svg-container:focus-within & {
+            fill: $orange;
+        }
+
+    }
+
+
     :global(.axis) path {
         vector-effect: non-scaling-stroke;
 
