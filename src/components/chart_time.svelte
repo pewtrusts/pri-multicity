@@ -217,15 +217,16 @@
 
     }
     :global(.valueline){
-        stroke: $medium_gray;
+        stroke: $blue;
+        stroke-width: 2px;
         .svg-container:hover &, .svg-container:focus-within & {
             stroke-width: 3px;
-            stroke: $orange;
+            stroke: $blue;
         }
-        mix-blend-mode: color;
+        mix-blend-mode: multiply;
     }
     :global(.trendline){
-        stroke: $blue;
+        stroke: $orange;
         stroke-width: 3px;
         .svg-container:hover &, .svg-container:focus-within & {
             stroke-width: 1px;
