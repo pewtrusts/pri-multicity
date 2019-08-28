@@ -84,7 +84,7 @@
     margin-bottom: 1.5em;
     color: $gray;
     font-weight: 600;
-    min-height: 20p
+    min-height: 25px;
 }
 section {
     position: relative;
