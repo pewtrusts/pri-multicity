@@ -66,9 +66,12 @@
             font-size: 16px;
             width: 100%;
             text-align: center;      
-            font-weight: 900;
+            font-weight: 600;
             padding-left: 20%;
             position: absolute;
+            &.philadelphia {
+                font-weight: 900;
+            }
         }
     }
     :global(.graph-container--outer .y-axis) {
@@ -136,7 +139,7 @@
 {#each match.values as d, i}
 <div class="graph-container--outer">
     <div class="graph-container">
-        <h3 bind:this="{headings[i]}" data-tippy-content="{dictionary[d.key] ? dictionary[d.key].desc : ''}" tabindex="{groupBy !== 'nestedByIndicator' ? 0 : -1}" class:with-tooltip="{groupBy !== 'nestedByIndicator'}">{dictionary[d.key] ? dictionary[d.key].label : d.key}</h3>
+        <h3 bind:this="{headings[i]}" class="{d.key.toLowerCase()}" data-tippy-content="{dictionary[d.key] ? dictionary[d.key].desc : ''}" tabindex="{groupBy !== 'nestedByIndicator' ? 0 : -1}" class:with-tooltip="{groupBy !== 'nestedByIndicator'}">{dictionary[d.key] ? dictionary[d.key].label : d.key}</h3>
         {#if viewType === 'time'}
         <TimeChart instanceIndex="{i}" datum={d} {metadata} group="{group.key}" />
         {:else}
