@@ -11,7 +11,7 @@ const outputFolder = process.env.NODE_ENV === 'preview' ? 'docs/' : process.env.
 const isDev = mode === 'development';
 const isProd = process.env.NODE_ENV === 'production';
 
-const repoName = 'multicity';
+const repoName = 'pri-multicity';
 const publicPath = isProd ? '/~/media/data-visualizations/interactives/2019/multicity/' : '';
 
 console.log(sass);
