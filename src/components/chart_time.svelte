@@ -51,7 +51,7 @@
         const margin = {
             top: 10,
             right: 5,
-            bottom: 10,
+            bottom: 15,
             left: 20
         };
         const width = 100 - margin.left - margin.right;
@@ -117,7 +117,7 @@
 
         //render x-axis
         const xAxis = $svg.append('g')
-          .attr('transform', `translate(${margin.left}, ${height + margin.top})`)
+          .attr('transform', `translate(${margin.left}, ${height + margin.top + 3})`)
           .attr('class', 'axis x-axis')
           .call(d3.axisBottom(xScale).tickSizeInner(0).tickSizeOuter(0).tickPadding(4).tickValues([data[firstNonNullIndex(data)].year, data[data.length - 1].year]));
 

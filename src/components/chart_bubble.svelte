@@ -34,7 +34,7 @@ beforeUpdate(() => {
         const margin = {
             top: 10,
             right: 5,
-            bottom: 10,
+            bottom: 15,
             left: 20
         };
     const locale = d3.formatLocale({
@@ -69,9 +69,11 @@ beforeUpdate(() => {
     
 
     xScale.domain([0, data.length]);
-
-    const minValue = d3.min([metadata[datum.values[0].indicator].minAge, metadata[datum.values[0].indicator].minRace]);
-    const maxValue = d3.max([metadata[datum.values[0].indicator].maxAge, metadata[datum.values[0].indicator].maxRace]);
+    const calcMin = d3.min([metadata[datum.values[0].indicator].minAge, metadata[datum.values[0].indicator].minRace]);
+    const calcMax =  d3.max([metadata[datum.values[0].indicator].maxAge, metadata[datum.values[0].indicator].maxRace]);
+    // for indicators where disaggregated data are not available, set the domain based on thee year data
+    const minValue = calcMin !== undefined ? calcMin : metadata[group].minYear;
+    const maxValue = calcMax !== undefined ? calcMax : metadata[group].maxYear;
     yScale.domain([0, maxValue]).nice(4);
     
     //domain below makes bubbles size comparable in group only
@@ -100,7 +102,7 @@ beforeUpdate(() => {
 
     //render x-axis
     const xAxis = $svg.append('g')
-        .attr('transform', `translate(${margin.left}, ${height + margin.top})`)
+        .attr('transform', `translate(${margin.left}, ${height + margin.top + 3})`)
         .attr('class', 'axis x-axis categorical')
         .call(d3.axisBottom(xScale).tickSizeInner(0).tickSizeOuter(0).tickPadding(4));
 
@@ -171,10 +173,18 @@ beforeUpdate(() => {
                 });
         } else {
             d3.select(this)
+                .datum(datum.values[0][metadata.stopYear])
+                .append('rect')
+                .attr('class','aggregated')
+                .attr('height', 2)
+                .attr('width', 10)
+                .attr('x', -5)
+                .attr('y', d => yScale(d));
+/*
                 .append('text')
                 .attr('class', 'not-available')
-                .text('N/A')
-                .attr('y', height / 2);
+                .text(d => d)
+                .attr('y', height / 2);*/
         }
 
         //append labels
@@ -320,7 +330,9 @@ beforeUpdate(() => {
     fill: $blue;
 }
 
-
+:global(rect.aggregated) {
+    fill: $blue;
+}
 
 
 :global(.tooltip-p) {
