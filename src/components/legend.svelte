@@ -76,6 +76,9 @@ function clickHandler(e){
                 <div class="legend">
                     <div class="color-codes">
                         <div>
+                            <div class="agreggated-dash"></div> = only average available
+                        </div>
+                        <div>
                             <h3>Age:</h3>
                             <ul>
                                 <li>&lt;35</li>

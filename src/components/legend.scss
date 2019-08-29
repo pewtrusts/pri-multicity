@@ -60,18 +60,19 @@
     display: flex;
 
     .color-codes {
+        max-width: 440px;
         display: flex;
-        flex-direction: column;
-        align-items: flex-end;
+        //
+        justify-content: flex-end;
         flex-wrap: wrap;
         flex-grow: 1;
-        justify-content: space-between;
+      
 
 
         > div {
             display: flex;
             min-width: 130px;
-            flex-grow: 1;
+           // flex-grow: 1;
             margin-top: 0.75em;
             
 
@@ -179,4 +180,12 @@ li {
     color: inherit;
     font: inherit;
     line-height: normal;
+}
+.agreggated-dash {
+    display: inline-block;
+    width: 22px;
+    height: 3px;
+    background-color: $blue;
+    position: relative;
+    top: 5px;
 }
