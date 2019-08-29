@@ -114,31 +114,9 @@ section {
     }
 }
 
-.trendline-key {
-    position: absolute;
-    top: 0;
-    right: 0;
-    img {
-        bottom: 3px;
-        position: relative;
-    }
-    @media screen and (max-width: 360px){
-        position: relative;
-    }
-}
-
-:global(body){
-    scroll-snap-type: y proximity;
-    scroll-padding: 185px;
-}
 
 </style>
 
-{#if viewType === 'time'}
-<div class="trendline-key">
-    <p><img src="{trendlineSVG}" alt="blue line equals best fit trend line" /> = best fit trend line</p>
-</div>
-{/if}
 {#each groupedData as group, i}
     <section class="dataviz-section">
         <a tabindex="-1" class="section-anchor observer-anchor js-section-anchor-{i}" id="anchor-{group.key}" data-key="{group.key}"></a>

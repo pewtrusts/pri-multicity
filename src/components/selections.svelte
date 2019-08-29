@@ -4,12 +4,14 @@
     import Loading from './loading.svelte';
     import UISvelte from '@Submodule/UI-svelte/';
     import dictionary from './../data/dictionary.json';
+    import trendlineSVG from 'file-loader!./dataviz--trendline.svg';
     export let groupedData;
     export let metadata;
 
 
     let indicatorFirstValue;
     let groupSelectorLabel;
+    let viewType;
 
     let organizeByOptions = [
         {
@@ -47,6 +49,9 @@
         groupByStore.set(this.dataset.value);
         indicatorFirstValue = this.dataset.value;
     }
+    viewTypeStore.subscribe(value => {
+        viewType = value;
+    });
     groupByStore.subscribe(value => {
         var firstSectionAnchor = document.querySelector('.dataviz-section a.section-anchor');
         if ( firstSectionAnchor ){
@@ -65,11 +70,6 @@
     .selections {
         width: 100%;
         display: flex;
-        position: sticky;
-        top: 100px;
-        padding: 10px 0;
-        background-image: linear-gradient(#fff, #fff 90%, rgba(255,255,255,0));
-        z-index: 2;
     }
     .selections > div {
         width: 33%;
@@ -88,18 +88,50 @@
     .selections-anchor {
         position: absolute;
         top: -185px;
+    }
+    .selections-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        position: sticky;
+        top: 100px;
+        background-image: linear-gradient(#fff, #fff 90%, rgba(255,255,255,0));
+        z-index: 2;
+        padding: 10px 0;
     } 
+    .trendline-key {
+        img {
+            bottom: 3px;
+            position: relative;
+        }
+        p {
+            margin-bottom: 0;
+        }
+    }
+
+    :global(body){
+        scroll-snap-type: y proximity;
+        scroll-padding: 185px;
+    }
+
 </style>
 
-<div class="selections">
-    <div>
-        <UISvelte.dropdown label="Organize by:" options="{organizeByOptions}" itemOnClick="{organizeItemOnClick}" />
-    </div> 
-    <div>
-        <UISvelte.dropdown label="{groupSelectorLabel}:" options="{createOptions(groupedData)}" itemOnClick="{dropdownItemOnClick}" subscribeTo="{scrolledToStore}"  />
-    </div>        
-    <div bind:this="{typeSelectors}" class="view-type-selectors">
-        <div><input type="radio" name="view-type" value="time" id="radio1" checked="true" /><label for="radio1">Over time</label></div>
-        <div><input type="radio" name="view-type" value="disaggregated" id="radio2" /><label for="radio2">By age and race</label></div>
+<div class="selections-wrapper">
+    <div class="selections">
+        <div>
+            <UISvelte.dropdown label="Organize by:" options="{organizeByOptions}" itemOnClick="{organizeItemOnClick}" />
+        </div>
+        <div>
+            <UISvelte.dropdown label="{groupSelectorLabel}:" options="{createOptions(groupedData)}" itemOnClick="{dropdownItemOnClick}" subscribeTo="{scrolledToStore}" />
+        </div>
+        <div bind:this="{typeSelectors}" class="view-type-selectors">
+            <div><input type="radio" name="view-type" value="time" id="radio1" checked="true" /><label for="radio1">Over time</label></div>
+            <div><input type="radio" name="view-type" value="disaggregated" id="radio2" /><label for="radio2">By age and race</label></div>
+        </div>
     </div>
+    {#if viewType === 'time'}
+    <div class="trendline-key">
+        <p><img src="{trendlineSVG}" alt="blue line equals best fit trend line" /> = best fit trend line</p>
+    </div>
+    {/if}
 </div>
