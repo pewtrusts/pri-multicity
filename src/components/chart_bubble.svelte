@@ -32,7 +32,7 @@ beforeUpdate(() => {
 
     // parameters / presettings
         const margin = {
-            top: 3,
+            top: 10,
             right: 5,
             bottom: 10,
             left: 20
