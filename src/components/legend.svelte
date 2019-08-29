@@ -17,12 +17,12 @@ function convertToMagnitude(n) {
 }
 
 let zScaleDomain = [metadata.minPop, metadata.maxPop];
-let viewBoxHeight = maxRadius * 2 + 12;
+let viewBoxHeight = 100/3.19;
 
 let margin = {
     top: 0,
     right: 0,
-    bottom: 7,
+    bottom: 0.5,
     left: 2
 };
 let svg;
@@ -36,20 +36,20 @@ onMount(() => {
     const width = 100 - margin.left - margin.right;
     const height = viewBoxHeight - margin.top - margin.bottom;
     const zScale = d3.scaleSqrt().range([minRadius, maxRadius]).domain(zScaleDomain);
-    const data = zScaleDomain.map(d => convertToMagnitude(d)).concat([minRadius / 2]);
+    const data = zScaleDomain.map(d => convertToMagnitude(d));//.concat([minRadius / 2]);
 
     var group = d3.select(svg).selectAll('g')
         .data(data)
         .enter().append('g')
-        .attr('transform', (d, i) => i !== 2 ? `translate(${margin.left + +zScale(data[1])}, ${height - zScale(d)})` : `translate(${margin.left + +zScale(data[1])},${height - d})`);
+        .attr('transform', (d, i) => `translate(${margin.left + +zScale(data[1])}, ${height - zScale(d)})`);
 
     group.append('circle')
-        .attr('r', (d, i) => i === 2 ? d : zScale(d));
+        .attr('r', (d, i) => zScale(d));
 
     group.append('text')
         .attr('class', 'circle-label')
-        .attr('transform', (d, i) => i !== 2 ? `translate(0, ${0 - +zScale(d) - 2})` : `translate(0, ${d * 2 + 4} )`)
-        .text((d, i) => i !== 2 ? d3.format('.0s')(d) : 'n/a');
+        .attr('transform', (d, i) => i === 1 ? `translate(0, ${0 - +zScale(d) + 7.5})` : `translate(0, ${0 - +zScale(d) - 1})` )
+        .text((d, i) => d3.format('.0s')(d));
 
 
 
@@ -64,9 +64,6 @@ function clickHandler(e){
 <style lang="scss">
 @import './../variables.scss';
 
-.hide {
-    display: none;
-}
 
 .legend-container {
     position: sticky;
@@ -75,26 +72,32 @@ function clickHandler(e){
     width: 100%;
     transform: translateY(0);
     transition: transform 0.2s ease-in-out;
-    background-color: #fff;
+    
     z-index: 1;
     opacity: 1;
+    display: flex;
+    justify-content: flex-end;
     &.isClosed {
         transform: translateY(100%);
         //opacity: 0;
+    }
+    &.hide {
+        display: none;
     }
 }
 
 .legend-container-inner {
     position: relative;
-    width: 100%;
+    display: inline-block;
     max-width: 1030px;
-    margin: 0 auto;
     display: flex;
     justify-content: flex-end;
-    padding-bottom: 10px;
-    border: 2px solid $blue;
+    padding-bottom: 5px;
     transition:  opacity 0.2s ease-in-out;
     opacity: 1;
+    //background-color: rgba(255,255,255,0.9);
+    background-color: #fff;
+    border: 1px solid $gray;
     .isClosed & {
         opacity: 0;
     }
@@ -103,14 +106,14 @@ function clickHandler(e){
 .legend-container-wrapper {
     width: 100%;
     display: flex;
-    justify-content: space-around;
-    padding: 0.5em 20px 0;
+    justify-content: flex-end;
+    padding: 0 22px 0;
     
     > div:first-child {
         display: flex;
         flex-direction: column;
         flex-grow: 1;
-        justify-content: space-between;
+        justify-content: flex-end;
         h2 {
             font-size: 1.5em;
             text-align: left;
@@ -125,6 +128,7 @@ function clickHandler(e){
 
     .color-codes {
         display: flex;
+        flex-direction: column;
         align-items: flex-end;
         flex-wrap: wrap;
         flex-grow: 1;
@@ -142,6 +146,8 @@ function clickHandler(e){
             h3 {
                 display: inline-block;
                 margin-right: 0.5em;
+                width: 40px;
+                text-align: right;
                 
             }
         }
@@ -155,11 +161,11 @@ function clickHandler(e){
 
 }
 .legend-svg-container {
-    flex-grow: 1;
+  //  flex-grow: 1;
 }
 .population-legend {
     width: 62px;
-   
+    margin-bottom: -5px;
 
     :global(circle) {
         fill: none;
@@ -223,15 +229,16 @@ li {
 
 }
 .x-out-container {
-    display: inline-block;
-    top: 15px;
-    position: relative;
+    display: block;
+    position: absolute;
+    top: 20px;
+    right: 5px;
 }
 .show-legend {
     color: $dark_blue;
     position: absolute;
     top: -34px;
-    left: 5px;
+    right: 0;
     padding: 0.5em;
     border: 2px solid $blue;
     margin: 0;
@@ -245,9 +252,6 @@ li {
     <div class="legend-container-inner">
         <div class="legend-container-wrapper">
             <div>
-                <h2 on:click="{clickHandler}">Legend <div class="x-out-container">
-                <UISvelte.xOut />
-            </div></h2>
                 <div class="legend">
                     <div class="color-codes">
                         <div>
@@ -271,7 +275,10 @@ li {
                 </div>
             </div>
             <div class="legend-svg-container">
-                <svg class="population-legend" bind:this={svg} width="100%" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 {100/3.19} {viewBoxHeight}"></svg>
+                <svg class="population-legend" bind:this={svg} width="100%" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 {viewBoxHeight} {viewBoxHeight}"></svg>
+            </div>
+            <div on:click="{clickHandler}" class="x-out-container">
+                <UISvelte.xOut />
             </div>
         </div>
     </div>
