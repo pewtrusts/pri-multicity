@@ -8,7 +8,7 @@ export let maxRadius;
 export let minRadius;
 
 let viewType;
-let isClosed = true;
+let isClosed = false;
 
 function convertToMagnitude(n) {
     var order = Math.round(Math.log(n) / Math.LN10 +

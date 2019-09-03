@@ -4,17 +4,19 @@
     top: calc(100% - 11px);
     right: 0;
     width: 100%;
-    max-width: 540px;
-    transform: translateY(0);
-    transition: transform 0.2s ease-in-out;
+    //max-width: 540px;
+    
+    transition: opacity 0.2s ease-in-out;
     z-index: 1;
     opacity: 1;
     display: flex;
     justify-content: flex-end;
     background-image: linear-gradient(rgba(255,255,255,1), rgba(255,255,255,0.9) 90%, rgba(255,255,255,0));
+    height: 30px;
+    color: $gray;
     &.isClosed {
-        transform: translateY(100%);
-        //opacity: 0;
+        
+       // opacity: 0;
     }
     &.hide {
         display: none;
@@ -97,11 +99,18 @@
 
 }
 .legend-svg-container {
-  //  flex-grow: 1;
+  height: 62px;
+  background-image: linear-gradient(rgba(255,255,255,1), rgba(255,255,255,0.9) 90%, rgba(255,255,255,0));
+  position: relative;
+  bottom: 10px;
+  right: 10px;
 }
 .population-legend {
     width: 62px;
   //  margin-bottom: -5px;
+  position: relative;
+  
+
 
     :global(circle) {
         fill: none;
@@ -111,6 +120,7 @@
     :global(.circle-label) {
         font-size: 7.5px;
         text-anchor: middle;
+        fill: $gray;
     }
 }
 
@@ -167,13 +177,13 @@ li {
 .x-out-container {
     display: block;
     position: absolute;
-    top: 20px;
+    top: 10px;
     right: 5px;
 }
 .show-legend {
     color: $dark_blue;
     position: absolute;
-    top: -34px;
+   // top: -34px;
     right: 0;
     padding: 0.5em;
     border: 2px solid $blue;
