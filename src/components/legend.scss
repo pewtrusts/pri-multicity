@@ -1,15 +1,17 @@
 .legend-container {
-    position: sticky;
-    bottom: 0;
-    left: 0;
+
+    position: absolute;
+    top: calc(100% - 11px);
+    right: 0;
     width: 100%;
+    max-width: 540px;
     transform: translateY(0);
     transition: transform 0.2s ease-in-out;
-    
     z-index: 1;
     opacity: 1;
     display: flex;
     justify-content: flex-end;
+    background-image: linear-gradient(rgba(255,255,255,1), rgba(255,255,255,0.9) 90%, rgba(255,255,255,0));
     &.isClosed {
         transform: translateY(100%);
         //opacity: 0;
@@ -22,15 +24,16 @@
 .legend-container-inner {
     position: relative;
     display: inline-block;
-    max-width: 1030px;
+    //max-width: 1030px;
+    width: 100%;
     display: flex;
     justify-content: flex-end;
     padding-bottom: 5px;
     transition:  opacity 0.2s ease-in-out;
     opacity: 1;
     //background-color: rgba(255,255,255,0.9);
-    background-color: #fff;
-    border: 1px solid $gray;
+    //background-color: #fff;
+    //border: 1px solid $gray;
     .isClosed & {
         opacity: 0;
     }
@@ -40,13 +43,12 @@
     width: 100%;
     display: flex;
     justify-content: flex-end;
-    padding: 0 22px 0;
+    padding: 0 22px 0 0;
     
     > div:first-child {
         display: flex;
         flex-direction: column;
         flex-grow: 1;
-        justify-content: flex-end;
         h2 {
             font-size: 1.5em;
             text-align: left;
@@ -58,12 +60,11 @@
 .legend {
 
     display: flex;
+    justify-content: flex-end;
 
     .color-codes {
-        max-width: 440px;
         display: flex;
-        //
-        justify-content: flex-end;
+        
         flex-wrap: wrap;
         flex-grow: 1;
       
@@ -73,14 +74,15 @@
             display: flex;
             min-width: 130px;
            // flex-grow: 1;
-            margin-top: 0.75em;
+            margin-top: 7px;
+            margin-right: 7px;
             
 
 
             h3 {
                 display: inline-block;
                 margin-right: 0.5em;
-                width: 40px;
+                //width: 40px;
                 text-align: right;
                 
             }
@@ -99,7 +101,7 @@
 }
 .population-legend {
     width: 62px;
-    margin-bottom: -5px;
+  //  margin-bottom: -5px;
 
     :global(circle) {
         fill: none;

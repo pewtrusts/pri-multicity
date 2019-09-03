@@ -8,7 +8,7 @@ export let maxRadius;
 export let minRadius;
 
 let viewType;
-let isClosed = false;
+let isClosed = true;
 
 function convertToMagnitude(n) {
     var order = Math.round(Math.log(n) / Math.LN10 +
@@ -76,7 +76,13 @@ function clickHandler(e){
                 <div class="legend">
                     <div class="color-codes">
                         <div>
-                            <div class="agreggated-dash"></div> = age/race not available
+                            <h3>Race:</h3>
+                            <ul>
+                                <li>White, non-Hispanic</li>
+                                <li>Black</li>
+                                <li>Hispanic</li>
+                                <li>Asian</li>
+                            </ul>
                         </div>
                         <div>
                             <h3>Age:</h3>
@@ -87,13 +93,7 @@ function clickHandler(e){
                             </ul>
                         </div>
                         <div>
-                            <h3>Race:</h3>
-                            <ul>
-                                <li>White, non-Hispanic</li>
-                                <li>Black</li>
-                                <li>Hispanic</li>
-                                <li>Asian</li>
-                            </ul>
+                            <div class="agreggated-dash"></div> = age/race not available
                         </div>
                     </div>
                 </div>

@@ -5,6 +5,7 @@
     import UISvelte from '@Submodule/UI-svelte/';
     import dictionary from './../data/dictionary.json';
     import trendlineSVG from 'file-loader!./dataviz--trendline.svg';
+    import Legend from './legend.svelte';
     export let groupedData;
     export let metadata;
 
@@ -111,7 +112,7 @@
 
     :global(body){
         scroll-snap-type: y proximity;
-        scroll-padding: 185px;
+        scroll-padding: 165px;
     }
 
 </style>
@@ -134,4 +135,5 @@
         <p><img src="{trendlineSVG}" alt="blue line equals best fit trend line" /> = best fit trend line</p>
     </div>
     {/if}
+    <Legend {metadata} maxRadius=15 minRadius=5 />   
 </div>

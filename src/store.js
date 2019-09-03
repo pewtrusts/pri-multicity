@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 
-const viewTypeStore = writable('time');
+const viewTypeStore = writable('timexx');
 const groupBy = writable('nestedByIndicator');
 const inViewSection = writable('');
 const scrolledToSection = writable('');
