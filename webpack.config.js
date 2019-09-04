@@ -51,7 +51,7 @@ const plugins = [
     new HtmlWebpackPlugin({
         title: 'title title title',
         template: isProd ? './src/index.html' : './src/index-dev.html',
-        inject: !isProd
+        inject: !isProd,
     }),
     new MiniCssExtractPlugin({
         filename: '[name].css'
