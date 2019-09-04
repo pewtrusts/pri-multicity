@@ -76,6 +76,7 @@
     }
     .selections > div {
         width: 33%;
+        z-index: 2;
         
     }
      .view-type-selectors {
