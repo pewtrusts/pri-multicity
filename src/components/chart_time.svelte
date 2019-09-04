@@ -92,11 +92,14 @@
     //    const minValue = metadata[datum.values[0].indicator].minYear;
     //    const maxValue = metadata[datum.values[0].indicator].maxYear;
         // using values below puts time graph on same scale as bubble graphs
-        const minValue = metadata[datum.values[0].indicator].minAge !== undefined && datum.values[0].indicator !== 'population' ? d3.min([metadata[datum.values[0].indicator].minAge, metadata[datum.values[0].indicator].minRace]) : metadata[datum.values[0].indicator].minYear;
-        const maxValue = metadata[datum.values[0].indicator].maxAge !== undefined && datum.values[0].indicator !== 'population' ? d3.max([metadata[datum.values[0].indicator].maxAge, metadata[datum.values[0].indicator].maxRace]) : metadata[datum.values[0].indicator].maxYear;
+        const minValue = ( metadata[datum.values[0].indicator].minAge !== undefined || metadata[datum.values[0].indicator].minRace !== undefined ) && datum.values[0].indicator !== 'population' ? d3.min([metadata[datum.values[0].indicator].minAge, metadata[datum.values[0].indicator].minRace]) : metadata[datum.values[0].indicator].minYear;
+        const maxValue = ( metadata[datum.values[0].indicator].maxAge !== undefined || metadata[datum.values[0].indicator].maxRace !== undefined ) && datum.values[0].indicator !== 'population' ? d3.max([metadata[datum.values[0].indicator].maxAge, metadata[datum.values[0].indicator].maxRace]) : metadata[datum.values[0].indicator].maxYear;
 
         const diff = maxValue - minValue;
         yScale.domain([0, maxValue]).nice(4);
+        if ( datum.values[0].indicator === 'commute' ){
+            console.log('oink', yScale.domain());
+        }
         
 
         const $svg = d3.select(svg);

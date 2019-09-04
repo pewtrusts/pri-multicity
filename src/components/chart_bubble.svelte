@@ -76,7 +76,9 @@ beforeUpdate(() => {
     const minValue = calcMin !== undefined ? calcMin : metadata[datum.values[0].indicator].minYear;
     const maxValue = calcMax !== undefined ? calcMax : metadata[datum.values[0].indicator].maxYear;
     yScale.domain([0, maxValue]).nice(4);
-    
+    if ( datum.values[0].indicator === 'commute' ){
+        console.log('oink', calcMax, yScale.domain());
+    }
     //domain below makes bubbles size comparable in group only
     //zScale.domain([metadata[datum.values[0][cityOrIndicator]].minPop, metadata[datum.values[0][cityOrIndicator]].maxPop]); 
 
