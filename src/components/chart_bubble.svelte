@@ -254,7 +254,7 @@ beforeUpdate(() => {
     transition: fill-opacity 0.2s ease-in-out;
     &:hover, &:focus {
         fill-opacity: 1;
-        outline: none;
+        //outline: none;
     }
 
 

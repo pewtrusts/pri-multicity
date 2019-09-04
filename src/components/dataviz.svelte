@@ -78,6 +78,9 @@
     margin-bottom: 0;
     margin-top: 1em;
     display: inline-block;
+    > span {
+        color: $gray;
+    }
     
 }
 .description {
@@ -121,7 +124,7 @@ section {
 {#each groupedData as group, i}
     <section class="dataviz-section">
         <a tabindex="-1" class="section-anchor observer-anchor js-section-anchor-{i}" id="anchor-{group.key}" data-key="{group.key}"></a>
-        <h2 class="dataviz-heading">{dictionary[group.key] ? dictionary[group.key].label : group.key}</h2>
+        <h2 class="dataviz-heading">{dictionary[group.key] ? dictionary[group.key].label : group.key} <span>{viewType === 'time' ? '' : `(${metadata.stopYear})`}</span></h2>
         {#if i < groupedData.length - 1}
         <a class="skip-link js-skip-link-{group.key}" id="skip-link-{i}" name="skip-link-{i}" href="#skip-link-{i + 1}" data-link-to="{i + 1}" on:click|preventDefault="{skipClickHandler}">Skip to next section</a>
         {:else}
