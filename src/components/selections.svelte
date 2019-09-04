@@ -109,6 +109,7 @@
         position: absolute;
         right: 0;
         bottom: -15px;
+        background-image: linear-gradient(#fff, #fff 90%, rgba(255,255,255,0));
         img {
             bottom: 3px;
             position: relative;
