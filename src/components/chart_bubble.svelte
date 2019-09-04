@@ -71,9 +71,10 @@ beforeUpdate(() => {
     xScale.domain([0, data.length]);
     const calcMin = d3.min([metadata[datum.values[0].indicator].minAge, metadata[datum.values[0].indicator].minRace]);
     const calcMax =  d3.max([metadata[datum.values[0].indicator].maxAge, metadata[datum.values[0].indicator].maxRace]);
-    // for indicators where disaggregated data are not available, set the domain based on thee year data
-    const minValue = calcMin !== undefined ? calcMin : metadata[group].minYear;
-    const maxValue = calcMax !== undefined ? calcMax : metadata[group].maxYear;
+
+    // for indicators where disaggregated data are not available, set the domain based on the year data
+    const minValue = calcMin !== undefined ? calcMin : metadata[datum.values[0].indicator].minYear;
+    const maxValue = calcMax !== undefined ? calcMax : metadata[datum.values[0].indicator].maxYear;
     yScale.domain([0, maxValue]).nice(4);
     
     //domain below makes bubbles size comparable in group only
@@ -95,6 +96,12 @@ beforeUpdate(() => {
                 return acc + `<p class="${  values.indexOf(cur.absolute) === i ? 'isHighlighted' : ''} ${'tooltip-p tooltip-color-' + cur.colorIndex}""><span class="${type}">${dictionary[cur.key]}</span> | ${dictionary[indicator] && dictionary[indicator].disagTooltipFormat ? locale.format(dictionary[indicator].disagTooltipFormat)(cur.percent) : locale.format(dictionary[indicator].tooltipFormat)(cur.percent)} 
                                  (${ cur.absolute ? d3.format(',.0f')(cur.absolute) + ' ppl' : 'size n/a'})</p>`;
             }, '')
+        });
+    const NATip = d3.tip()
+        .attr('class', 'd3-tip disaggregated d3-tip--not-available')
+        .html(d => {
+            var indicator = cityOrIndicator === 'indicator' ? group : datum.key;
+            return `<p class="tooltip-p-na"><strong>${dictionary[indicator] && dictionary[indicator].disagTooltipFormat ? locale.format(dictionary[indicator].disagTooltipFormat)(d.value) : locale.format(dictionary[indicator].tooltipFormat)(d.value)}</strong> | Data by ${d.groupIndex === 0 ? 'age' : 'race' } not available</p>`;
         });
 
     const $svg = d3.select(svg);
@@ -133,7 +140,7 @@ beforeUpdate(() => {
 
         });
 
-    typeGroup.each(function(p) {
+    typeGroup.each(function(p, j, peas) {
         if ( p.filter(x => !isNaN(x.percent)).length > 0 ){ // append circles only if the array contains valid data
             let dataGroup = d3.select(this)
                 .selectAll('.data-group')
@@ -172,14 +179,26 @@ beforeUpdate(() => {
                     g.addEventListener('keydown', goToSectionStart.bind(undefined, group));
                 });
         } else {
-            d3.select(this)
-                .datum(datum.values[0][metadata.stopYear])
+            let selection = d3.select(this)
+                .datum(datum.values[0][metadata.stopYear]);
+            selection
                 .append('rect')
                 .attr('class','aggregated')
                 .attr('height', 2)
                 .attr('width', 10)
                 .attr('x', -5)
                 .attr('y', d => yScale(d));
+            selection
+                .append('circle')
+                .attr('class', 'aggregated-circle')
+                .attr('r', 14)
+                .attr('cy', d => yScale(d))
+                .attr('cx', 0)
+                .call(NATip)
+                .on('mouseover', function(d){
+                    NATip.show.call(this, {groupIndex: j, value: d});
+                })
+                .on('mouseout', NATip.hide);
 /*
                 .append('text')
                 .attr('class', 'not-available')
@@ -256,10 +275,11 @@ beforeUpdate(() => {
         fill-opacity: 1;
         //outline: none;
     }
-
-
+  
 }
-
+:global(circle.aggregated-circle) {
+    fill: rgba(255,255,255,0);
+}
 :global(.data-label) {
     font-size: 7.5px;
 }
@@ -334,7 +354,10 @@ beforeUpdate(() => {
     fill: $blue;
 }
 
-
+:global(.tooltip-p-na) {
+    margin-bottom: 0;
+    line-height: 100%;
+}
 :global(.tooltip-p) {
     margin-bottom: 0.5em;
     padding-left: 12px;
