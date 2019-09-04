@@ -92,8 +92,9 @@ section {
     scroll-snap-align: start;
     a.observer-anchor {
         position: absolute;
+        z-index: 9999;
         &.section-anchor {
-            top: -185px;
+            top: -184px;
         }
         &.upward-observer-anchor {
             top: calc(100vh - 225px);
