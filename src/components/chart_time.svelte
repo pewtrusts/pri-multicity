@@ -52,7 +52,7 @@
             top: 10,
             right: 5,
             bottom: 15,
-            left: 20
+            left: 21
         };
         const width = 100 - margin.left - margin.right;
         const height = viewBoxHeight - margin.top - margin.bottom;
@@ -127,7 +127,7 @@
         //render y-axis
         const yAxis = $svg.append('g')
             .attr('class', 'axis y-axis')
-            .attr('transform', `translate(${margin.left + 3}, ${margin.top})`)
+            .attr('transform', `translate(${margin.left + 1}, ${margin.top})`)
             .call(d3.axisLeft(yScale).tickSizeInner(0).tickSizeOuter(1).tickPadding(4).ticks(4, numberFormat));//.tickFormat(d3.format(numberFormat)));
 
 
