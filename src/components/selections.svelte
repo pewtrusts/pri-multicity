@@ -8,6 +8,7 @@
     import Legend from './legend.svelte';
     export let groupedData;
     export let metadata;
+    export let isSticky;
 
 
     let indicatorFirstValue;
@@ -61,6 +62,7 @@
         groupSelectorLabel = organizeByOptions.find(d => d.value === value).display;
     });
     onMount(() => {
+        
         typeSelectors.querySelectorAll('input').forEach(input => {
             input.addEventListener('change', changeHandler);
         });
@@ -86,21 +88,27 @@
             top: .125em;
         }
     }
-    .selections-anchor {
-        position: absolute;
-        top: -185px;
-    }
     .selections-wrapper {
+        position: absolute;
+        bottom: 0;
         display: flex;
         flex-direction: column;
         align-items: flex-end;
-        position: sticky;
-        top: 100px;
         background-image: linear-gradient(#fff, #fff 90%, rgba(255,255,255,0));
         z-index: 2;
         padding: 10px 0;
+        width: 100%;
+        max-width: 990px;
+        &.is-sticky {
+            position: fixed;
+            top: 100px;
+            bottom: auto;
+        }
     } 
     .trendline-key {
+        position: absolute;
+        right: 0;
+        bottom: -15px;
         img {
             bottom: 3px;
             position: relative;
@@ -117,7 +125,7 @@
 
 </style>
 
-<div class="selections-wrapper">
+<div class:is-sticky="{isSticky}" class="selections-wrapper">
     <div class="selections">
         <div>
             <UISvelte.dropdown label="Organize by:" options="{organizeByOptions}" itemOnClick="{organizeItemOnClick}" />
