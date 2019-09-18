@@ -220,13 +220,13 @@
 
     }
     :global(.valueline){
-        stroke: $medium_gray;
-        stroke-width: 0;
+        stroke: $blue;
+        stroke-width: 2px;
         .svg-container:hover &, .svg-container:focus-within & {
             stroke-width: 3.5px;
             stroke: $orange;
         }
-        mix-blend-mode: multiply;
+        mix-blend-mode: color;
     }
     :global(.trendline){
         stroke: $medium_gray;
