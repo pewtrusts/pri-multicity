@@ -3,10 +3,8 @@ import Papa from 'papaparse';
 import d3 from './d3-importer';
 import App from './App.svelte';
 import data from './data/dashboard-data-1.csv';
-import MakeQueriablePromise from './MakeQueriablePromise.js';
 
 // array of cities to render while the dataPromise is being resolved
-const initialCities = ["Baltimore", "Boston", "Chicago", "Cleveland", "Detroit", "Houston", "Philadelphia", "Phoenix", "Pittsburgh", "Washington"]
 const metadata = {
     startYear: 2007,
     stopYear: 2017
@@ -68,12 +66,25 @@ function summarizeData(data){
     metadata.maxPop = d3.max(maxPops);
 }
 function getData(resolve, reject){
+    function phillyFirst(a,b){
+        if ( a === 'Philadelphia'){
+            return -1;
+        }
+        if ( b === 'Philadelphia'){
+            return 1;
+        }
+        var sorted = [a,b].sort();
+        if ( sorted[0] === a ){
+            return -1;
+        }
+        return 1;
+    }
     Papa.parse(PUBLICPATH + data, {
         complete: function(results){
             summarizeData(results.data);
             console.log(metadata);
-            var nestedByIndicator = d3.nest().key(d => d.indicator).key(d => d.city).entries(results.data);
-            var nestedByCity = d3.nest().key(d => d.city).key(d => d.indicator).entries(results.data);
+            var nestedByIndicator = d3.nest().key(d => d.indicator).key(d => d.city).sortKeys(phillyFirst).entries(results.data);
+            var nestedByCity = d3.nest().key(d => d.city).sortKeys(phillyFirst).key(d => d.indicator).entries(results.data);
             resolve({nestedByIndicator,nestedByCity});
         },
         download: true,
@@ -87,16 +98,14 @@ function getData(resolve, reject){
     });
 }
 
-const dataPromise = MakeQueriablePromise(new Promise((resolve, reject) => {
+const dataPromise = new Promise((resolve, reject) => {
     getData(resolve, reject);
-}));
-console.log(dataPromise);
+});
 dataPromise.then(data => {
     new App({
     	target: document.querySelector('#svelte-container'),
     	props: {
             data,
-            initialCities,
             metadata
     	}
     });
