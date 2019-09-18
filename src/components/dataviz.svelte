@@ -1,6 +1,5 @@
 <script>
     import dictionary from './../data/dictionary.json';
-    import DatavizWaiting from './dataviz_waiting.svelte';
     import DatavizResolved from './dataviz_resolved.svelte';
     import { inViewSectionStore, scrolledToStore, viewTypeStore } from './../store.js';
     import { onMount } from 'svelte';
