@@ -158,7 +158,7 @@
             .attr('class', 'value-point')
             .attr('tabindex', 0)
             .attr('data-id', (d,i) => `${group}-${datum.key}-${i}`)
-            .attr('r', 2)
+            .attr('r', 0)
             .attr('cx', d => xScale(d.year))
             .attr('cy', d => yScale(d.value))
             .on('focus', function(){
@@ -221,16 +221,16 @@
     }
     :global(.valueline){
         stroke: $blue;
-        stroke-width: 2px;
+        stroke-width: 3px;
         .svg-container:hover &, .svg-container:focus-within & {
             stroke-width: 3.5px;
             stroke: $orange;
         }
-        mix-blend-mode: color;
+        //mix-blend-mode: color;
     }
     :global(.trendline){
         stroke: $medium_gray;
-        stroke-width: 3px;
+        stroke-width: 2px;
         .svg-container:hover &, .svg-container:focus-within & {
             stroke-width: 1px;
         }
