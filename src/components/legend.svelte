@@ -75,22 +75,24 @@ function clickHandler(e){
             <div>
                 <div class="legend">
                     <div class="color-codes">
-                        <div>
-                            <h3>Race:</h3>
-                            <ul>
-                                <li>White, non-Hispanic</li>
-                                <li>Black</li>
-                                <li>Hispanic</li>
-                                <li>Asian</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h3>Age:</h3>
-                            <ul>
-                                <li>&lt;35</li>
-                                <li>35–64</li>
-                                <li>65+</li>
-                            </ul>
+                        <div class="color-codes-inner">
+                            <div class="color-code-category">
+                                <h3>Age:</h3>
+                                <ul>
+                                    <li>&lt;35</li>
+                                    <li>35–64</li>
+                                    <li>65+</li>
+                                </ul>
+                            </div>
+                            <div class="color-code-category">
+                                <h3>Race:</h3>
+                                <ul>
+                                    <li>White, non-Hispanic</li>
+                                    <li>Black</li>
+                                    <li>Hispanic</li>
+                                    <li>Asian</li>
+                                </ul>
+                            </div>
                         </div>
                         <div>
                             <div class="agreggated-dash"></div> = age/race not available

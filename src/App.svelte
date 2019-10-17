@@ -48,7 +48,7 @@
     }
     .top-container {
         position: relative;
-        padding-bottom: 85px;
+        padding-bottom: 115px;
     }
 </style>
 

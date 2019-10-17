@@ -91,7 +91,6 @@
     }
     .selections-wrapper {
         position: absolute;
-        bottom: 0;
         display: flex;
         flex-direction: column;
         align-items: flex-end;
