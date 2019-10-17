@@ -121,7 +121,7 @@
 
     :global(body){
         scroll-snap-type: y proximity;
-        scroll-padding: 185px;
+        scroll-padding: 215px;
     }
 
 </style>
