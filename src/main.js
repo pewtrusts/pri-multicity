@@ -3,12 +3,16 @@ import Papa from 'papaparse';
 import d3 from './d3-importer';
 import App from './App.svelte';
 import data from './data/dashboard-data-1.csv';
+import overview from './overview.html';
 
 // array of cities to render while the dataPromise is being resolved
 const metadata = {
     startYear: 2007,
     stopYear: 2017
 };
+if ( process.env.NODE_ENV !== 'production' ){
+    document.querySelector('#overview-container').innerHTML = overview;
+}
 /*
 var publicPath = '';
 if ( process.env.NODE_ENV === 'production' ) { // production build needs to know the public path of assets

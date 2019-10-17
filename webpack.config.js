@@ -141,6 +141,10 @@ module.exports = env => {
                             }
                         }
                     ]
+                },
+                {
+                    test: /overview\.html$/,
+                    use: 'html-loader'
                 }
             ]
         },

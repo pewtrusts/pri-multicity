@@ -1,5 +1,4 @@
 <script>
-    import Overview from './components/overview.svelte';
     import Selections from  './components/selections.svelte';
     import Dataviz from  './components/dataviz.svelte';
     import { groupByStore } from './store.js';
@@ -54,7 +53,6 @@
 </style>
 
 <div class="top-container">
-    <Overview />
     <Selections {isSticky} {groupedData} {metadata} />
 </div>
 <div class="dataviz-wrapper" class:by-city="{groupBy === 'nestedByCity'}" >
