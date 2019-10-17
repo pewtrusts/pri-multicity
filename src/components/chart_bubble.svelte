@@ -23,6 +23,13 @@ function goToSectionStart(group, e){
     }
 }
 
+function returnMissingRaceText(data){
+    return data.reduce(function(acc,cur,i){
+        var endLine = i === data.length - 1 ? '' : '<br />'
+        return acc + dictionary[cur.key] + ': n/a' + endLine;
+    },'');
+}
+
 beforeUpdate(() => {
 
     if ( svg ){
@@ -143,11 +150,15 @@ beforeUpdate(() => {
         });
 
     typeGroup.each(function(p, j, peas) {
-        if ( p.filter(x => !isNaN(x.percent)).length > 0 ){ // append circles only if the array contains valid data
+        var presentData = p.filter(x => !isNaN(x.percent));
+        var missingData = p.filter(x => isNaN(x.percent));
+        if ( presentData.length > 0 ){ // append circles only if the array contains valid data
             let dataGroup = d3.select(this)
                 .selectAll('.data-group')
                 .data(d => {
-                    console.log(d);
+                    if (group === 'labor_force'){
+                        //debugger;
+                    }
                     return d.sort((a, b) => d3.descending(a.absolute, b.absolute));
                 })
                 .enter().append('g')
@@ -162,6 +173,7 @@ beforeUpdate(() => {
                     if (d.absolute !== null) {
                         return zScale(d.absolute);
                     }
+                    // show circle of minimum radius if there is no abs pop data
                     return minRadius / 2;
                 })
                 .attr('class', d => 'bubble color' + d.colorIndex)
@@ -180,7 +192,14 @@ beforeUpdate(() => {
                 dataGroup.nodes().forEach(function(g){
                     g.addEventListener('keydown', goToSectionStart.bind(undefined, group));
                 });
+                if ( missingData.length > 0 ){
+                    d3.select(svg.parentNode)
+                        .append('figcaption')
+                        .attr('class', 'missing-race-note')
+                        .html(returnMissingRaceText(missingData));
+                }
         } else {
+            // if there is no data, append the rect instead, and an invisible circle that's easier to touch and mouseover
             let selection = d3.select(this)
                 .datum(datum.values[0][metadata.stopYear]);
             selection
@@ -207,6 +226,7 @@ beforeUpdate(() => {
                 .text(d => d)
                 .attr('y', height / 2);*/
         }
+        
 
         //append labels
         /*  dataGroup
@@ -265,7 +285,15 @@ beforeUpdate(() => {
         position: absolute;
     }
 }
+:global(.missing-race-note) {
+    color: #767676;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    font-size: 0.85em;
+    text-align: right;
 
+}
 :global(.data-group circle) {
 
    // fill: #fff;
@@ -413,7 +441,7 @@ beforeUpdate(() => {
     text-anchor: middle;
 }
 </style>
-<div class="svg-container">
+<figure class="svg-container">
     <svg bind:this={svg} width="100%" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 100 {viewBoxHeight}">
     </svg>
-</div>
+</figure>

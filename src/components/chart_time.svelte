@@ -293,10 +293,10 @@
     
 
 </style>
-<div class="svg-container">
+<figure class="svg-container">
     <svg bind:this={svg} width="100%" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 100 {viewBoxHeight}">
     </svg>
-</div>
+</figure>
 
 
 
