@@ -146,8 +146,8 @@
         }
     }
     :global(body){
-        scroll-snap-type: y proximity;
-        scroll-padding: 215px;
+     //   scroll-snap-type: y proximity;
+      //  scroll-padding: 215px;
     }
 
 </style>

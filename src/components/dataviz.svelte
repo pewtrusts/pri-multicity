@@ -99,7 +99,11 @@ section {
         position: absolute;
         z-index: 9999;
         &.section-anchor {
-            top: -184px;
+            top: -88px;
+            outline: 1px solid magenta;
+            @media screen and (min-width: 850px) {
+                top: -215px;
+            }
         }
         &.upward-observer-anchor {
             top: calc(100vh - 225px);
@@ -120,9 +124,9 @@ section {
     }
 }
 .back-to-top {
-    display: none;
+    display: inline;
     @media screen and (min-width: 850px) {
-        display: inline;
+        display: none;
     }
 }
 
