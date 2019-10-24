@@ -57,7 +57,7 @@
     groupByStore.subscribe(value => {
         var firstSectionAnchor = document.querySelector('.dataviz-section a.section-anchor');
         if ( firstSectionAnchor ){
-            firstSectionAnchor.scrollIntoView();
+            firstSectionAnchor.modifiedScrollIntoView();
         }
         groupSelectorLabel = organizeByOptions.find(d => d.value === value).display;
     });
@@ -145,9 +145,9 @@
             flex-grow: 1;
         }
     }
-    :global(body){
-     //   scroll-snap-type: y proximity;
-      //  scroll-padding: 215px;
+    :global(body:not(.no-snap)){
+        scroll-snap-type: y proximity;
+        scroll-padding: 215px;
     }
 
 </style>

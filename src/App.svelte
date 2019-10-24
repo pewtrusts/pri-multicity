@@ -10,6 +10,13 @@
     let groupBy;
     let isSticky = false;
 
+    Element.prototype.modifiedScrollIntoView = function(){
+        document.body.classList.add('no-snap');
+        this.scrollIntoView(arguments);
+        document.body.classList.remove('no-snap');
+
+
+    };
     groupByStore.subscribe(value => {
         groupedData = data[value];
         groupBy = value;

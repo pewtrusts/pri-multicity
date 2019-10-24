@@ -17,7 +17,7 @@
     inViewSectionStore.subscribe(section => {
         var anchor = document.getElementById('anchor-' + section);
         if ( anchor ) {
-            anchor.scrollIntoView();
+            anchor.modifiedScrollIntoView();
         }
     });
     let scrollY = 0;
@@ -58,11 +58,11 @@
 
     function skipClickHandler(e){
         var index = this.dataset.linkTo;
-        document.querySelector('.js-section-anchor-' + index).scrollIntoView();
+        document.querySelector('.js-section-anchor-' + index).modifiedScrollIntoView();
         document.querySelector(this.hash).focus();
     }
     function backToTop(){
-        document.querySelector('a[name="top"]').scrollIntoView(true);
+        document.querySelector('a[name="top"]').modifiedScrollIntoView(true);
     }
 
 </script>
