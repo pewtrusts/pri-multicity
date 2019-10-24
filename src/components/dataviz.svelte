@@ -61,6 +61,9 @@
         document.querySelector('.js-section-anchor-' + index).scrollIntoView();
         document.querySelector(this.hash).focus();
     }
+    function backToTop(){
+        document.querySelector('a[name="top"]').scrollIntoView(true);
+    }
 
 </script>
 <style lang="scss">
@@ -116,6 +119,12 @@ section {
         opacity: 1;
     }
 }
+.back-to-top {
+    display: none;
+    @media screen and (min-width: 850px) {
+        display: inline;
+    }
+}
 
 
 </style>
@@ -124,6 +133,7 @@ section {
     <section class="dataviz-section">
         <a tabindex="-1" class="section-anchor observer-anchor js-section-anchor-{i}" id="anchor-{group.key}" data-key="{group.key}"></a>
         <h2 class="dataviz-heading">{dictionary[group.key] ? dictionary[group.key].label : group.key} <span>{viewType === 'time' ? '' : `(${metadata.stopYear})`}</span></h2>
+        <a class="back-to-top" href="#top" on:click|preventDefault="{backToTop}">[back to top]</a>
         {#if i < groupedData.length - 1}
         <a class="skip-link js-skip-link-{group.key}" id="skip-link-{i}" name="skip-link-{i}" href="#skip-link-{i + 1}" data-link-to="{i + 1}" on:click|preventDefault="{skipClickHandler}">Skip to next section</a>
         {:else}

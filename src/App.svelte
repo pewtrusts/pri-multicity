@@ -50,8 +50,12 @@
         position: relative;
         padding-bottom: 115px;
     }
+    .top-anchor {
+        position: absolute;
+        top: -98px;
+    }
 </style>
-
+<a class="top-anchor" name="top"></a>
 <div class="top-container">
     <Selections {isSticky} {groupedData} {metadata} />
 </div>
