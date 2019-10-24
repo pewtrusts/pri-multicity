@@ -101,7 +101,6 @@ section {
         z-index: 9999;
         &.section-anchor {
             top: -88px;
-            outline: 1px solid magenta;
             @media screen and (min-width: 850px) {
                 top: -215px;
             }
