@@ -70,7 +70,7 @@
                 year: parseTime(year),
                 value: datum.values[0][year] 
             };
-        });
+        }).filter(d => d.value !== null);
          const locale = d3.formatLocale({
             decimal: '.',
             thousands: ',',
