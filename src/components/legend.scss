@@ -1,6 +1,6 @@
 .legend-container {
 
-    position: absolute;
+//    position: absolute;
     top: calc(100% - 11px);
     right: 0;
     width: 100%;
@@ -12,7 +12,7 @@
     display: flex;
     justify-content: flex-end;
     background-image: linear-gradient(rgba(255,255,255,1), rgba(255,255,255,0.9) 95%, rgba(255,255,255,0));
-    height: 75px;
+  //  height: 75px;
     color: $gray;
     &.isClosed {
         
@@ -70,7 +70,7 @@
         justify-content: space-between;
         flex-wrap: wrap;
         flex-grow: 1;
-        align-items: center;
+        align-items: flex-end;
       
         .color-codes-inner {
             display: flex;
@@ -108,7 +108,7 @@
   height: 62px;
   background-image: linear-gradient(rgba(255,255,255,1), rgba(255,255,255,1) 90%, rgba(255,255,255,0));
   position: relative;
-  bottom: 10px;
+  bottom: 0;
   right: 10px;
 }
 .population-legend {

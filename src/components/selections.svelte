@@ -73,9 +73,13 @@
     .selections {
         width: 100%;
         display: flex;
+        flex-wrap: wrap;
+        @media screen and (min-width: 850px) {
+            flex-wrap: nowrap;
+        }
     }
     .selections > div {
-        width: 33%;
+        
         z-index: 2;
         
     }
@@ -83,26 +87,40 @@
         display: flex;
         justify-content: space-around;
         align-items: center;
+        flex-wrap: wrap;
+        
+        flex-shrink: 1;
+        > div {
+            flex-grow: 1;
+            width: 155px;
+        }
         label {
             margin-left: 0.3em;
             position: relative;
-            top: .125em;
+            top: 0.125em;
         }
     }
     .selections-wrapper {
         position: absolute;
         display: flex;
         flex-direction: column;
+        flex-wrap: wrap;
         align-items: flex-end;
         background-image: linear-gradient(#fff, #fff 90%, rgba(255,255,255,0));
         z-index: 2;
         padding: 10px 0;
-        width: 100%;
+        width: calc(100vw - 2.5rem);
+        //width: 100%;
         max-width: 990px;
         &.is-sticky {
-            position: fixed;
-            top: 100px;
-            bottom: auto;
+            @media screen and (min-width: 850px) {
+                position: fixed;
+                top: 98px;
+                bottom: auto;
+            }
+            @media screen and (min-width: 56.876em) {
+                top: 100px;
+            }
         }
     } 
     .trendline-key {
@@ -118,7 +136,15 @@
             margin-bottom: 0;
         }
     }
-
+    @media screen and (max-width: 1019px){
+        :global(.dropdown-outer) {
+            display: flex;
+            align-items: center;
+        }
+        :global(.dropdown-inner) {
+            flex-grow: 1;
+        }
+    }
     :global(body){
         scroll-snap-type: y proximity;
         scroll-padding: 215px;
