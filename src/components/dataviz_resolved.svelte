@@ -54,8 +54,24 @@
 <style lang="scss">
     @import './../variables.scss';
     :global(.graph-container--outer) {
-        width: 198px;
-        margin-bottom: 50px;    
+        margin-bottom: 50px;
+        max-width: 250px;
+        @media screen and (min-width: 991px) {
+            width: 20%;
+        }
+        @media screen and (min-width: 828px) and (max-width: 990px) {
+            width: 25%;
+        }
+        @media screen and (min-width: 630px) and (max-width: 827px) {
+            width: 33%;
+        }
+        @media screen and (min-width: 446px) and (max-width: 629px) {
+            width: 50%;
+        }
+        @media screen and (max-width: 445px) {
+            width: 100%;
+        }
+
     }
     :global(.graph-container) {
         width: 100%;
@@ -80,9 +96,39 @@
             display: inline;
         }
     } 
-    :global(.graph-container--outer):nth-of-type(5n+1){
-        :global(.y-axis) {
-            display: inline;
+    @media screen and (min-width: 991px) {
+        :global(.graph-container--outer):nth-of-type(5n+1){
+            :global(.y-axis) {
+                display: inline;
+            }
+        }
+    }
+    @media screen and (min-width: 828px) and (max-width: 990px) {
+        :global(.graph-container--outer):nth-of-type(4n+1){
+            :global(.y-axis) {
+                display: inline;
+            }
+        }
+    }
+    @media screen and (min-width: 630px) and (max-width: 827px) {
+        :global(.graph-container--outer):nth-of-type(3n+1){
+            :global(.y-axis) {
+                display: inline;
+            }
+        }
+    }
+    @media screen and (min-width: 446px) and (max-width: 629px) {
+        :global(.graph-container--outer):nth-of-type(2n+1){
+            :global(.y-axis) {
+                display: inline;
+            }
+        }
+    }
+    @media screen and (max-width: 445px) {
+        :global(.graph-container--outer):nth-of-type(1n+1){
+            :global(.y-axis) {
+                display: inline;
+            }
         }
     }
     :global(.by-city .graph-container--outer .y-axis){

@@ -73,6 +73,7 @@
 .dataviz-container {
     display: flex;
     flex-wrap: wrap;
+    
 }
 
 .dataviz-heading {
