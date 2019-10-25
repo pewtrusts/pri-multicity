@@ -61,6 +61,88 @@ const plugins = [
     }),
 ];
 
+const rules = [
+    {
+        test: /\.js$|\.mjs$/,
+        use: [{
+            loader: 'babel-loader',
+            options: {
+                presets: ['@babel/preset-env']
+            }
+        }]
+    },
+    {
+        test: /\.svelte$/,
+        use: [
+            {
+                loader: 'babel-loader',
+                options: {
+                    presets: ['@babel/preset-env']
+                }
+            },
+            {
+                loader: 'svelte-loader',
+                options: {
+                    emitCss: true,
+                    hotReload: true,
+                    preprocess: {
+                        style: sass({}, {name: 'scss'})
+                    }
+
+                }
+            }
+        ]
+    },
+    {
+        test: /\.css$/,
+        use: [
+            /**
+             * MiniCssExtractPlugin doesn't support HMR.
+             * For developing, use 'style-loader' instead.
+             * */
+            !isDev ? MiniCssExtractPlugin.loader : 'style-loader',
+            'css-loader',
+        ]
+    },
+    {
+        test: /\.scss$/,
+        use: [
+            /**
+             * MiniCssExtractPlugin doesn't support HMR.
+             * For developing, use 'style-loader' instead.
+             * */
+            !isDev ? MiniCssExtractPlugin.loader : 'style-loader',
+            'css-loader',
+            'sass-loader'
+        ]
+    },
+    {
+        test: /\.csv$/,
+        loader: 'file-loader',
+        options: {
+            name: 'data/[name].[ext]?v=[hash:6]', 
+        }
+    },
+    {
+        test: /\.md$/,
+        use: [
+            {
+                loader: 'html-loader'
+            },
+            {
+                loader: 'markdown-loader',
+                options: {
+                    smartypants: true
+                }
+            }
+        ]
+    },
+    {
+        test: /overview\.html$/,
+        use: 'html-loader'
+    }
+];
+
 if (!isProd) {
     plugins.push(copyWebpack);
 }
@@ -75,7 +157,7 @@ module.exports = env => {
                 svelte: path.resolve('node_modules', 'svelte'),
                 "@Submodule": path.resolve('submodules')
             },
-            extensions: ['.mjs', '.js', '.svelte'],
+            extensions: ['.mjs', '.js', '.svelte', '.html'],
             mainFields: ['svelte', 'browser', 'module', 'main']
         },
         output: {
@@ -84,69 +166,7 @@ module.exports = env => {
             chunkFilename: '[name].[id].js'
         },
         module: {
-            rules: [{
-                    test: /\.svelte$/,
-                    use: {
-                        loader: 'svelte-loader',
-                        options: {
-                            emitCss: true,
-                            hotReload: true,
-                            preprocess: {
-                                style: sass({}, {name: 'scss'})
-                            }
-
-                        }
-                    }
-                },
-                {
-                    test: /\.css$/,
-                    use: [
-                        /**
-                         * MiniCssExtractPlugin doesn't support HMR.
-                         * For developing, use 'style-loader' instead.
-                         * */
-                        !isDev ? MiniCssExtractPlugin.loader : 'style-loader',
-                        'css-loader',
-                    ]
-                },
-                {
-                    test: /\.scss$/,
-                    use: [
-                        /**
-                         * MiniCssExtractPlugin doesn't support HMR.
-                         * For developing, use 'style-loader' instead.
-                         * */
-                        !isDev ? MiniCssExtractPlugin.loader : 'style-loader',
-                        'css-loader',
-                        'sass-loader'
-                    ]
-                },
-                {
-                    test: /\.csv$/,
-                    loader: 'file-loader',
-                    options: {
-                        name: 'data/[name].[ext]?v=[hash:6]', 
-                    }
-                },
-                {
-                    test: /\.md$/,
-                    use: [
-                        {
-                            loader: 'html-loader'
-                        },
-                        {
-                            loader: 'markdown-loader',
-                            options: {
-                                smartypants: true
-                            }
-                        }
-                    ]
-                },
-                {
-                    test: /overview\.html$/,
-                    use: 'html-loader'
-                }
-            ]
+            rules
         },
         mode,
         plugins,
