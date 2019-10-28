@@ -1,4 +1,4 @@
-/* global PUBLICPATH process */
+/* global PUBLICPATH process BUILDTYPE */
 import Papa from 'papaparse';
 import d3 from './d3-importer';
 import App from './App.svelte';
@@ -10,7 +10,8 @@ const metadata = {
     startYear: 2007,
     stopYear: 2017
 };
-if ( process.env.NODE_ENV !== 'production' ){
+console.log('dowag', BUILDTYPE);
+if ( BUILDTYPE !== 'production' ){
     document.querySelector('#overview-container').innerHTML = overview;
 }
 /*

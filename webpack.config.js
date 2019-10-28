@@ -58,6 +58,7 @@ const plugins = [
     }),
     new webpack.DefinePlugin({
         'PUBLICPATH': '"' + publicPath + '"', // from https://webpack.js.org/plugins/define-plugin/: Note that because the plugin does a direct text replacement, the value given to it must include actual quotes inside of the string itself. Typically, this is done either with alternate quotes, such as '"production"', or by using JSON.stringify('production').
+        'BUILDTYPE': '"' + process.env.NODE_ENV + '"', 
     }),
 ];
 
