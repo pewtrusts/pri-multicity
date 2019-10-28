@@ -61,37 +61,34 @@ const plugins = [
     }),
 ];
 
-const rules = [
+const svelteUse = [
     {
-        test: /\.js$|\.mjs$/,
-        use: [{
-            loader: 'babel-loader',
-            options: {
-                presets: ['@babel/preset-env']
+        loader: 'svelte-loader',
+        options: {
+            emitCss: true,
+            hotReload: true,
+            preprocess: {
+                style: sass({}, {name: 'scss'})
             }
-        }]
-    },
+
+        }
+    }
+];
+
+if (!isDev) {
+    svelteUse.unshift({
+        loader: 'babel-loader',
+        options: {
+            presets: ['@babel/preset-env']
+        }
+    });
+}
+
+const rules = [
+    
     {
         test: /\.svelte$/,
-        use: [
-            {
-                loader: 'babel-loader',
-                options: {
-                    presets: ['@babel/preset-env']
-                }
-            },
-            {
-                loader: 'svelte-loader',
-                options: {
-                    emitCss: true,
-                    hotReload: true,
-                    preprocess: {
-                        style: sass({}, {name: 'scss'})
-                    }
-
-                }
-            }
-        ]
+        use: svelteUse
     },
     {
         test: /\.css$/,
@@ -146,7 +143,17 @@ const rules = [
 if (!isProd) {
     plugins.push(copyWebpack);
 }
-
+if (!isDev) {
+    rules.unshift({
+        test: /\.js$|\.mjs$/,
+        use: [{
+            loader: 'babel-loader',
+            options: {
+                presets: ['@babel/preset-env']
+            }
+        }]
+    });
+}
 module.exports = env => {
     return {
         entry: {
