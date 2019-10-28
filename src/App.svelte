@@ -25,7 +25,6 @@
     onMount(() => {
           function observerCallback(entries, observer){
             entries.forEach(entry => {
-                console.log('yeahdog', entry, scrollY, window.pageYOffset);
                 if ( entry.isIntersecting ){
                     isSticky = true;
                 } else {

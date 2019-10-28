@@ -259,9 +259,15 @@
     :global(.x-axis g.tick) text {
         transform: translate(-8px, 0);
         font-weight: bold;
+        @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+            text-anchor: end;
+        }
     }
     :global(.x-axis g.tick:first-of-type) text {
         transform: translate(8px, 0);
+        @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+            text-anchor: start;
+        }
     }
     :global(.y-axis path) {
      //  display: none;
