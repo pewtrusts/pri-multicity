@@ -33,7 +33,7 @@ function returnMissingRaceText(data){
 beforeUpdate(() => {
 
     if ( svg ){
-        svg.innerHTML = '';
+        d3.select(svg).select('.chart-group').remove();
     }
 
 
@@ -113,7 +113,9 @@ beforeUpdate(() => {
             return `<p class="tooltip-p-na"><strong>${dictionary[indicator] && dictionary[indicator].disagTooltipFormat ? locale.format(dictionary[indicator].disagTooltipFormat)(d.value) : locale.format(dictionary[indicator].tooltipFormat)(d.value)}</strong> | Data by ${d.groupIndex === 0 ? 'age' : 'race' } not available</p>`;
         });
 
-    const $svg = d3.select(svg);
+    const $svg = d3.select(svg)
+                .append('g')
+                .classed('chart-group', true);
 
 
     //render x-axis

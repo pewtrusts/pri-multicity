@@ -45,7 +45,7 @@
     beforeUpdate(() => {
         
         if ( svg ){
-            svg.innerHTML = '';
+            d3.select(svg).select('.chart-group').remove();
         }
         // parameters / presettings
         const margin = {
@@ -102,7 +102,9 @@
         }
         
 
-        const $svg = d3.select(svg);
+        const $svg = d3.select(svg)
+            .append('g')
+            .classed('chart-group', true);
         
         const tip = d3.tip()
             .attr('class', 'd3-tip')
@@ -222,6 +224,9 @@
     :global(.valueline){
         stroke: $blue;
         stroke-width: 3px;
+        @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+            stroke-width: 1.5px; // IE doesn't support non-scaling-stroke
+        }
         .svg-container:hover &, .svg-container:focus-within & {
             stroke-width: 3.5px;
             stroke: $orange;
@@ -299,8 +304,8 @@
     
 
 </style>
-<figure class="svg-container">
-    <svg bind:this={svg} width="100%" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 100 {viewBoxHeight}">
+<figure class="svg-container chart-time">
+    <svg class="chart-time" bind:this={svg} width="100%" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 100 {viewBoxHeight}">
     </svg>
 </figure>
 
