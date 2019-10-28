@@ -46,6 +46,8 @@
         
         if ( svg ){
             d3.select(svg).select('.chart-group').remove();
+            // a bit of a bute force option to make sure svgs clear existing content before update;
+            // perhaps would have been better to compose so that d3 could do exit().remove() on the charts
         }
         // parameters / presettings
         const margin = {
