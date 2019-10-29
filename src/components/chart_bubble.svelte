@@ -218,12 +218,17 @@ beforeUpdate(() => {
                 .attr('r', 14)
                 .attr('cy', d => yScale(d))
                 .attr('cx', 0)
+                .attr('tabindex', 0)
                 .attr('focusable', true)
                 .call(NATip)
                 .on('mouseover', function(d){
                     NATip.show.call(this, {groupIndex: j, value: d});
                 })
-                .on('mouseout', NATip.hide);
+                .on('mouseout', NATip.hide)
+                .on('focus', function(d){
+                    NATip.show.call(this, {groupIndex: j, value: d});
+                })
+                .on('blur', NATip.hide);
 /*
                 .append('text')
                 .attr('class', 'not-available')
