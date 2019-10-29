@@ -179,6 +179,7 @@ beforeUpdate(() => {
                     return minRadius / 2;
                 })
                 .attr('class', d => 'bubble color' + d.colorIndex)
+                .attr('focusable', true)
                 .classed('absolute-undefined', d => d.absolute === null)
                 .call(tip)
                 .on('mouseover', function(d,i){
@@ -217,6 +218,7 @@ beforeUpdate(() => {
                 .attr('r', 14)
                 .attr('cy', d => yScale(d))
                 .attr('cx', 0)
+                .attr('focusable', true)
                 .call(NATip)
                 .on('mouseover', function(d){
                     NATip.show.call(this, {groupIndex: j, value: d});
@@ -444,6 +446,6 @@ beforeUpdate(() => {
 }
 </style>
 <figure class="svg-container">
-    <svg bind:this={svg} width="100%" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 100 {viewBoxHeight}">
+    <svg focusable="false" bind:this={svg} width="100%" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 100 {viewBoxHeight}">
     </svg>
 </figure>

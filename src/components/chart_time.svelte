@@ -161,25 +161,23 @@
             .enter().append('circle')
             .attr('class', 'value-point')
             .attr('tabindex', 0)
+            .attr('focusable', true)
             .attr('data-id', (d,i) => `${group}-${datum.key}-${i}`)
             .attr('r', 0)
             .attr('cx', d => xScale(d.year))
             .attr('cy', d => yScale(d.value))
             .on('focus', function(){
-                var node = d3.select('#rect-' + this.dataset.id).node();
-                node.dispatchEvent(new MouseEvent('mouseover', {
-                    bubbles: true,
-                    cancelable: true,
-                    view: window
-                }));
+                var selector = '#rect-' + this.getAttribute('data-id');// IE does not support dataset on svg elements
+                var node = d3.select(selector).node(); 
+                var event = document.createEvent('Event'); // using old API instead of event constructor to support IE
+                event.initEvent('mouseover', true, true);
+                node.dispatchEvent(event);
             })
             .on('blur', function(){
-                var node = d3.select('#rect-' + this.dataset.id).node();
-                node.dispatchEvent(new MouseEvent('mouseout', {
-                    bubbles: true,
-                    cancelable: true,
-                    view: window
-                }));
+                var node = d3.select('#rect-' + this.getAttribute('data-id')).node(); // IE does not support dataset on svg elements
+                var event = document.createEvent('Event'); // using old API instead of event constructor to support IE
+                event.initEvent('mouseout', true, true);
+                node.dispatchEvent(event);
             });
         // going Vanilla because of d3.event weirdness
         valuePoints.nodes().forEach(function(circle){
@@ -307,7 +305,7 @@
 
 </style>
 <figure class="svg-container chart-time">
-    <svg class="chart-time" bind:this={svg} width="100%" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 100 {viewBoxHeight}">
+    <svg focusable="false" class="chart-time" bind:this={svg} width="100%" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 100 {viewBoxHeight}">
     </svg>
 </figure>
 
