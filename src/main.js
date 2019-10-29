@@ -7,7 +7,7 @@ import overview from './overview.html';
 
 // array of cities to render while the dataPromise is being resolved
 const metadata = {
-    startYear: 2007,
+    startYear: 2008,
     stopYear: 2018
 };
 console.log('dowag', BUILDTYPE);
