@@ -95,7 +95,6 @@
 section {
     position: relative;
     margin-bottom: 20px;
-    scroll-snap-align: start;
     a.observer-anchor {
         position: absolute;
         z-index: 9999;
