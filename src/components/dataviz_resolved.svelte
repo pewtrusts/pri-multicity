@@ -4,12 +4,13 @@
     import { beforeUpdate, afterUpdate } from 'svelte';
     import { viewTypeStore, groupByStore } from './../store.js';
     import dictionary from './../data/dictionary.json';
-    import tippy from 'tippy.js';
+    //import tippy from 'tippy.js';
 
     export let group;
     export let groupedData;
     export let metadata;
     export let groupBy;
+    export let tippy;
 
     let viewType;
     let headings = [];
@@ -30,7 +31,7 @@
         console.log('beforeUpdate:',headings);
         if ( groupBy === 'nestedByIndicator' ){
             headings.forEach(h => {
-                if (h && h._tippy) h._tippy.destroy();
+               if (h && h._tippy) h._tippy.destroy();
             });
         }
     });
@@ -40,9 +41,9 @@
             headings.forEach(h => {
                 tippy(h,{arrow:true, offset: '35, 0'});
             });
-        } 
+        }
     });
-
+    
     function destroyD3Tips(){
         document.querySelectorAll('.d3-tip').forEach(tip => {
             tip.parentNode.removeChild(tip);

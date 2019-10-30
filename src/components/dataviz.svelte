@@ -2,13 +2,16 @@
     import dictionary from './../data/dictionary.json';
     import DatavizResolved from './dataviz_resolved.svelte';
     import { inViewSectionStore, scrolledToStore, viewTypeStore } from './../store.js';
-    import { onMount } from 'svelte';
+    import { beforeUpdate, afterUpdate, onMount } from 'svelte';
     import trendlineSVG from 'file-loader!./dataviz--trendline.svg';
+    import tippy from 'tippy.js';
     export let groupedData;
     export let metadata
     export let groupBy;
 
     let viewType;
+    let headings = [];
+    let ACSErrorNote = 'An error in 2017 U.S. Census Bureau data for the Philadelphia area affected all indicators except unemployment rate, commute to work, homicide rate, and population. The graphs do not display 2017 data.';
 
     viewTypeStore.subscribe(view => {
         viewType = view;
@@ -21,6 +24,19 @@
         }
     });
     let scrollY = 0;
+    beforeUpdate(() => {
+        headings.forEach(h => {
+          //  if (h && h._tippy) h._tippy.destroy();
+        });
+
+    });
+    afterUpdate(() => {
+        headings.forEach(h => {
+            if ( h && h.classList.contains('has-error')){
+                tippy(h,{arrow:true, offset: '35, 0'});
+            }
+        });
+    });
     onMount(() => {
         
         function downwardCallback(entries, observer){
@@ -84,6 +100,16 @@
     > span {
         color: $gray;
     }
+    &.has-error {
+        &:after {
+            content: '*';
+            color: #767676;
+            font-size: 1.2em;
+            position: relative;
+            left: -0.5em;
+
+        }
+    }
     
 }
 .description {
@@ -135,7 +161,7 @@ section {
 {#each groupedData as group, i}
     <section class="dataviz-section">
         <a tabindex="-1" class="section-anchor observer-anchor js-section-anchor-{i}" id="anchor-{group.key}" data-key="{group.key}"></a>
-        <h2 class="dataviz-heading">{dictionary[group.key] ? dictionary[group.key].label : group.key} <span>{viewType === 'time' ? '' : `(${metadata.stopYear})`}</span></h2>
+        <h2 bind:this={headings[i]} tabindex="{viewType === 'time' && group.key === 'Philadelphia' ? '0' : '-1'}" data-tippy-content="{viewType === 'time' && group.key === 'Philadelphia' ? ACSErrorNote : ''}" class="dataviz-heading {viewType === 'time' && group.key === 'Philadelphia' ? 'has-error' : ''}">{dictionary[group.key] ? dictionary[group.key].label : group.key} <span>{viewType === 'time' ? '' : `(${metadata.stopYear})`}</span></h2>
         <a class="back-to-top" href="#top" on:click|preventDefault="{backToTop}">[back to top]</a>
         {#if i < groupedData.length - 1}
         <a class="skip-link js-skip-link-{group.key}" id="skip-link-{i}" name="skip-link-{i}" href="#skip-link-{i + 1}" data-link-to="{i + 1}" on:click|preventDefault="{skipClickHandler}">Skip to next section</a>
@@ -144,7 +170,7 @@ section {
         {/if}
         <p class="description">{dictionary[group.key] && dictionary[group.key].desc ? dictionary[group.key].desc + '.' : ''} {dictionary[group.key] && dictionary[group.key].source ? 'Source: ' + dictionary[group.key].source : ''}</p>
         <div class="dataviz-container">
-            <DatavizResolved {group} {groupedData} {metadata} {groupBy} />
+            <DatavizResolved {group} {groupedData} {metadata} {groupBy} {tippy} />
         </div>
         <a class="upward-observer-anchor observer-anchor" data-key="{group.key}"></a>
     </section>
