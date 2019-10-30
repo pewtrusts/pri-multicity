@@ -163,7 +163,7 @@
             .attr('tabindex', 0)
             .attr('focusable', true)
             .attr('data-id', (d,i) => `${group}-${datum.key}-${i}`)
-            .attr('r', 0)
+            .attr('r', 1.25)
             .attr('cx', d => xScale(d.year))
             .attr('cy', d => yScale(d.value))
             .on('focus', function(){
@@ -242,10 +242,12 @@
     }
 
     :global(.value-point){
-        transition: fill 0.2s ease-in-out;
-        fill: $blue;
+        transition: fill 0.2s ease-in-out, stroke 0.2s ease-in-out;
+        fill: #fff;
+        stroke: $blue;
+        stroke-width: 1.25px;
         .svg-container:hover &, .svg-container:focus-within & {
-            fill: $orange;
+            stroke: $orange;
         }
 
     }
