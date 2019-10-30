@@ -145,10 +145,10 @@
             flex-grow: 1;
         }
     }
-    :global(body:not(.no-snap)){
+   /* :global(body:not(.no-snap)){
         scroll-snap-type: y proximity;
         scroll-padding: 215px;
-    }
+    }*/
 
 </style>
 

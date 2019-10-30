@@ -9,14 +9,18 @@
     let groupedData;
     let groupBy;
     let isSticky = false;
+    let wheelEventHasBeenUsed = false;
 
     Element.prototype.modifiedScrollIntoView = function(){
-        document.body.classList.add('no-snap');
+        //document.body.classList.add('no-snap');
         this.scrollIntoView(arguments);
-        document.body.classList.remove('no-snap');
-
-
+       // document.body.classList.remove('no-snap');
     };
+    /*document.body.addEventListener('wheel', function(e){
+        console.log(e);
+        document.body.classList.add('no-snap');
+        wheelEventHasBeenUsed = true;
+    });*/
     groupByStore.subscribe(value => {
         groupedData = data[value];
         groupBy = value;
