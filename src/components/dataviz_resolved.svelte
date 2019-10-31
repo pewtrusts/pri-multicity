@@ -11,6 +11,7 @@
     export let metadata;
     export let groupBy;
     export let tippy;
+    export let ACSErrorNote;
 
     let viewType;
     let headings = [];
@@ -20,33 +21,44 @@
     viewTypeStore.subscribe(view => {
         viewType = view;
         destroyD3Tips();
+        destroyTippys();
     });
     groupByStore.subscribe(() => {
         destroyD3Tips();
+        destroyTippys();
     });
 
     // THIS WOULD PROBABLY BE HANDLED BETTER BY MAKING A COMPONENT OUT OF THE HEADING SO THAT EACH ONE
     // WOULD HAVE ITS OWN LIFECYCLE
-    beforeUpdate(() => {
+   /* beforeUpdate(() => {
         console.log('beforeUpdate:',headings);
-        if ( groupBy === 'nestedByIndicator' ){
+       // if ( groupBy === 'nestedByIndicator' ){
             headings.forEach(h => {
                if (h && h._tippy) h._tippy.destroy();
             });
-        }
-    });
+      //  }
+    });*/
     afterUpdate(() => {
         console.log('afterUpdate:',headings);
-       if ( groupBy !== 'nestedByIndicator' ){
+       //if ( groupBy !== 'nestedByIndicator' ){
             headings.forEach(h => {
-                tippy(h,{arrow:true, offset: '35, 0'});
+                if (h && (h.classList.contains('has-error') || h.classList.contains('with-tooltip'))){
+                    tippy(h,{arrow:true, offset: '35, 0'});
+                }
             });
-        }
+        //}
     });
     
     function destroyD3Tips(){
         document.querySelectorAll('.d3-tip').forEach(tip => {
             tip.parentNode.removeChild(tip);
+        });
+    }
+    function destroyTippys(){
+        document.querySelectorAll('[data-tippy-content]').forEach(h => {
+            if (h && h._tippy){
+                h._tippy.destroy();
+            }
         });
     }
 
@@ -157,6 +169,16 @@
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 924 922.666015625'%3E%3Cpath fill='%23296EC3' d='M456.667 1.333c126.667-1.333 235.333 42 326 130s137.333 195.333 140 322C924 580 880.334 689 791.667 780.333s-196.333 138.333-323 141C342 922.666 233 879 141.667 790.333S4 594 2.667 467.333c-2.667-126.667 40.667-235.667 130-327s197.333-137.667 324-139m52 152c-28 0-49.667 8-65 24-15.333 16-23 32.667-23 50-1.333 18.667 3.667 33.333 15 44 11.333 10.667 27.667 16 49 16 25.333 0 45.667-7.333 61-22 15.333-14.667 23-32.667 23-54 0-38.667-20-58-60-58m-120 594c20 0 48-8.667 84-26s71.333-43.333 106-78l-18-24c-32 24-56 36-72 36-9.333 0-10.667-12.667-4-38l42-160c17.333-64 10-96-22-96-20 0-49.667 9.667-89 29s-77.667 44.333-115 75l16 26c34.667-22.667 59.333-34 74-34 8 0 8 11.333 0 34l-36 152c-17.333 69.333-6 104 34 104'%3E%3C/path%3E%3C/svg%3E");
         }
     }
+    .has-error {
+        &:after {
+            content: '*';
+            color: #767676;
+            font-size: 1.2em;
+            position: relative;
+            //left: -0.25em;
+
+        }
+    }
 
     /* tippy overrides */
 
@@ -186,7 +208,7 @@
 {#each match.values as d, i}
 <div class="graph-container--outer">
     <div class="graph-container">
-        <h3 bind:this="{headings[i]}" class="{d.key.toLowerCase()}" data-tippy-content="{dictionary[d.key] ? dictionary[d.key].desc : ''}" tabindex="{groupBy !== 'nestedByIndicator' ? 0 : -1}" class:with-tooltip="{groupBy !== 'nestedByIndicator'}">{dictionary[d.key] ? dictionary[d.key].label : d.key}</h3>
+        <h3  bind:this="{headings[i]}" class="{d.key.toLowerCase()}" data-tippy-content="{d.key === 'Philadelphia' ? ACSErrorNote :dictionary[d.key] ? dictionary[d.key].desc : ''}" tabindex="{groupBy !== 'nestedByIndicator' ? 0 : -1}" class:has-error="{d.key === 'Philadelphia' && viewType === 'time'}" class:with-tooltip="{groupBy !== 'nestedByIndicator'}">{dictionary[d.key] ? dictionary[d.key].label : d.key}</h3>
         {#if viewType === 'time'}
         <TimeChart instanceIndex="{i}" datum={d} {metadata} group="{group.key}" />
         {:else}

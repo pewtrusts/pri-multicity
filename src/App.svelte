@@ -10,6 +10,7 @@
     let groupBy;
     let isSticky = false;
     let wheelEventHasBeenUsed = false;
+    let ACSErrorNote = 'An error in 2017 U.S. Census Bureau data for the Philadelphia area affected all indicators except unemployment rate, commute to work, homicide rate, and population. The affected graphs do not display 2017 data.';
 
     Element.prototype.modifiedScrollIntoView = function(){
         //document.body.classList.add('no-snap');
@@ -71,6 +72,6 @@
 </div>
 <div class="dataviz-wrapper" class:by-city="{groupBy === 'nestedByCity'}" >
     <a tabindex="-1" class="dataviz-observer-anchor"></a>
-    <Dataviz {groupedData} {metadata} {groupBy} />
+    <Dataviz {groupedData} {metadata} {groupBy} {ACSErrorNote}/>
 </div>
 

@@ -8,10 +8,11 @@
     export let groupedData;
     export let metadata
     export let groupBy;
+    export let ACSErrorNote;
 
     let viewType;
     let headings = [];
-    let ACSErrorNote = 'An error in 2017 U.S. Census Bureau data for the Philadelphia area affected all indicators except unemployment rate, commute to work, homicide rate, and population. The graphs do not display 2017 data.';
+    
 
     viewTypeStore.subscribe(view => {
         viewType = view;
@@ -106,7 +107,7 @@
             color: #767676;
             font-size: 1.2em;
             position: relative;
-            left: -0.5em;
+            left: -0.25em;
 
         }
     }
@@ -170,7 +171,7 @@ section {
         {/if}
         <p class="description">{dictionary[group.key] && dictionary[group.key].desc ? dictionary[group.key].desc + '.' : ''} {dictionary[group.key] && dictionary[group.key].source ? 'Source: ' + dictionary[group.key].source : ''}</p>
         <div class="dataviz-container">
-            <DatavizResolved {group} {groupedData} {metadata} {groupBy} {tippy} />
+            <DatavizResolved {group} {groupedData} {metadata} {groupBy} {tippy} {ACSErrorNote} />
         </div>
         <a class="upward-observer-anchor observer-anchor" data-key="{group.key}"></a>
     </section>
