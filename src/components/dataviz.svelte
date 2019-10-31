@@ -108,6 +108,7 @@
             font-size: 1.2em;
             position: relative;
             left: -0.25em;
+            line-height: 0;
 
         }
     }

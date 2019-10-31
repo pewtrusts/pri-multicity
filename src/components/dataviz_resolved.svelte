@@ -175,7 +175,7 @@
             color: #767676;
             font-size: 1.2em;
             position: relative;
-            //left: -0.25em;
+            line-height: 0;
 
         }
     }
@@ -208,7 +208,7 @@
 {#each match.values as d, i}
 <div class="graph-container--outer">
     <div class="graph-container">
-        <h3  bind:this="{headings[i]}" class="{d.key.toLowerCase()}" data-tippy-content="{d.key === 'Philadelphia' ? ACSErrorNote :dictionary[d.key] ? dictionary[d.key].desc : ''}" tabindex="{groupBy !== 'nestedByIndicator' ? 0 : -1}" class:has-error="{d.key === 'Philadelphia' && viewType === 'time'}" class:with-tooltip="{groupBy !== 'nestedByIndicator'}">{dictionary[d.key] ? dictionary[d.key].label : d.key}</h3>
+        <h3  bind:this="{headings[i]}" class="{d.key.toLowerCase()}" data-tippy-content="{d.key === 'Philadelphia' ? ACSErrorNote :dictionary[d.key] ? dictionary[d.key].desc : ''}" tabindex="{groupBy !== 'nestedByIndicator' ? 0 : -1}" class:has-error="{d.key === 'Philadelphia' && viewType === 'time' && d.values[0]['2017'] === null}" class:with-tooltip="{groupBy !== 'nestedByIndicator'}">{dictionary[d.key] ? dictionary[d.key].label : d.key}</h3>
         {#if viewType === 'time'}
         <TimeChart instanceIndex="{i}" datum={d} {metadata} group="{group.key}" />
         {:else}
