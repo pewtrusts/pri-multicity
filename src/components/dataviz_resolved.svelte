@@ -42,12 +42,17 @@
         console.log('afterUpdate:',headings);
        //if ( groupBy !== 'nestedByIndicator' ){
             headings.forEach(h => {
-                if (h && (h.classList.contains('has-error') || h.classList.contains('with-tooltip'))){
+                if (h && h.dataset.tippyContent !== ''){
                     tippy(h,{arrow:true, offset: '35, 0'});
                 }
             });
         //}
     });
+
+    function returnTooltipText(d){
+        var join = dictionary[d.key].desc ? '<br />' : '';
+        return dictionary[d.key].desc + join + ' Source: ' + dictionary[d.key].source;
+    }
     
     function destroyD3Tips(){
         document.querySelectorAll('.d3-tip').forEach(tip => {
@@ -208,7 +213,7 @@
 {#each match.values as d, i}
 <div class="graph-container--outer">
     <div class="graph-container">
-        <h3  bind:this="{headings[i]}" class="{d.key.toLowerCase()}" data-tippy-content="{d.key === 'Philadelphia' ? ACSErrorNote :dictionary[d.key] ? dictionary[d.key].desc : ''}" tabindex="{groupBy !== 'nestedByIndicator' ? 0 : -1}" class:has-error="{d.key === 'Philadelphia' && viewType === 'time' && d.values[0]['2017'] === null}" class:with-tooltip="{groupBy !== 'nestedByIndicator'}">{dictionary[d.key] ? dictionary[d.key].label : d.key}</h3>
+        <h3 bind:this="{headings[i]}" class="{d.key.toLowerCase()}" data-tippy-content="{d.key === 'Philadelphia' && d.values[0]['2017'] === null ? ACSErrorNote : dictionary[d.key] ? returnTooltipText(d) : ''}" tabindex="{groupBy !== 'nestedByIndicator' ? 0 : -1}" class:has-error="{d.key === 'Philadelphia' && viewType === 'time' && d.values[0]['2017'] === null}" class:with-tooltip="{groupBy !== 'nestedByIndicator'}">{dictionary[d.key] ? dictionary[d.key].label : d.key}</h3>
         {#if viewType === 'time'}
         <TimeChart instanceIndex="{i}" datum={d} {metadata} group="{group.key}" />
         {:else}
