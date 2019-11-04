@@ -23,13 +23,6 @@ function goToSectionStart(group, e){
     }
 }
 
-function returnMissingRaceText(data){
-    return data.reduce(function(acc,cur,i){
-        var endLine = i === data.length - 1 ? '' : '<br />'
-        return acc + dictionary[cur.key] + ': n/a' + endLine;
-    },'');
-}
-
 beforeUpdate(() => {
 
     if ( svg ){
@@ -103,8 +96,8 @@ beforeUpdate(() => {
                 var type = cur.key.match('age') ? 'age' : 'race';
                 var values = type === 'age' ? ageValues : raceValues;
                 var aUnits = dictionary[indicator].a_units ? dictionary[indicator].a_units : 'ppl';
-                return acc + `<p class="${  values.indexOf(cur.absolute) === i ? 'isHighlighted' : ''} ${'tooltip-p tooltip-color-' + cur.colorIndex}""><span class="${type}">${dictionary[cur.key]}</span> | ${dictionary[indicator] && dictionary[indicator].disagTooltipFormat ? locale.format(dictionary[indicator].disagTooltipFormat)(cur.percent) : locale.format(dictionary[indicator].tooltipFormat)(cur.percent)} 
-                                 (${ cur.absolute ? d3.format(',.0f')(cur.absolute) + ' ' + aUnits : 'size n/a'})</p>`;
+                var valueString = cur.percent !== 'NA' ? `${dictionary[indicator] && dictionary[indicator].disagTooltipFormat ? locale.format(dictionary[indicator].disagTooltipFormat)(cur.percent) : locale.format(dictionary[indicator].tooltipFormat)(cur.percent)} (${ cur.absolute ? d3.format(',.0f')(cur.absolute) + ' ' + aUnits : 'size n/a'})` : 'n/a';
+                return acc + `<p class="${  values.indexOf(cur.absolute) === i ? 'isHighlighted' : ''} ${'tooltip-p tooltip-color-' + cur.colorIndex}""><span class="${type}">${dictionary[cur.key]}</span> | ${valueString}</p>`;
             }, '')
         });
     const NATip = d3.tip()
@@ -154,7 +147,7 @@ beforeUpdate(() => {
 
     typeGroup.each(function(p, j, peas) {
         var presentData = p.filter(x => !isNaN(x.percent));
-        var missingData = p.filter(x => isNaN(x.percent));
+        
         if ( presentData.length > 0 ){ // append circles only if the array contains valid data
             let dataGroup = d3.select(this)
                 .selectAll('.data-group')
@@ -184,11 +177,11 @@ beforeUpdate(() => {
                 .classed('absolute-undefined', d => d.absolute === null)
                 .call(tip)
                 .on('mouseover', function(d,i){
-                    tip.show.call(this,p.filter(x => !isNaN(x.percent)),i); // pass parent data in to the tooltip
+                    tip.show.call(this,p,i); // pass parent data in to the tooltip
                 })
                 .on('mouseout', tip.hide)
                 .on('focus', function(d,i){
-                    tip.show.call(this,p.filter(x => !isNaN(x.percent)),i); // pass parent data in to the tooltip
+                    tip.show.call(this,p,i); // pass parent data in to the tooltip
                 })
                 .on('blur', tip.hide);
 
@@ -196,12 +189,7 @@ beforeUpdate(() => {
                 dataGroup.nodes().forEach(function(g){
                     g.addEventListener('keydown', goToSectionStart.bind(undefined, group));
                 });
-                if ( missingData.length > 0 ){
-                    d3.select(svg.parentNode)
-                        .append('figcaption')
-                        .attr('class', 'missing-race-note')
-                        .html(returnMissingRaceText(missingData));
-                }
+               
         } else {
             // if there is no data, append the rect instead, and an invisible circle that's easier to touch and mouseover
             let selection = d3.select(this)
@@ -295,15 +283,7 @@ beforeUpdate(() => {
         position: absolute;
     }
 }
-:global(.missing-race-note) {
-    color: #767676;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    font-size: 0.85em;
-    text-align: right;
 
-}
 :global(.data-group circle) {
 
    // fill: #fff;
