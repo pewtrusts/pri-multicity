@@ -102,8 +102,9 @@ beforeUpdate(() => {
             return d.sort((a, b) => d3.descending(a.percent, b.percent)).reduce((acc, cur, j) => {
                 var type = cur.key.match('age') ? 'age' : 'race';
                 var values = type === 'age' ? ageValues : raceValues;
+                var aUnits = dictionary[indicator].a_units ? dictionary[indicator].a_units : 'ppl';
                 return acc + `<p class="${  values.indexOf(cur.absolute) === i ? 'isHighlighted' : ''} ${'tooltip-p tooltip-color-' + cur.colorIndex}""><span class="${type}">${dictionary[cur.key]}</span> | ${dictionary[indicator] && dictionary[indicator].disagTooltipFormat ? locale.format(dictionary[indicator].disagTooltipFormat)(cur.percent) : locale.format(dictionary[indicator].tooltipFormat)(cur.percent)} 
-                                 (${ cur.absolute ? d3.format(',.0f')(cur.absolute) + ' ppl' : 'size n/a'})</p>`;
+                                 (${ cur.absolute ? d3.format(',.0f')(cur.absolute) + ' ' + aUnits : 'size n/a'})</p>`;
             }, '')
         });
     const NATip = d3.tip()

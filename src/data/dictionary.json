@@ -50,21 +50,24 @@
         "units": "percentage",
         "desc" : "Percentage of residents paying at least 30 percent of income in rent",
         "source":"U.S. Census Bureau, American Community Survey, one-year estimates, 2008-18, Table B25070 (Gross Rent as a Percentage of Household Income in the Past 12 Months)",
-        "tooltipFormat": ".1%"
+        "tooltipFormat": ".1%",
+        "a_units": "households"
     },
     "hh_income": {
         "label": "Median household income",
         "units": "currency",
         "desc" : "Combined household income in the past 12 months",
         "source":"U.S. Census Bureau, American Community Survey, one-year estimates, 2008-18, Table B19013 (Median Household Income in the Past 12 Months)",
-        "tooltipFormat": "$,.0f"
+        "tooltipFormat": "$,.0f",
+        "a_units": "households"
     },
     "homeownership": {
         "label": "Homeownership",
         "units": "percentage",
         "desc" : "Percentage of residential units occupied by homeowners",
         "source":"U.S. Census Bureau, American Community Survey, one-year estimates, 2008-18, Table B25003 (Tenure)",
-        "tooltipFormat": ".1%"
+        "tooltipFormat": ".1%",
+        "a_units": "housing units"
     },
     "labor_force": {
         "label": "Labor force participation",
