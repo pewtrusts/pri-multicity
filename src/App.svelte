@@ -10,7 +10,7 @@
     let groupBy;
     let isSticky = false;
     let wheelEventHasBeenUsed = false;
-    let ACSErrorNote = 'An error in 2017 U.S. Census Bureau data for the Philadelphia area affected all indicators except unemployment rate, commute to work, homicide rate, and population. The affected graphs do not display 2017 data.';
+    let ACSErrorNote = 'In September 2019, the U.S. Census Bureau identified an error in its 2017 data for Philadelphia. The error affects all indicators in this interactive except unemployment rate, homicide rate, and population. The affected graphs do not display 2017 data.';
 
     Element.prototype.modifiedScrollIntoView = function(){
         //document.body.classList.add('no-snap');
