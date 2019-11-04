@@ -1,4 +1,20 @@
-{
+{   
+    "order": [
+        "population",
+        "foreign_born",
+        "hh_income",
+        "poverty",
+        "deep_poverty",
+        "unemployment",
+        "labor_force",
+        "disability",
+        "college",
+        "pre_K",
+        "homeownership",
+        "cost_burden",
+        "commute",
+        "homicide_capita"
+    ],
     "population":  {
         "label": "Population",
         "units": "si",

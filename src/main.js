@@ -4,6 +4,7 @@ import d3 from './d3-importer';
 import App from './App.svelte';
 import data from './data/dashboard-data-2.csv';
 import overview from './overview.html';
+import dictionary from './data/dictionary.json';
 
 // array of cities to render while the dataPromise is being resolved
 const metadata = {
@@ -84,11 +85,14 @@ function getData(resolve, reject){
         }
         return 1;
     }
+    function sortIndicators(a,b){
+        return dictionary.order.indexOf(a) - dictionary.order.indexOf(b);
+    }
     Papa.parse(PUBLICPATH + data, {
         complete: function(results){
             summarizeData(results.data);
             console.log(metadata);
-            var nestedByIndicator = d3.nest().key(d => d.indicator).key(d => d.city).sortKeys(phillyFirst).entries(results.data);
+            var nestedByIndicator = d3.nest().key(d => d.indicator).sortKeys(sortIndicators).key(d => d.city).sortKeys(phillyFirst).entries(results.data);
             var nestedByCity = d3.nest().key(d => d.city).sortKeys(phillyFirst).key(d => d.indicator).entries(results.data);
             resolve({nestedByIndicator,nestedByCity});
         },
