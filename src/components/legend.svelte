@@ -88,7 +88,7 @@ function clickHandler(e){
                                 <h3>Race:</h3>
                                 <ul>
                                     <li>White, non-Hispanic</li>
-                                    <li>Black</li>
+                                    <li>Black or African American</li>
                                     <li>Hispanic</li>
                                     <li>Asian</li>
                                 </ul>

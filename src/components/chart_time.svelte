@@ -301,7 +301,7 @@
         width: 50px;
     }
     :global(.d3-tip.disaggregated > p span.race){
-        width: 63px;
+        width: 188px;
     }
     
 

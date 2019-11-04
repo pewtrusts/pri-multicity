@@ -115,8 +115,8 @@
         "source":"Police departments of all 10 cities (2017-2018); Federal Bureau of Investigation Uniform Crime Reporting (2008-16); population numbers drawn from U.S. Census Bureau, American Community Survey, one-year estimates, 2008-18, Table B01003 (Total Population)",
         "tooltipFormat": ".1f"
     },
-    "race1": "White",
-    "race2": "Black",
+    "race1": "White, non-Hispanic",
+    "race2": "Black or African-American",
     "race3": "Hispanic",
     "race4": "Asian",
     "age1": "< 35",
