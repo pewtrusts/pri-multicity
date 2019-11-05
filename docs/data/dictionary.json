@@ -1,106 +1,125 @@
-{
+{   
+    "order": [
+        "population",
+        "foreign_born",
+        "hh_income",
+        "poverty",
+        "deep_poverty",
+        "unemployment",
+        "labor_force",
+        "disability",
+        "college",
+        "pre_K",
+        "homeownership",
+        "cost_burden",
+        "commute",
+        "homicide_capita"
+    ],
     "population":  {
         "label": "Population",
         "units": "si",
         "units_alt": "percentage",
         "desc" : "",
-        "source":"[TO COME]",
+        "source":"U.S. Census Bureau, “2000-2010 Intercensal Estimates;” U.S. Census Bureau, “Population and Housing Unit Estimates,” 2011-18",
         "tooltipFormat": ",.0f",
         "disagTooltipFormat": ".1%"
     },
     "foreign_born": {
-        "label": "Foreign born",
+        "label": "Foreign-born",
         "units": "percentage",
-        "desc" : "Percentage of residents who were not U.S. citizens at birth",
-        "source":"[TO COME]",
+        "desc" : "Percentage of residents born outside the U.S.",
+        "source":"U.S. Census Bureau, American Community Survey, one-year estimates, 2008-18, Table B05002 (Place of Birth by Citizenship Status)",
         "tooltipFormat": ".1%"
     },
     "poverty": {
-        "label": "Poverty rate",
+        "label": "Poverty",
         "units": "percentage",
-        "desc" : "Percentage of people in households with income below the poverty level",
-        "source":"[TO COME]",
+        "desc" : "Percentage of population with income in the past 12 months below poverty level",
+        "source":"U.S. Census Bureau, American Community Survey, one-year estimates, 2008-18, Table S1701 (Poverty Status in the Past 12 Months)",
         "tooltipFormat": ".1%"
     },
     "deep_poverty": {
-        "label": "Deep poverty rate",
+        "label": "Deep poverty",
         "units": "percentage",
-        "desc" : "Percentage of people in households with income at or below 50 percent of the poverty level",
-        "source":"[TO COME]",
+        "desc" : "Percentage of population with incomes no more than half of the federal poverty threshold",
+        "source":"U.S. Census Bureau, American Community Survey, one-year estimates, 2008-18, Table B17002 (Ratio of Income to Poverty Level in the Past 12 Months)",
         "tooltipFormat": ".1%"
     },
     "cost_burden": {
-        "label": "Housing cost burdened",
+        "label": "Housing-cost burdened",
         "units": "percentage",
-        "desc" : "Percentage of households spending more than 30 percent of their income on housing",
-        "source":"[TO COME]",
-        "tooltipFormat": ".1%"
+        "desc" : "Percentage of residents paying at least 30 percent of income in rent",
+        "source":"U.S. Census Bureau, American Community Survey, one-year estimates, 2008-18, Table B25070 (Gross Rent as a Percentage of Household Income in the Past 12 Months)",
+        "tooltipFormat": ".1%",
+        "a_units": "households"
     },
     "hh_income": {
-        "label": "Household income",
+        "label": "Median household income",
         "units": "currency",
-        "desc" : "Combined income from all members of a household 15 years old or older",
-        "source":"[TO COME]",
-        "tooltipFormat": "$,.0f"
+        "desc" : "Combined household income in the past 12 months",
+        "source":"U.S. Census Bureau, American Community Survey, one-year estimates, 2008-18, Table B19013 (Median Household Income in the Past 12 Months)",
+        "tooltipFormat": "$,.0f",
+        "a_units": "households"
     },
     "homeownership": {
         "label": "Homeownership",
         "units": "percentage",
-        "desc" : "Percentage of households owned by the head of household",
-        "source":"[TO COME]",
-        "tooltipFormat": ".1%"
+        "desc" : "Percentage of residential units occupied by homeowners",
+        "source":"U.S. Census Bureau, American Community Survey, one-year estimates, 2008-18, Table B25003 (Tenure)",
+        "tooltipFormat": ".1%",
+        "a_units": "housing units"
     },
     "labor_force": {
-        "label": "Labor force participation rate",
+        "label": "Labor force participation",
         "units": "percentage",
-        "desc" : "Percentage of people in the military or classified in the civilian labor force",
-        "source":"[TO COME]",
+        "desc" : "Percentage of population 16 years and older in the labor force (employed or unemployed and looking for work)",
+        "source": "U.S. Census Bureau, American Community Survey, one-year estimates, 2008-18, Table B23025 (Employment Status)",
         "tooltipFormat": ".1%"
     },
     "unemployment": {
-        "label": "Unemployment rate",
+        "label": "Unemployment",
         "units": "percentage",
-        "desc" : "Percentage of the civilian work force that is unemployed",
-        "source":"[TO COME]",
+        "desc" : "Percentage of unemployed workers in the labor force",
+        "source":"U.S. Bureau of Labor Statistics, Local Area Unemployment Statistics",
         "tooltipFormat": ".1%"
     },
     "disability": {
         "label": "Disability",
         "units": "percentage",
-        "desc" : "Percentage of people with a disability (civilian noninstitutionalized population)",
-        "source":"[TO COME]",
+        "desc" : "Percentage of civilian noninstitutionalized population with a disability",
+        "source":"U.S. Census Bureau, American Community Survey, one-year estimates, 2008-18, Table S1810 (Disability Characteristics)",
         "tooltipFormat": ".1%"
     },
     "commute": {
-        "label": "Commute to work",
+        "label": "Commuting by public transit",
         "units": "percentage",
-        "desc" : "Percentage of workers who commute to work",
-        "source":"[TO COME]",
+        "desc" : "Percentage of population using public transit to travel to work",
+        "source":"U.S. Census Bureau, American Community Survey, one-year estimates, 2008-18, Table S0801 (Commuting Characteristics by Sex)",
         "tooltipFormat": ".1%"
     },
     "college": {
-        "label": "College",
+        "label": "College graduates",
         "units": "percentage",
-        "desc" : "[TO COME]",
-        "source":"[TO COME]",
+        "desc" : "Percentage of adults (25 years or older) with a bachelor’s degree or higher",
+        "source":"U.S. Census Bureau, American Community Survey, one-year estimates, 2008-18, Table S1501 (Educational Attainment)",
         "tooltipFormat": ".1%"
     },
     "pre_K": {
-        "label": "Preschool enrollment rate",
+        "label": "Preschool enrollment",
         "units": "percentage",
-        "desc" : "Percentage of preschool-aged children enrolled in preschool",
-        "source":"[TO COME]",
+        "desc" : "Percentage of 3- and 4-year-olds enrolled in school",
+        "source":"U.S. Census Bureau, American Community Survey, one-year estimates, 2008-18, Table S1401 (School Enrollment)",
         "tooltipFormat": ".1%"
     },
-        "homicide_capita": {
-        "label": "Homicide rate",
+    "homicide_capita": {
+        "label": "Homicides",
         "units": "decimal",
-        "desc" : "The number of homicides per 100,000 inhabitants",
-        "source":"[TO COME]",
+        "desc" : "Homicides per 100,000 residents",
+        "source":"Police departments of all 10 cities (2017-2018); Federal Bureau of Investigation Uniform Crime Reporting (2008-16); population numbers drawn from U.S. Census Bureau, American Community Survey, one-year estimates, 2008-18, Table B01003 (Total Population)",
         "tooltipFormat": ".1f"
     },
-    "race1": "White",
-    "race2": "Black",
+    "race1": "White, non-Hispanic",
+    "race2": "Black or African-American",
     "race3": "Hispanic",
     "race4": "Asian",
     "age1": "< 35",
