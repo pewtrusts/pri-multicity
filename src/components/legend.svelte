@@ -94,7 +94,7 @@ function clickHandler(e){
                                 </ul>
                             </div>
                         </div>
-                        <div>
+                        <div class="age-race-key">
                             <div class="agreggated-dash"></div> = age/race not available
                         </div>
                     </div>

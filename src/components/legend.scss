@@ -88,7 +88,7 @@
                 h3 {
                     display: inline-block;
                     margin-right: 0.5em;
-                    //width: 40px;
+                    width: 40px;
                     text-align: right;
                     
                 }
@@ -199,6 +199,9 @@ li {
     font: inherit;
     line-height: normal;
     z-index: 1;
+}
+.age-race-key {
+    margin-top: 5px;
 }
 .agreggated-dash {
     display: inline-block;

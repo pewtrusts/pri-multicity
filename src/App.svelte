@@ -45,7 +45,7 @@
     
 </script>
 
-<style>
+<style lang="scss">
     :global(.wire), :global(.wire) * {
         outline: 1px solid magenta;
     }  
@@ -59,7 +59,9 @@
     }
     .top-container {
         position: relative;
-        padding-bottom: 115px;
+        @media screen and (min-width: 850px) {
+            padding-bottom: 115px;
+        }
     }
     .top-anchor {
         position: absolute;

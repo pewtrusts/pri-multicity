@@ -88,7 +88,7 @@
         justify-content: space-around;
         align-items: center;
         flex-wrap: wrap;
-        
+        margin-bottom: 0.3em;
         flex-shrink: 1;
         > div {
             flex-grow: 1;
@@ -101,7 +101,7 @@
         }
     }
     .selections-wrapper {
-        position: absolute;
+        //position: absolute;
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
@@ -112,6 +112,9 @@
         width: calc(100vw - 2.5rem);
         //width: 100%;
         max-width: 990px;
+        @media screen and (min-width: 850px) {
+            position: absolute;
+        }
         &.is-sticky {
             @media screen and (min-width: 850px) {
                 position: fixed;
@@ -136,10 +139,16 @@
             margin-bottom: 0;
         }
     }
+   
     @media screen and (max-width: 1019px){
         :global(.dropdown-outer) {
             display: flex;
             align-items: center;
+            :global(label) {
+                width: 90px;
+                text-align: right;
+            }
+            
         }
         :global(.dropdown-inner) {
             flex-grow: 1;
