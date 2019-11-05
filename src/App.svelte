@@ -46,6 +46,10 @@
 </script>
 
 <style lang="scss">
+    :global(#pew-app) {
+        border-top: 1px solid #333;
+        margin-top: -40px;
+    }
     :global(.wire), :global(.wire) * {
         outline: 1px solid magenta;
     }  
