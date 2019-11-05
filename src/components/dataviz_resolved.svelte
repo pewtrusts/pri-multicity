@@ -213,7 +213,7 @@
 {#each match.values as d, i}
 <div class="graph-container--outer">
     <div class="graph-container">
-        <h3 bind:this="{headings[i]}" class="{d.key.toLowerCase()}" data-tippy-content="{d.key === 'Philadelphia' && d.values[0]['2017'] === null ? ACSErrorNote : dictionary[d.key] ? returnTooltipText(d) : ''}" tabindex="{groupBy !== 'nestedByIndicator' ? 0 : -1}" class:has-error="{d.key === 'Philadelphia' && viewType === 'time' && d.values[0]['2017'] === null}" class:with-tooltip="{groupBy !== 'nestedByIndicator'}">{dictionary[d.key] ? dictionary[d.key].label : d.key}</h3>
+        <h3 bind:this="{headings[i]}" class="{d.key.toLowerCase()}" data-tippy-content="{d.key === 'Philadelphia' && d.values[0]['2017'] === null ? ACSErrorNote : dictionary[d.key] ? returnTooltipText(d) : ''}" tabindex="{(d.key === 'Philadelphia' && d.values[0]['2017'] === null) || groupBy !== 'nestedByIndicator' ? 0 : -1}" class:has-error="{d.key === 'Philadelphia' && viewType === 'time' && d.values[0]['2017'] === null}" class:with-tooltip="{groupBy !== 'nestedByIndicator'}">{dictionary[d.key] ? dictionary[d.key].label : d.key}</h3>
         {#if viewType === 'time'}
         <TimeChart instanceIndex="{i}" datum={d} {metadata} group="{group.key}" />
         {:else}
