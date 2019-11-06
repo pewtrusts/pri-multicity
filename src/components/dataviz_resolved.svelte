@@ -41,7 +41,7 @@ afterUpdate(() => {
 });
 
 function returnTooltipText(d) {
-    var join = dictionary[d.key].desc ? '<br />' : '';
+    var join = dictionary[d.key].desc ? '.' : '';
     return dictionary[d.key].desc + join + ' Source: ' + dictionary[d.key].source;
 }
 
