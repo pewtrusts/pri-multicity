@@ -74,6 +74,7 @@
         width: 100%;
         display: flex;
         flex-wrap: wrap;
+        justify-content: space-between;
         @media screen and (min-width: 850px) {
             flex-wrap: nowrap;
         }
@@ -85,14 +86,16 @@
     }
      .view-type-selectors {
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: center;
         flex-wrap: wrap;
         margin-bottom: 0.3em;
         flex-shrink: 1;
+        flex-grow: 1;
+        max-width: 278px;
         > div {
-            flex-grow: 1;
-            width: 155px;
+            //flex-grow: 1;
+            //width: 155px;
         }
         label {
             margin-left: 0.3em;
