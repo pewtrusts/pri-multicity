@@ -12,7 +12,7 @@ const metadata = {
     stopYear: 2018
 };
 console.log('dowag', BUILDTYPE);
-if ( BUILDTYPE !== 'production' ){
+if ( BUILDTYPE !== 'production' && document.querySelector('#overview-container') ){
     document.querySelector('#overview-container').innerHTML = overview;
 }
 /*
