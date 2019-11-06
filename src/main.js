@@ -13,7 +13,7 @@ const metadata = {
 if ( BUILDTYPE !== 'production' && document.querySelector('#overview-container') ){
     document.querySelector('#overview-container').innerHTML = overview;
 }
-
+console.log(PUBLICPATH + data);
 function summarizeData(data){
     data.forEach((d,i,array) => {
         metadata[d.indicator] = metadata[d.indicator] || {};
@@ -80,7 +80,7 @@ function getData(resolve, reject){
     function sortIndicators(a,b){
         return dictionary.order.indexOf(a) - dictionary.order.indexOf(b);
     }
-    Papa.parse(PUBLICPATH + data, {
+    Papa.parse(data, {
         complete: function(results){
             summarizeData(results.data);
             
