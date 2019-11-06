@@ -74,6 +74,7 @@
     }
     function backToTop(){
         document.querySelector('a[name="top"]').scrollIntoView(true);
+        document.querySelector('.back-to-top').focus()
     }
 
 </script>
