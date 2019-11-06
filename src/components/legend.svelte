@@ -57,7 +57,7 @@ onMount(() => {
 }); // end onMount
 
 function clickHandler(e){
-    console.log(e);
+    
     isClosed = !isClosed;
 }
 </script>

@@ -1,205 +1,219 @@
 <script>
-    import TimeChart from './chart_time.svelte';
-    import BubbleChart from './chart_bubble.svelte';
-    import { beforeUpdate, afterUpdate } from 'svelte';
-    import { viewTypeStore, groupByStore } from './../store.js';
-    import dictionary from './../data/dictionary.json';
-    //import tippy from 'tippy.js';
+import TimeChart from './chart_time.svelte';
+import BubbleChart from './chart_bubble.svelte';
+import { beforeUpdate, afterUpdate } from 'svelte';
+import { viewTypeStore, groupByStore } from './../store.js';
+import dictionary from './../data/dictionary.json';
+//import tippy from 'tippy.js';
 
-    export let group;
-    export let groupedData;
-    export let metadata;
-    export let groupBy;
-    export let tippy;
-    export let ACSErrorNote;
+export let group;
+export let groupedData;
+export let metadata;
+export let groupBy;
+export let tippy;
+export let ACSErrorNote;
 
-    let viewType;
-    let headings = [];
+let viewType;
+let headings = [];
 
-    $: match = groupedData.find(d => d.key === group.key);
+$: match = groupedData.find(d => d.key === group.key);
 
-    viewTypeStore.subscribe(view => {
-        viewType = view;
-        destroyD3Tips();
-        destroyTippys();
+viewTypeStore.subscribe(view => {
+    viewType = view;
+    destroyD3Tips();
+    destroyTippys();
+});
+groupByStore.subscribe(() => {
+    destroyD3Tips();
+    destroyTippys();
+});
+
+// THIS WOULD PROBABLY BE HANDLED BETTER BY MAKING A COMPONENT OUT OF THE HEADING SO THAT EACH ONE
+// WOULD HAVE ITS OWN LIFECYCLE
+
+afterUpdate(() => {
+
+    headings.forEach(h => {
+        if (h && h.dataset.tippyContent !== '') {
+            tippy(h, { arrow: true, offset: '35, 0' });
+        }
     });
-    groupByStore.subscribe(() => {
-        destroyD3Tips();
-        destroyTippys();
+});
+
+function returnTooltipText(d) {
+    var join = dictionary[d.key].desc ? '<br />' : '';
+    return dictionary[d.key].desc + join + ' Source: ' + dictionary[d.key].source;
+}
+
+function destroyD3Tips() {
+    document.querySelectorAll('.d3-tip').forEach(tip => {
+        tip.parentNode.removeChild(tip);
     });
+}
 
-    // THIS WOULD PROBABLY BE HANDLED BETTER BY MAKING A COMPONENT OUT OF THE HEADING SO THAT EACH ONE
-    // WOULD HAVE ITS OWN LIFECYCLE
-   /* beforeUpdate(() => {
-        console.log('beforeUpdate:',headings);
-       // if ( groupBy === 'nestedByIndicator' ){
-            headings.forEach(h => {
-               if (h && h._tippy) h._tippy.destroy();
-            });
-      //  }
-    });*/
-    afterUpdate(() => {
-        console.log('afterUpdate:',headings);
-       //if ( groupBy !== 'nestedByIndicator' ){
-            headings.forEach(h => {
-                if (h && h.dataset.tippyContent !== ''){
-                    tippy(h,{arrow:true, offset: '35, 0'});
-                }
-            });
-        //}
+function destroyTippys() {
+    document.querySelectorAll('[data-tippy-content]').forEach(h => {
+        if (h && h._tippy) {
+            h._tippy.destroy();
+        }
     });
-
-    function returnTooltipText(d){
-        var join = dictionary[d.key].desc ? '<br />' : '';
-        return dictionary[d.key].desc + join + ' Source: ' + dictionary[d.key].source;
-    }
-    
-    function destroyD3Tips(){
-        document.querySelectorAll('.d3-tip').forEach(tip => {
-            tip.parentNode.removeChild(tip);
-        });
-    }
-    function destroyTippys(){
-        document.querySelectorAll('[data-tippy-content]').forEach(h => {
-            if (h && h._tippy){
-                h._tippy.destroy();
-            }
-        });
-    }
-
+}
 </script>
-
 <style lang="scss">
-    @import './../variables.scss';
-    :global(.graph-container--outer) {
-        margin-bottom: 50px;
-        max-width: 250px;
-        @media screen and (min-width: 991px) {
-            width: 20%;
-        }
-        @media screen and (min-width: 828px) and (max-width: 990px) {
-            width: 25%;
-        }
-        @media screen and (min-width: 630px) and (max-width: 827px) {
-            width: 33%;
-        }
-        @media screen and (min-width: 446px) and (max-width: 629px) {
-            width: 50%;
-        }
-        @media screen and (max-width: 445px) {
-            width: 100%;
-        }
+@import './../variables.scss';
 
-    }
-    :global(.graph-container) {
-        width: 100%;
-        height: 0;
-        padding-bottom: calc(131% + 20px);
-        position: relative;
-        :global(h3) {
-            font-size: 16px;
-            width: 100%;
-            text-align: center;      
-            font-weight: 600;
-            padding-left: 20%;
-            position: absolute;
-            &.philadelphia {
-                font-weight: 900;
-            }
-        }
-    }
-    :global(.graph-container--outer .y-axis) {
-        display: none;
-        .by-city & {
-            display: inline;
-        }
-    } 
+:global(.graph-container--outer) {
+    margin-bottom: 50px;
+    max-width: 250px;
+
     @media screen and (min-width: 991px) {
-        :global(.graph-container--outer):nth-of-type(5n+1){
-            :global(.y-axis) {
-                display: inline;
-            }
-        }
+        width: 20%;
     }
+
     @media screen and (min-width: 828px) and (max-width: 990px) {
-        :global(.graph-container--outer):nth-of-type(4n+1){
-            :global(.y-axis) {
-                display: inline;
-            }
-        }
+        width: 25%;
     }
+
     @media screen and (min-width: 630px) and (max-width: 827px) {
-        :global(.graph-container--outer):nth-of-type(3n+1){
-            :global(.y-axis) {
-                display: inline;
-            }
-        }
+        width: 33%;
     }
+
     @media screen and (min-width: 446px) and (max-width: 629px) {
-        :global(.graph-container--outer):nth-of-type(2n+1){
-            :global(.y-axis) {
-                display: inline;
-            }
-        }
+        width: 50%;
     }
+
     @media screen and (max-width: 445px) {
-        :global(.graph-container--outer):nth-of-type(1n+1){
-            :global(.y-axis) {
-                display: inline;
-            }
+        width: 100%;
+    }
+
+}
+
+:global(.graph-container) {
+    width: 100%;
+    height: 0;
+    padding-bottom: calc(131% + 20px);
+    position: relative;
+
+    :global(h3) {
+        font-size: 16px;
+        width: 100%;
+        text-align: center;
+        font-weight: 600;
+        padding-left: 20%;
+        position: absolute;
+
+        &.philadelphia {
+            font-weight: 900;
         }
     }
-    :global(.by-city .graph-container--outer .y-axis){
+}
+
+:global(.graph-container--outer .y-axis) {
+    display: none;
+
+    .by-city & {
         display: inline;
     }
-    .info-mark path {
-        fill: #cacaca;
-        transition: fill 0.2s ease-in-out
-        :hover & {
-            fill: $blue;
-        }
-    }
-    .with-tooltip {
-        &::after {
-            position: absolute;
-            bottom: 2px;
-            margin-left: 0.2em;
-            content: '';
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 924 922.666015625'%3E%3Cpath fill='%23cacaca' d='M456.667 1.333c126.667-1.333 235.333 42 326 130s137.333 195.333 140 322C924 580 880.334 689 791.667 780.333s-196.333 138.333-323 141C342 922.666 233 879 141.667 790.333S4 594 2.667 467.333c-2.667-126.667 40.667-235.667 130-327s197.333-137.667 324-139m52 152c-28 0-49.667 8-65 24-15.333 16-23 32.667-23 50-1.333 18.667 3.667 33.333 15 44 11.333 10.667 27.667 16 49 16 25.333 0 45.667-7.333 61-22 15.333-14.667 23-32.667 23-54 0-38.667-20-58-60-58m-120 594c20 0 48-8.667 84-26s71.333-43.333 106-78l-18-24c-32 24-56 36-72 36-9.333 0-10.667-12.667-4-38l42-160c17.333-64 10-96-22-96-20 0-49.667 9.667-89 29s-77.667 44.333-115 75l16 26c34.667-22.667 59.333-34 74-34 8 0 8 11.333 0 34l-36 152c-17.333 69.333-6 104 34 104'%3E%3C/path%3E%3C/svg%3E");
-        }
-        &:hover::after, &:focus::after {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 924 922.666015625'%3E%3Cpath fill='%23296EC3' d='M456.667 1.333c126.667-1.333 235.333 42 326 130s137.333 195.333 140 322C924 580 880.334 689 791.667 780.333s-196.333 138.333-323 141C342 922.666 233 879 141.667 790.333S4 594 2.667 467.333c-2.667-126.667 40.667-235.667 130-327s197.333-137.667 324-139m52 152c-28 0-49.667 8-65 24-15.333 16-23 32.667-23 50-1.333 18.667 3.667 33.333 15 44 11.333 10.667 27.667 16 49 16 25.333 0 45.667-7.333 61-22 15.333-14.667 23-32.667 23-54 0-38.667-20-58-60-58m-120 594c20 0 48-8.667 84-26s71.333-43.333 106-78l-18-24c-32 24-56 36-72 36-9.333 0-10.667-12.667-4-38l42-160c17.333-64 10-96-22-96-20 0-49.667 9.667-89 29s-77.667 44.333-115 75l16 26c34.667-22.667 59.333-34 74-34 8 0 8 11.333 0 34l-36 152c-17.333 69.333-6 104 34 104'%3E%3C/path%3E%3C/svg%3E");
-        }
-    }
-    .has-error {
-        &:after {
-            content: '*';
-            color: #767676;
-            font-size: 1.2em;
-            position: relative;
-            line-height: 0;
+}
 
+@media screen and (min-width: 991px) {
+    :global(.graph-container--outer):nth-of-type(5n+1) {
+        :global(.y-axis) {
+            display: inline;
         }
     }
+}
 
-    /* tippy overrides */
+@media screen and (min-width: 828px) and (max-width: 990px) {
+    :global(.graph-container--outer):nth-of-type(4n+1) {
+        :global(.y-axis) {
+            display: inline;
+        }
+    }
+}
 
-    :global(.tippy-tooltip[data-animatefill]) {
-        background-color: #fff;
-        overflow-y: visible;
+@media screen and (min-width: 630px) and (max-width: 827px) {
+    :global(.graph-container--outer):nth-of-type(3n+1) {
+        :global(.y-axis) {
+            display: inline;
+        }
     }
-    :global(.tippy-tooltip) {
-        background-color: #fff;
-        color: #333;
-        border: 1px solid $gray;
-        overflow-y: visible;
+}
+
+@media screen and (min-width: 446px) and (max-width: 629px) {
+    :global(.graph-container--outer):nth-of-type(2n+1) {
+        :global(.y-axis) {
+            display: inline;
+        }
     }
-    :global(.tippy-backdrop){
-        background-color: #fff;
+}
+
+@media screen and (max-width: 445px) {
+    :global(.graph-container--outer):nth-of-type(1n+1) {
+        :global(.y-axis) {
+            display: inline;
+        }
     }
+}
+
+:global(.by-city .graph-container--outer .y-axis) {
+    display: inline;
+}
+
+.info-mark path {
+    fill: #cacaca;
+
+    transition: fill 0.2s ease-in-out :hover & {
+        fill: $blue;
+    }
+}
+
+.with-tooltip {
+    &::after {
+        position: absolute;
+        bottom: 2px;
+        margin-left: 0.2em;
+        content: '';
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 924 922.666015625'%3E%3Cpath fill='%23cacaca' d='M456.667 1.333c126.667-1.333 235.333 42 326 130s137.333 195.333 140 322C924 580 880.334 689 791.667 780.333s-196.333 138.333-323 141C342 922.666 233 879 141.667 790.333S4 594 2.667 467.333c-2.667-126.667 40.667-235.667 130-327s197.333-137.667 324-139m52 152c-28 0-49.667 8-65 24-15.333 16-23 32.667-23 50-1.333 18.667 3.667 33.333 15 44 11.333 10.667 27.667 16 49 16 25.333 0 45.667-7.333 61-22 15.333-14.667 23-32.667 23-54 0-38.667-20-58-60-58m-120 594c20 0 48-8.667 84-26s71.333-43.333 106-78l-18-24c-32 24-56 36-72 36-9.333 0-10.667-12.667-4-38l42-160c17.333-64 10-96-22-96-20 0-49.667 9.667-89 29s-77.667 44.333-115 75l16 26c34.667-22.667 59.333-34 74-34 8 0 8 11.333 0 34l-36 152c-17.333 69.333-6 104 34 104'%3E%3C/path%3E%3C/svg%3E");
+    }
+
+    &:hover::after,
+    &:focus::after {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 924 922.666015625'%3E%3Cpath fill='%23296EC3' d='M456.667 1.333c126.667-1.333 235.333 42 326 130s137.333 195.333 140 322C924 580 880.334 689 791.667 780.333s-196.333 138.333-323 141C342 922.666 233 879 141.667 790.333S4 594 2.667 467.333c-2.667-126.667 40.667-235.667 130-327s197.333-137.667 324-139m52 152c-28 0-49.667 8-65 24-15.333 16-23 32.667-23 50-1.333 18.667 3.667 33.333 15 44 11.333 10.667 27.667 16 49 16 25.333 0 45.667-7.333 61-22 15.333-14.667 23-32.667 23-54 0-38.667-20-58-60-58m-120 594c20 0 48-8.667 84-26s71.333-43.333 106-78l-18-24c-32 24-56 36-72 36-9.333 0-10.667-12.667-4-38l42-160c17.333-64 10-96-22-96-20 0-49.667 9.667-89 29s-77.667 44.333-115 75l16 26c34.667-22.667 59.333-34 74-34 8 0 8 11.333 0 34l-36 152c-17.333 69.333-6 104 34 104'%3E%3C/path%3E%3C/svg%3E");
+    }
+}
+
+.has-error {
+    &:after {
+        content: '*';
+        color: #767676;
+        font-size: 1.2em;
+        position: relative;
+        line-height: 0;
+
+    }
+}
+
+/* tippy overrides */
+
+:global(.tippy-tooltip[data-animatefill]) {
+    background-color: #fff;
+    overflow-y: visible;
+}
+
+:global(.tippy-tooltip) {
+    background-color: #fff;
+    color: #333;
+    border: 1px solid $gray;
+    overflow-y: visible;
+}
+
+:global(.tippy-backdrop) {
+    background-color: #fff;
+}
 
 :global(.tippy-popper[x-placement^=top] .tippy-arrow) {
     border-top-color: $gray;
@@ -209,7 +223,6 @@
     transform: translate(32px, 0)
 }
 </style>
-
 {#each match.values as d, i}
 <div class="graph-container--outer">
     <div class="graph-container">
@@ -221,6 +234,4 @@
         {/if}
     </div>
 </div>
-{/each}    
-
-
+{/each}

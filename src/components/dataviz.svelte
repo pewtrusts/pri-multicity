@@ -21,16 +21,10 @@
     inViewSectionStore.subscribe(section => {
         var anchor = document.getElementById('anchor-' + section);
         if ( anchor ) {
-            anchor.modifiedScrollIntoView();
+            anchor.scrollIntoView();
         }
     });
     let scrollY = 0;
-    beforeUpdate(() => {
-        headings.forEach(h => {
-          //  if (h && h._tippy) h._tippy.destroy();
-        });
-
-    });
     afterUpdate(() => {
         headings.forEach(h => {
             if ( h && h.classList.contains('has-error')){
@@ -56,7 +50,7 @@
 
         function upwardCallback(entries, observer){
             entries.forEach(entry => {
-                console.log(entry, scrollY, window.pageYOffset);
+                
                 var newScrollY = window.pageYOffset;
                 if ( entry.isIntersecting && newScrollY >= scrollY ){ // greater than or equal to trigger on page load to nonzero scroll
                     scrolledToStore.set(entry.target.dataset.key);
@@ -75,11 +69,11 @@
 
     function skipClickHandler(e){
         var index = this.dataset.linkTo;
-        document.querySelector('.js-section-anchor-' + index).modifiedScrollIntoView();
+        document.querySelector('.js-section-anchor-' + index).scrollIntoView();
         document.querySelector(this.hash).focus();
     }
     function backToTop(){
-        document.querySelector('a[name="top"]').modifiedScrollIntoView(true);
+        document.querySelector('a[name="top"]').scrollIntoView(true);
     }
 
 </script>

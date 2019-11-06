@@ -6,22 +6,14 @@ import data from './data/dashboard-data-2.csv';
 import overview from './overview.html';
 import dictionary from './data/dictionary.json';
 
-// array of cities to render while the dataPromise is being resolved
 const metadata = {
     startYear: 2008,
     stopYear: 2018
 };
-console.log('dowag', BUILDTYPE);
 if ( BUILDTYPE !== 'production' && document.querySelector('#overview-container') ){
     document.querySelector('#overview-container').innerHTML = overview;
 }
-/*
-var publicPath = '';
-if ( process.env.NODE_ENV === 'production' ) { // production build needs to know the public path of assets
-                                               // for dev and preview, assets are a child of root; for build they
-                                               // are in some distant path on sitecore
-    publicPath = PUBLICPATH; 
-}*/
+
 function summarizeData(data){
     data.forEach((d,i,array) => {
         metadata[d.indicator] = metadata[d.indicator] || {};
@@ -91,7 +83,7 @@ function getData(resolve, reject){
     Papa.parse(PUBLICPATH + data, {
         complete: function(results){
             summarizeData(results.data);
-            console.log(metadata);
+            
             var nestedByIndicator = d3.nest().key(d => d.indicator).sortKeys(sortIndicators).key(d => d.city).sortKeys(phillyFirst).entries(results.data);
             var nestedByCity = d3.nest().key(d => d.city).sortKeys(phillyFirst).key(d => d.indicator).entries(results.data);
             resolve({nestedByIndicator,nestedByCity});

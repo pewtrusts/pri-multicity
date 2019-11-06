@@ -6,10 +6,10 @@ export let datum;
 export let group;
 export let metadata;
 export let groupBy;
-console.log(groupBy);
+
 $: cityOrIndicator = groupBy === 'nestedByCity' ? 'city' : 'indicator';
 import './../d3-tip.scss';
-console.log(this);
+
 var svg;
 
 let zScaleDomain = [metadata.minPop, metadata.maxPop];
@@ -55,10 +55,10 @@ beforeUpdate(() => {
         [{ colorIndex: 0, percent: datum.values[0].age1, absolute: datum.values[0].age1_a, key: 'age1' }, { colorIndex: 1, percent: datum.values[0].age2, absolute: datum.values[0].age2_a, key: 'age2' }, { colorIndex: 2, percent: datum.values[0].age3, absolute: datum.values[0].age3_a, key: 'age3' }],
         [{ colorIndex: 0, percent: datum.values[0].race1, absolute: datum.values[0].race1_a, key: 'race1' }, { colorIndex: 1, percent: datum.values[0].race2, absolute: datum.values[0].race2_a, key: 'race2' }, { colorIndex: 2, percent: datum.values[0].race3, absolute: datum.values[0].race3_a, key: 'race3' }, { colorIndex: 3, percent: datum.values[0].race4, absolute: datum.values[0].race4_a, key: 'race4' }]
     ];
-    console.log(data);
+    
     
     // data-dependent settings
-    console.log(datum);
+    
     const units = dictionary[datum.values[0].indicator].units_alt || dictionary[datum.values[0].indicator].units;
     const numberFormat = units === 'currency' ? '.0s' :
         units === 'si' ? '.1s' :
@@ -77,7 +77,7 @@ beforeUpdate(() => {
     const maxValue = calcMax !== undefined ? calcMax : metadata[datum.values[0].indicator].maxYear;
     yScale.domain([0, maxValue]).nice(4);
     if ( datum.values[0].indicator === 'commute' ){
-        console.log('oink', calcMax, yScale.domain());
+        
     }
     //domain below makes bubbles size comparable in group only
     //zScale.domain([metadata[datum.values[0][cityOrIndicator]].minPop, metadata[datum.values[0][cityOrIndicator]].maxPop]); 
@@ -124,11 +124,6 @@ beforeUpdate(() => {
         .attr('class', 'axis y-axis')
         .attr('transform', `translate(${margin.left + 1}, ${margin.top})`)
         .call(d3.axisLeft(yScale).tickSizeInner(0).tickSizeOuter(1).tickPadding(4).ticks(4, numberFormat)); //.tickFormat(d3.format(numberFormat)));
-
-    /*const tip = d3.tip()
-        .attr('class', 'd3-tip')
-        .offset([viewBoxHeight * 2 - 10,0.5])
-        .html(d => `<span class="year">${d.year.getFullYear()}</span>${locale.format(dictionary[datum.values[0].indicator].tooltipFormat)(d.value)}`);*/
 
     //render groups for each circle-label pair
     const typeGroup = $svg
@@ -218,57 +213,10 @@ beforeUpdate(() => {
                     NATip.show.call(this, {groupIndex: j, value: d});
                 })
                 .on('blur', NATip.hide);
-/*
-                .append('text')
-                .attr('class', 'not-available')
-                .text(d => d)
-                .attr('y', height / 2);*/
         }
-        
-
-        //append labels
-        /*  dataGroup
-              .append('text')
-              .attr('class', 'data-label')
-              .attr('dy', '0.4em')
-              .text(d => dictionary[d.key])
-              .attr('y', d => {
-                  return height - yScale(d.percent);
-              })
-              .attr('x', maxRadius + 2);*/
     });
-
-
-
-
-
-
-
-
-
-    /*  var simulation = d3.forceSimulation()
-          //.force("center", d3.forceCenter().x(width / 2).y(height / 2)) // Attraction to the center of the svg area
-          //.force("charge", d3.forceManyBody().strength(0.5)) // Nodes are attracted one each other of value is > 0
-          .force("collide", d3.forceCollide().strength(.01).radius(30).iterations(1)); // Force that avoids circle overlapping */
-
-    //render x-axis
-    /*        const xAxis = $svg.append('g')
-              .attr('transform', `translate(${margin.left}, ${height})`)
-              .attr('class', 'axis x-axis')
-              .call(d3.axisBottom(xScale).tickSizeInner(0).tickSizeOuter(0).tickPadding(4).tickValues([data[firstNonNullIndex(data)].year, data[data.length - 1].year]));*/
-
-    //render y-axis
-    /*  const yAxis = $svg.append('g')
-          .attr('class', 'axis y-axis')
-          .attr('transform', `translate(${margin.left}, ${margin.top})`)
-          .call(d3.axisLeft(yScale).tickSizeInner(0).tickSizeOuter(0).tickPadding(4).ticks(6, numberFormat));//.tickFormat(d3.format(numberFormat)));*/
-
-
-    //render least squared  trendline
-
-
-
 }); // end onMount
+
 </script>
 <style lang="scss">
 @import './../variables.scss';

@@ -12,16 +12,6 @@
     let wheelEventHasBeenUsed = false;
     let ACSErrorNote = 'In September 2019, the U.S. Census Bureau identified an error in its 2017 data for Philadelphia. The error affects all indicators in this interactive except unemployment rate, homicide rate, and population. The affected graphs do not display 2017 data.';
 
-    Element.prototype.modifiedScrollIntoView = function(){
-        //document.body.classList.add('no-snap');
-        this.scrollIntoView(arguments);
-       // document.body.classList.remove('no-snap');
-    };
-    /*document.body.addEventListener('wheel', function(e){
-        console.log(e);
-        document.body.classList.add('no-snap');
-        wheelEventHasBeenUsed = true;
-    });*/
     groupByStore.subscribe(value => {
         groupedData = data[value];
         groupBy = value;

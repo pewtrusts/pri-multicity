@@ -1,23 +1,15 @@
 .legend-container {
 
-//    position: absolute;
     top: calc(100% - 11px);
     right: 0;
     width: 100%;
-    //max-width: 540px;
-    
     transition: opacity 0.2s ease-in-out;
     z-index: 1;
     opacity: 1;
     display: flex;
     justify-content: flex-end;
     background-image: linear-gradient(rgba(255,255,255,1), rgba(255,255,255,0.9) 90%, rgba(255,255,255,0) 95%);
-  //git status  height: 75px;
     color: $gray;
-    &.isClosed {
-        
-       // opacity: 0;
-    }
     &.hide {
         display: none;
     }
@@ -26,16 +18,12 @@
 .legend-container-inner {
     position: relative;
     display: inline-block;
-    //max-width: 1030px;
     width: 100%;
     display: flex;
     justify-content: flex-end;
     padding-bottom: 5px;
     transition:  opacity 0.2s ease-in-out;
     opacity: 1;
-    //background-color: rgba(255,255,255,0.9);
-    //background-color: #fff;
-    //border: 1px solid $gray;
     .isClosed & {
         opacity: 0;
     }
@@ -113,7 +101,6 @@
 }
 .population-legend {
     width: 62px;
-  //  margin-bottom: -5px;
   position: relative;
   
 

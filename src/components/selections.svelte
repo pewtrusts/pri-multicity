@@ -1,7 +1,6 @@
 <script>
     import { onMount } from 'svelte';
     import { viewTypeStore, inViewSectionStore, scrolledToStore, groupByStore } from './../store.js';
-    import Loading from './loading.svelte';
     import UISvelte from '@Submodule/UI-svelte/';
     import dictionary from './../data/dictionary.json';
     import trendlineSVG from 'file-loader!./dataviz--trendline.svg';
@@ -57,7 +56,7 @@
     groupByStore.subscribe(value => {
         var firstSectionAnchor = document.querySelector('.dataviz-section a.section-anchor');
         if ( firstSectionAnchor ){
-            firstSectionAnchor.modifiedScrollIntoView();
+            firstSectionAnchor.scrollIntoView();
         }
         groupSelectorLabel = organizeByOptions.find(d => d.value === value).display;
     });
