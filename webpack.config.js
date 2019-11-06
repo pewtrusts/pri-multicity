@@ -54,7 +54,7 @@ const plugins = [
         inject: !isProd,
     }),
     new MiniCssExtractPlugin({
-        filename: '[name].css'
+        filename: 'mm-styles.css'
     }),
     new webpack.DefinePlugin({
         'PUBLICPATH': '"' + publicPath + '"', // from https://webpack.js.org/plugins/define-plugin/: Note that because the plugin does a direct text replacement, the value given to it must include actual quotes inside of the string itself. Typically, this is done either with alternate quotes, such as '"production"', or by using JSON.stringify('production').
@@ -158,7 +158,7 @@ if (!isDev) {
 module.exports = env => {
     return {
         entry: {
-            bundle: ['./src/main.js']
+            index: ['./src/main.js']
         },
         resolve: {
             alias: {
@@ -171,7 +171,8 @@ module.exports = env => {
         output: {
             path: __dirname + '/' + outputFolder,
             filename: '[name].js',
-            chunkFilename: '[name].[id].js'
+            chunkFilename: '[name].[id].js',
+            publicPath
         },
         module: {
             rules
