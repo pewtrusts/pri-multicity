@@ -78,7 +78,12 @@
             flex-wrap: nowrap;
         }
     }
-    .selections > div {
+    .selections > div:first-child {
+        
+        z-index: 3;
+        
+    }
+    .selections > div:nth-child(2) {
         
         z-index: 2;
         
@@ -92,10 +97,8 @@
         flex-shrink: 1;
         flex-grow: 1;
         max-width: 278px;
-        > div {
-            //flex-grow: 1;
-            //width: 155px;
-        }
+        z-index: 1;
+       
         label {
             margin-left: 0.3em;
             position: relative;
@@ -112,7 +115,6 @@
         z-index: 2;
         padding: 10px 0;
         width: calc(100vw - 2.5rem);
-        //width: 100%;
         max-width: 990px;
         @media screen and (min-width: 850px) {
             position: absolute;
