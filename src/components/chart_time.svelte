@@ -296,10 +296,10 @@
         text-align: right;
     }
     :global(.d3-tip.disaggregated > p span.age){
-        width: 50px;
+        width: 62px;
     }
     :global(.d3-tip.disaggregated > p span.race){
-        width: 188px;
+        width: 200px;
     }
     
 

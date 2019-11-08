@@ -328,14 +328,13 @@ beforeUpdate(() => {
 }
 :global(.tooltip-p) {
     margin-bottom: 0.5em;
-    padding-left: 12px;
-    text-indent: -12px;
     line-height: 100%;
     font-weight: 400;
     opacity: .65;
     
+    
 
-    &::before {
+    span::before {
         content: '';
         width: 8px;
         height: 8px;
@@ -348,19 +347,19 @@ beforeUpdate(() => {
         opacity: 0.5;
     }
 
-    &.tooltip-color-0::before {
+    &.tooltip-color-0 span::before {
         background-color: $teal;
     }
 
-    &.tooltip-color-1::before {
+    &.tooltip-color-1 span::before {
         background-color: $orange;
     }
 
-    &.tooltip-color-2::before {
+    &.tooltip-color-2 span::before {
         background-color: $red;
     }
 
-    &.tooltip-color-3::before {
+    &.tooltip-color-3 span::before {
         background-color: $light_blue;
     }
 
@@ -369,9 +368,9 @@ beforeUpdate(() => {
     opacity: 1;
     span {
         font-weight: 800;
-    }
-    &::before {
-        opacity: 1;
+        &::before {
+            opacity: 1;
+        }
     }
 }
 :global(.not-available){
