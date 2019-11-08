@@ -3,23 +3,19 @@
     import { beforeUpdate } from 'svelte';
     import d3 from './../d3-importer.js';
     import dictionary from './../data/dictionary.json';
+    import shared from './chart_shared.js';
     export var datum;
     export let metadata;
     export let group;
     
     import './../d3-tip.scss';
-    var svg;
-    
-    const viewBoxHeight = 116;
+// Sveltey way would be to have Chart component that passes these properties as props to the the specific chart types
+    var { clearExisting, goToSectionStart, height, locale, margin, returnNumberFormats, svg, viewBoxHeight, width, yScale } = shared;
 
     function firstNonNullIndex(data){
         return data.findIndex(d => d.value !== null);
     };
-    function goToSectionStart(group, e){
-        if ( e.keyCode === 27 ){
-            document.querySelector('.js-skip-link-' + group).focus();
-        }
-    }
+    
     // HT: http://bl.ocks.org/benvandyke/8459843. returns slope, intercept and r-square of the line
     function leastSquares(xSeries, ySeries) {
         var reduceSumFunc = function(prev, cur) { return prev + cur; };
@@ -45,22 +41,12 @@
     beforeUpdate(() => {
         
         if ( svg ){
-            d3.select(svg).select('.chart-group').remove();
-            // a bit of a bute force option to make sure svgs clear existing content before update;
-            // perhaps would have been better to compose so that d3 could do exit().remove() on the charts
+            clearExisting(svg)
         }
+ 
         // parameters / presettings
-        const margin = {
-            top: 10,
-            right: 5,
-            bottom: 15,
-            left: 21
-        };
-        const width = 100 - margin.left - margin.right;
-        const height = viewBoxHeight - margin.top - margin.bottom;
         const xScale = d3.scaleTime().range([0, width]);
-        const yScale = d3.scaleLinear().range([height, 0]);
-            // define the line
+             // define the line
         const valueline =  d3.line()
             .x((d) => { return xScale(d.year); })
             .y((d) => { return yScale(d.value); })
@@ -73,21 +59,9 @@
                 value: datum.values[0][year] 
             };
         }).filter(d => d.value !== null);
-         const locale = d3.formatLocale({
-            decimal: '.',
-            thousands: ',',
-            grouping: [3],
-            currency: ['$', '']
-            
-        });
+        
         // data-dependent settings
-        
-        
-        const numberFormat = dictionary[datum.values[0].indicator].units === 'currency' ? '.0s' :
-                             dictionary[datum.values[0].indicator].units === 'si' ? '.1s' :
-                             dictionary[datum.values[0].indicator].units === 'number' ? '.0f' :
-                             dictionary[datum.values[0].indicator].units === 'decimal' ? '.0f' :
-                             '.0%';
+        const numberFormat = returnNumberFormats(dictionary[datum.values[0].indicator].units);
 
         xScale.domain(d3.extent(data, d => d.year));
 
@@ -95,13 +69,8 @@
         const minValue = ( metadata[datum.values[0].indicator].minAge !== undefined || metadata[datum.values[0].indicator].minRace !== undefined ) && datum.values[0].indicator !== 'population' ? d3.min([metadata[datum.values[0].indicator].minAge, metadata[datum.values[0].indicator].minRace]) : metadata[datum.values[0].indicator].minYear;
         const maxValue = ( metadata[datum.values[0].indicator].maxAge !== undefined || metadata[datum.values[0].indicator].maxRace !== undefined ) && datum.values[0].indicator !== 'population' ? d3.max([metadata[datum.values[0].indicator].maxAge, metadata[datum.values[0].indicator].maxRace]) : metadata[datum.values[0].indicator].maxYear;
 
-        const diff = maxValue - minValue;
         yScale.domain([0, maxValue]).nice(4);
-        if ( datum.values[0].indicator === 'commute' ){
-            
-        }
-        
-
+       
         const $svg = d3.select(svg)
             .append('g')
             .classed('chart-group', true);
@@ -115,10 +84,6 @@
         const chart = $svg
             .append('g')
             .attr('transform', `translate(${margin.left},${margin.top})`);
-            //.call(tip);
-            
-
-        
 
         //render x-axis
         const xAxis = $svg.append('g')
@@ -132,15 +97,11 @@
             .attr('transform', `translate(${margin.left + 1}, ${margin.top})`)
             .call(d3.axisLeft(yScale).tickSizeInner(0).tickSizeOuter(1).tickPadding(4).ticks(4, numberFormat));//.tickFormat(d3.format(numberFormat)));
 
-
         //render least squared  trendline
         var xSeries = d3.range(1, data.length + 1 - firstNonNullIndex(data));
         var ySeries = data.slice(firstNonNullIndex(data)).map(d => d.value);
 
         var leastSquaresCoeff = leastSquares(xSeries, ySeries);
-
-        
-
 
         chart.append('line')
             .attr('class', 'line trendline')

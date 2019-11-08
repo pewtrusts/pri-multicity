@@ -2,6 +2,7 @@
 import { beforeUpdate } from 'svelte';
 import d3 from './../d3-importer.js';
 import dictionary from './../data/dictionary.json';
+import shared from './chart_shared.js';
 export let datum;
 export let group;
 export let metadata;
@@ -10,44 +11,22 @@ export let groupBy;
 $: cityOrIndicator = groupBy === 'nestedByCity' ? 'city' : 'indicator';
 import './../d3-tip.scss';
 
-var svg;
+var { clearExisting, goToSectionStart, height, locale, margin, returnNumberFormats, svg, viewBoxHeight, width, yScale } = shared;
 
 let zScaleDomain = [metadata.minPop, metadata.maxPop];
-const viewBoxHeight = 116;
 const maxRadius = 15;
 const minRadius = 5;
 
-function goToSectionStart(group, e){
-    if ( e.keyCode === 27 ){
-        document.querySelector('.js-skip-link-' + group).focus();
-    }
-}
 
 beforeUpdate(() => {
 
     if ( svg ){
-        d3.select(svg).select('.chart-group').remove();
+        clearExisting(svg);
     }
 
 
     // parameters / presettings
-        const margin = {
-            top: 10,
-            right: 5,
-            bottom: 15,
-            left: 21
-        };
-    const locale = d3.formatLocale({
-            decimal: '.',
-            thousands: ',',
-            grouping: [3],
-            currency: ['$', '']
-            
-        });
-    const width = 100 - margin.left - margin.right;
-    const height = viewBoxHeight - margin.top - margin.bottom;
     const xScale = d3.scaleOrdinal().range([0, width]);
-    const yScale = d3.scaleLinear().range([height, 0]);
     const zScale = d3.scaleSqrt().range([minRadius, maxRadius]);
     const ageValues = [datum.values[0].age1_a, datum.values[0].age2_a,datum.values[0].age3_a].sort((a,b) => d3.descending(a,b));
     const raceValues = [datum.values[0].race1_a,datum.values[0].race2_a,datum.values[0].race3_a,datum.values[0].race4_a].sort((a,b) => d3.descending(a,b));
@@ -60,11 +39,7 @@ beforeUpdate(() => {
     // data-dependent settings
     
     const units = dictionary[datum.values[0].indicator].units_alt || dictionary[datum.values[0].indicator].units;
-    const numberFormat = units === 'currency' ? '.0s' :
-        units === 'si' ? '.1s' :
-        units === 'number' ? '.0f' :
-        units === 'decimal' ? '.0f' :
-        '.0%';
+    const numberFormat = returnNumberFormats(units);
 
     
 
@@ -76,9 +51,6 @@ beforeUpdate(() => {
     const minValue = calcMin !== undefined ? calcMin : metadata[datum.values[0].indicator].minYear;
     const maxValue = calcMax !== undefined ? calcMax : metadata[datum.values[0].indicator].maxYear;
     yScale.domain([0, maxValue]).nice(4);
-    if ( datum.values[0].indicator === 'commute' ){
-        
-    }
     //domain below makes bubbles size comparable in group only
     //zScale.domain([metadata[datum.values[0][cityOrIndicator]].minPop, metadata[datum.values[0][cityOrIndicator]].maxPop]); 
 
