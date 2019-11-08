@@ -179,6 +179,6 @@ module.exports = env => {
         },
         mode,
         plugins,
-        devtool: isDev ? 'source-map' : false // TO DO: WILL WANT SOURCE MAPS
+        devtool: !isProd ? 'source-map' : false // TO DO: WILL WANT SOURCE MAPS
     }
 };
