@@ -2,7 +2,7 @@
 import Papa from 'papaparse';
 import d3 from './d3-importer';
 import App from './App.svelte';
-import data from './data/dashboard-data-2.csv';
+import data from './data/dashboard-data.csv';
 import overview from './overview.html';
 import dictionary from './data/dictionary.json';
 
