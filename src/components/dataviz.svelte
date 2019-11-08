@@ -74,6 +74,7 @@
     }
     function backToTop(){
         document.querySelector('a[name="top"]').scrollIntoView(true);
+        scrolledToStore.set(dictionary.order[0]);
         document.querySelector('.back-to-top').focus()
     }
 
