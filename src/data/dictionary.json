@@ -91,7 +91,7 @@
         "tooltipFormat": ".1%"
     },
     "commute": {
-        "label": "Commuting by public transit",
+        "label": "Commute by public transit",
         "units": "percentage",
         "desc" : "Percentage of population using public transit to travel to work",
         "source":"U.S. Census Bureau, American Community Survey, one-year estimates, 2008-18, Table S0801 (Commuting Characteristics by Sex)",
