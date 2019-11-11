@@ -35,32 +35,37 @@
     onMount(() => {
         
         function downwardCallback(entries, observer){
+            //console.log(entries);
+            var newScrollY = window.pageYOffset;
             entries.forEach(entry => {
-                var newScrollY = window.pageYOffset;
                 if ( entry.isIntersecting && newScrollY < scrollY ){
+                    //console.log('downward', entry, newScrollY, scrollY);
                     scrolledToStore.set(entry.target.dataset.key);
+                    scrollY = newScrollY;
                 }
-                scrollY = newScrollY;
             });
         }
         var downwardObserver = new IntersectionObserver(downwardCallback);
-        document.querySelectorAll('.section-anchor').forEach(anchor => {
-            downwardObserver.observe(anchor);
-        });
 
         function upwardCallback(entries, observer){
             entries.forEach(entry => {
                 
                 var newScrollY = window.pageYOffset;
                 if ( entry.isIntersecting && newScrollY >= scrollY ){ // greater than or equal to trigger on page load to nonzero scroll
+                    //console.log('upward', entry, newScrollY, scrollY);
                     scrolledToStore.set(entry.target.dataset.key);
+                    scrollY = newScrollY;
                 }
-                scrollY = newScrollY;
             });
         }
         var upwardObserver = new IntersectionObserver(upwardCallback);
-        document.querySelectorAll('.upward-observer-anchor').forEach(anchor => {
-            upwardObserver.observe(anchor);
+        setTimeout(() => {
+            document.querySelectorAll('.section-anchor').forEach(anchor => {
+                downwardObserver.observe(anchor);
+            });
+            document.querySelectorAll('.upward-observer-anchor').forEach(anchor => {
+                upwardObserver.observe(anchor);
+            });
         });
 
 
