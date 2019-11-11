@@ -4,7 +4,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const {sass} = require('svelte-preprocess-sass');
-
+const TerserPlugin = require('terser-webpack-plugin');
 const mode = process.env.NODE_ENV === 'development' ? 'development' : 'production';
 const path = require('path');
 const outputFolder = process.env.NODE_ENV === 'preview' ? 'docs/' : process.env.NODE_ENV === 'localpreview' ? 'preview/' : 'dist/';
@@ -157,9 +157,32 @@ if (!isDev) {
 }
 module.exports = env => {
     return {
+        devtool: !isProd ? 'source-map' : false,
         entry: {
             index: ['./src/main.js']
         },
+        mode,
+        module: {
+            rules
+        },
+        optimization: {
+            minimizer: [
+                new TerserPlugin({
+                    terserOptions: {
+                        compress: {
+                            drop_console: true,
+                        },
+                    },
+                })
+            ]
+        },
+        output: {
+            path: __dirname + '/' + outputFolder,
+            filename: '[name].js',
+            chunkFilename: '[name].[id].js',
+            publicPath
+        },
+        plugins,
         resolve: {
             alias: {
                 svelte: path.resolve('node_modules', 'svelte'),
@@ -168,17 +191,5 @@ module.exports = env => {
             extensions: ['.mjs', '.js', '.svelte', '.html'],
             mainFields: ['svelte', 'browser', 'module', 'main']
         },
-        output: {
-            path: __dirname + '/' + outputFolder,
-            filename: '[name].js',
-            chunkFilename: '[name].[id].js',
-            publicPath
-        },
-        module: {
-            rules
-        },
-        mode,
-        plugins,
-        devtool: !isProd ? 'source-map' : false // TO DO: WILL WANT SOURCE MAPS
     }
 };
