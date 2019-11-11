@@ -52,7 +52,6 @@
                 
                 var newScrollY = window.pageYOffset;
                 if ( entry.isIntersecting && newScrollY >= scrollY ){ // greater than or equal to trigger on page load to nonzero scroll
-                    //console.log('upward', entry, newScrollY, scrollY);
                     scrolledToStore.set(entry.target.dataset.key);
                     scrollY = newScrollY;
                 }
