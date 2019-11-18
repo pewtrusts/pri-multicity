@@ -1,6 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import { viewTypeStore, inViewSectionStore, scrolledToStore, groupByStore } from './../store.js';
+    import { GTMPush } from './GTMPush.js';
     import UISvelte from '@Submodule/UI-svelte/';
     import dictionary from './../data/dictionary.json';
     import trendlineSVG from 'file-loader!./dataviz--trendline.svg';
@@ -40,15 +41,19 @@
 
     function dropdownItemOnClick(){
         inViewSectionStore.set(this.dataset.value);
+        GTMPush(`10Cities|ScrollTo|${this.dataset.value}`);
     }
 
     function changeHandler(e){
-        viewTypeStore.set(e.target.value)
+        viewTypeStore.set(e.target.value);
+        GTMPush(`10Cities|ViewTypeChange|${e.target.value}`);
     }
 
     function organizeItemOnClick(){
         groupByStore.set(this.dataset.value);
         indicatorFirstValue = this.dataset.value;
+        GTMPush(`10Cities|OrganizeBy|${this.dataset.value}`);
+
     }
     viewTypeStore.subscribe(value => {
         viewType = value;
