@@ -3,7 +3,7 @@ const margin = {
     top: 10,
     right: 5,
     bottom: 15,
-    left: 21
+    left: 23.5
 }
 const viewBoxHeight = 116;
 const height = viewBoxHeight - margin.top - margin.bottom;
@@ -28,7 +28,7 @@ export default {
     }),
     margin,
     returnNumberFormats(units){
-        const numberFormat = units === 'currency' ? '.0s' :
+        const numberFormat = units === 'currency' ? '$.0s' :
                              units === 'si' ? '.1s' :
                              units === 'number' ? '.0f' :
                              units === 'decimal' ? '.0f' :
@@ -40,4 +40,3 @@ export default {
     width: 100 - margin.left - margin.right,
     yScale: d3.scaleLinear().range([height, 0]),
 };
-
