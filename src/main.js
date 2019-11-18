@@ -85,7 +85,7 @@ function getData(resolve, reject){
             summarizeData(results.data);
             
             var nestedByIndicator = d3.nest().key(d => d.indicator).sortKeys(sortIndicators).key(d => d.city).sortKeys(phillyFirst).entries(results.data);
-            var nestedByCity = d3.nest().key(d => d.city).sortKeys(phillyFirst).key(d => d.indicator).entries(results.data);
+            var nestedByCity = d3.nest().key(d => d.city).sortKeys(phillyFirst).key(d => d.indicator).sortKeys(sortIndicators).entries(results.data);
             resolve({nestedByIndicator,nestedByCity});
         },
         download: true,
