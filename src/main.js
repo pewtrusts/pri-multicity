@@ -7,8 +7,8 @@ import overview from './overview.html';
 import dictionary from './data/dictionary.json';
 
 const metadata = {
-    startYear: 2008,
-    stopYear: 2018
+    startYear: 2009,
+    stopYear: 2019
 };
 if ( BUILDTYPE !== 'production' && document.querySelector('#overview-container') ){
     document.querySelector('#overview-container').innerHTML = overview;
