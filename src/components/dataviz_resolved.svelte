@@ -41,8 +41,8 @@ afterUpdate(() => {
 });
 
 function returnTooltipText(d) {
-    var join = dictionary[d.key].desc ? '.' : '';
-    return dictionary[d.key].desc + join + ' Source: ' + dictionary[d.key].source;
+    var join = dictionary[d.key].desc ? '. ' : '';
+    return dictionary[d.key].desc.replace(/\.$/,'') + join + (dictionary[d.key].source ? 'Source: ' : 'Sources: ') + ( dictionary[d.key].source || dictionary[d.key].sources );
 }
 
 function destroyD3Tips() {
