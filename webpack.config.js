@@ -7,7 +7,7 @@ const {sass} = require('svelte-preprocess-sass');
 const TerserPlugin = require('terser-webpack-plugin');
 const mode = process.env.NODE_ENV === 'development' ? 'development' : 'production';
 const path = require('path');
-const outputFolder = process.env.NODE_ENV === 'preview' ? 'docs/' : process.env.NODE_ENV === 'localpreview' ? 'preview/' : 'dist/';
+const outputFolder = process.env.NODE_ENV === 'preview' ? 'github/' : process.env.NODE_ENV === 'localpreview' ? 'preview/' : 'dist/';
 const isDev = mode === 'development';
 const isProd = process.env.NODE_ENV === 'production';
 
