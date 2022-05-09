@@ -4,7 +4,7 @@ Live site: [https://www.pewtrusts.org/en/research-and-analysis/data-visualizatio
 
 ## How to update the interactive
 
-To update the interactive, it's best to make changes locally (see Local Development, below) and rebuild the production files. Start the development server and then:
+This interactive is not prerendered, so hotfixing the data files directly on Sitecore will result in the same update to the live page as a ful rebuild would. It's still best, though, best to make changes locally (see Local Development, below) and rebuild the production files. That method will allow you to preview the changes in local and stage environments before altering the live page.   Start the development server and then:
 
 1. Replace the data in `src/data/dashboard-data.csv` with the new data provided by program staff. The column headers must match the existing files' exactly.
 
