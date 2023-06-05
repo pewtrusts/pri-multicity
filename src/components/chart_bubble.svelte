@@ -49,12 +49,12 @@ beforeUpdate(() => {
 
     // for indicators where disaggregated data are not available, set the domain based on the year data
     const minValue = calcMin !== undefined ? calcMin : metadata[datum.values[0].indicator].minYear;
-    const maxValue = group == "commute" ? 0.40 : calcMax !== undefined ?  calcMax : metadata[datum.values[0].indicator].maxYear;
+    const maxValue = datum.values[0].indicator == "commute" ? 0.40 : calcMax !== undefined ?  calcMax : metadata[datum.values[0].indicator].maxYear;
     yScale.domain([0, maxValue]).nice(4);
     //domain below makes bubbles size comparable in group only
     //zScale.domain([metadata[datum.values[0][cityOrIndicator]].minPop, metadata[datum.values[0][cityOrIndicator]].maxPop]); 
 
-    // here population sizes are comparable across groups
+    // here population sizes are comparable across groups 
     zScale.domain(zScaleDomain); 
     xScale.domain(['Age', 'Race']);
 
