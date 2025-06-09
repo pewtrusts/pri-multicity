@@ -116,21 +116,23 @@
         flex-direction: column;
         flex-wrap: wrap;
         align-items: flex-end;
-        background-image: linear-gradient(#fff, #fff 90%, rgba(255,255,255,0));
+        // background-image: linear-gradient(#fff, #fff 90%, rgba(255,255,255,0));
+        background-image: linear-gradient(var(--theme-color-background-primary, #FCFAF5), var(--theme-color-background-primary, #FCFAF5) 90%, rgba(255,255,255,0));
+
         z-index: 2;
         padding: 10px 0;
         width: calc(100vw - 2.5rem);
-        max-width: 990px;
+        max-width: 1224px;
         @media screen and (min-width: 850px) {
             position: absolute;
         }
         &.is-sticky {
-            @media screen and (min-width: 850px) {
+            @media screen and (min-width: 767px) {
                 position: fixed;
-                top: 160px;
+                top: 135px;
                 bottom: auto;
             }
-            @media screen and (min-width: 56.876em) {
+            @media screen and (min-width: 67.5625rem) {
                 top: 160px;
             }
         }
@@ -139,10 +141,11 @@
         position: absolute;
         right: 0;
         bottom: -15px;
-        background-image: linear-gradient(#fff, #fff 90%, rgba(255,255,255,0));
+        background-image: linear-gradient(var(--theme-color-background-primary, #FCFAF5), var(--theme-color-background-primary, #FCFAF5) 90%, rgba(255,255,255,0));
         img {
             bottom: 3px;
             position: relative;
+            display: inline;
         }
         p {
             margin-bottom: 0;
