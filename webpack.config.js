@@ -12,7 +12,7 @@ const isDev = mode === 'development';
 const isProd = process.env.NODE_ENV === 'production';
 
 const repoName = 'pri-multicity';
-const publicPath = isProd ? '/~/media/data-visualizations/interactives/2019/multicity/updateMay2023/' : '';
+const publicPath = isProd ? '/~/media/data-visualizations/interactives/2019/multicity/updateJune2023/' : '';
 
 console.log(sass);
 
@@ -50,7 +50,7 @@ const plugins = [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
         title: 'The State of 10 Cities',
-        template: isProd ? './src/index.html' : './src/index-dev--100.html',
+        template: isProd ? './src/index.html' : './src/index-dev--newsite.html',
         inject: !isProd,
         subtitle: "A decade of key economic, social, and demographic indicators"
     }),

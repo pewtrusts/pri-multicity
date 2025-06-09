@@ -48,7 +48,7 @@
     }
     .dataviz-observer-anchor {
         position: absolute;
-        top: calc(100vh - 215px);
+        top: calc(100vh - 295px);
         height: 100%;
     }
     .top-container {

@@ -127,11 +127,11 @@
         &.is-sticky {
             @media screen and (min-width: 850px) {
                 position: fixed;
-                top: 98px;
+                top: 160px;
                 bottom: auto;
             }
             @media screen and (min-width: 56.876em) {
-                top: 100px;
+                top: 160px;
             }
         }
     } 
