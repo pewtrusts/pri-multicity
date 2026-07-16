@@ -77,10 +77,11 @@
     .selections {
         width: 100%;
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         justify-content: space-between;
-        @media screen and (min-width: 850px) {
-            flex-wrap: nowrap;
+        @media screen and (max-width: 850px) {
+            flex-wrap: wrap;
+            flex-direction: column;
         }
     }
     .selections > div:first-child {
@@ -103,11 +104,13 @@
         flex-grow: 1;
         max-width: 278px;
         z-index: 1;
-       
+        padding: 16px 0;
+
         label {
             margin-left: 0.3em;
             position: relative;
             top: 0.125em;
+            cursor: pointer;
         }
     }
     .selections-wrapper {
@@ -121,8 +124,8 @@
 
         z-index: 2;
         padding: 10px 0;
-        width: calc(100vw - 2.5rem);
-        max-width: 1224px;
+        width: 100%;
+        // max-width: 1224px;
         @media screen and (min-width: 850px) {
             position: absolute;
         }
@@ -151,13 +154,18 @@
             margin-bottom: 0;
         }
     }
+    :global(.dropdown div) {
+        font-size: 13.3px
+    }
    
     @media screen and (max-width: 1019px){
         :global(.dropdown-outer) {
             display: flex;
             align-items: center;
+            max-width: none !important;
+            gap: 16px;
             :global(label) {
-                width: 90px;
+                width: 100px;
                 text-align: right;
             }
             

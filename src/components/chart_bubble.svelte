@@ -303,7 +303,7 @@ beforeUpdate(() => {
     line-height: 100%;
     font-weight: 400;
     opacity: .65;
-    
+    font-size: .85em;
     
 
     span::before {

@@ -171,8 +171,8 @@ function destroyTippys() {
 .with-tooltip {
     &::after {
         position: absolute;
-        bottom: 2px;
-        margin-left: 0.2em;
+        bottom: 6px;
+        margin-left: 0.5em;
         content: '';
         display: inline-block;
         width: 14px;

@@ -2,13 +2,13 @@
 import Papa from 'papaparse';
 import d3 from './d3-importer';
 import App from './App.svelte';
-import data from './data/dashboard-data.csv';
+import data from './data/dashboard-data25.csv';
 import overview from './overview.html';
 import dictionary from './data/dictionary.json';
 
 const metadata = {
-    startYear: 2011,
-    stopYear: 2021
+    startYear: 2014,
+    stopYear: 2024
 };
 if ( BUILDTYPE !== 'production' && document.querySelector('#overview-container') ){
     document.querySelector('#overview-container').innerHTML = overview;

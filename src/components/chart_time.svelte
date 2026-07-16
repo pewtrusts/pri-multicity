@@ -86,7 +86,11 @@
         
         const tip = d3.tip()
             .attr('class', 'd3-tip')
-            .offset([viewBoxHeight * 2 - 10,0.5]) // TODO viewboxheight remains constant even as svgs scale, so tooltips become off place
+            .offset(function () {
+                const ctm = this.getScreenCTM();
+                const scaleY = ctm ? ctm.d : 1;
+                return [viewBoxHeight * scaleY - 15, 0.5];
+            })
             .html(d => `<span class="year">${d.year.getFullYear()}</span> | ${locale.format(dictionary[datum.values[0].indicator].tooltipFormat)(d.value)}`);
 
         //render valueline

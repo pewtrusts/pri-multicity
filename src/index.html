@@ -5,7 +5,7 @@
           <link class="emitted-css" href="<%= htmlWebpackPlugin.files.css[css] %>" rel="stylesheet">
         <% } %> 
     </main>
-    <div id="svelte-container"></div>
+    <div id="svelte-container" class="theme--white-background"></div>
     <div class="clearfix"></div>
     <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
         <script class="emitted-bundle" src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"></script>

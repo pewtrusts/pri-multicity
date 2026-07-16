@@ -1,4 +1,5 @@
 <script>
+import './components/style.css'
     import Selections from  './components/selections.svelte';
     import Dataviz from  './components/dataviz.svelte';
     import { groupByStore } from './store.js';
@@ -37,7 +38,6 @@
 
 <style lang="scss">
     :global(#pew-app) {
-        border-top: 1px solid #333;
         margin-top: -40px;
     }
     :global(.wire), :global(.wire) * {
@@ -45,6 +45,7 @@
     }  
     .dataviz-wrapper {
         position: relative;
+        margin-top: 10px;
     }
     .dataviz-observer-anchor {
         position: absolute;
@@ -52,7 +53,15 @@
         height: 100%;
     }
     .top-container {
-        position: relative;
+        position: sticky;
+        z-index: 1;
+          @media screen and (min-width: 767px) {
+                top: 135px;
+
+            }
+            @media screen and (min-width: 67.5625rem) {
+                top: 160px;
+            }
         @media screen and (min-width: 850px) {
             padding-bottom: 115px;
         }
@@ -64,7 +73,7 @@
 </style>
 <a class="top-anchor" name="top"></a>
 <div class="top-container">
-    <Selections {isSticky} {groupedData} {metadata} />
+    <Selections {groupedData} {metadata} />
 </div>
 <div class="dataviz-wrapper" class:by-city="{groupBy === 'nestedByCity'}" >
     <a tabindex="-1" class="dataviz-observer-anchor"></a>

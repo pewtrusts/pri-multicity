@@ -1,0 +1,5 @@
+    #svelte-container {
+        background-color: var(--theme-color-background-primary);
+        padding: var(--g-component-padding);
+        border: 1px solid var(--theme-color-component-border);
+    }

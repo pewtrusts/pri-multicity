@@ -12,7 +12,7 @@ const isDev = mode === 'development';
 const isProd = process.env.NODE_ENV === 'production';
 
 const repoName = 'pri-multicity';
-const publicPath = isProd ? '/~/media/data-visualizations/interactives/2019/multicity/updateJune2023/' : '';
+const publicPath = isProd ? '/~/media/data-visualizations/interactives/2019/multicity/updateJuly2026/' : '';
 
 console.log(sass);
 
