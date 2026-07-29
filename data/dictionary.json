@@ -80,7 +80,7 @@
         "label": "Unemployment",
         "units": "percentage",
         "desc" : "Percentage of unemployed workers in the labor force",
-        "source":"U.S. Bureau of Labor Statistics, Local Area Unemployment Statistics: Unemployment Rates for the 50 Largest Cities, 2014-25* Annual Averages",
+        "source":"U.S. Bureau of Labor Statistics, Local Area Unemployment Statistics: Unemployment Rates for the 50 Largest Cities, 2014-24 Annual Averages",
         "tooltipFormat": ".1%"
     },
     "disability": {
